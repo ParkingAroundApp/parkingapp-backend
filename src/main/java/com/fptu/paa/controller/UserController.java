@@ -10,6 +10,7 @@ public class UserController {
 
 	@GetMapping(value = "create")
 	public String createNewUser() {
+		
 		return "createController";
 	}
 }

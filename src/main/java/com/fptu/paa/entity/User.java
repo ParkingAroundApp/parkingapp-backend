@@ -1,59 +1,89 @@
 package com.fptu.paa.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Entity
 @Table(name = "Users", schema = "parkingdb")
-public class User{
+@Data
+@AllArgsConstructor
+public class User implements UserDetails{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
 	private Long id;
+	
 	@Column(name="username")
 	private String username;
+	
 	@Column(name="password")
+	@JsonIgnore
 	private String password;
-	@Column(name="isEnabled", nullable = false, columnDefinition = "boolean default true")
-	private boolean isEnabled;
+	
+	@Column(name="email")
+	private String email;
+	
+	@Column(name="phone")
+	private String phone;
+	
+	@Column(name="enabled", nullable = false, columnDefinition = "boolean default true")
+	private boolean enabled;
+	
+	@OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+	private List<Role> roles;
 	
 	public User() {
 		
 	}
 
-	public Long getId() {
-		return id;
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		for (Role role : roles) {
+			String name = role.getName().toUpperCase();
+			authorities.add(new SimpleGrantedAuthority(name));
+		}
+		return authorities;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
 	}
 
-	public String getUsername() {
-		return username;
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public boolean isEnabled() {
-		return isEnabled;
-	}
-
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
 }
