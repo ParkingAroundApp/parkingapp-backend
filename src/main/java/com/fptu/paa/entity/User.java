@@ -1,24 +1,19 @@
 package com.fptu.paa.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.validation.constraints.Email;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,63 +22,35 @@ import lombok.Data;
 @Table(name = "Users", schema = "parkingdb")
 @Data
 @AllArgsConstructor
-public class User implements UserDetails{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class User{
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private Long id;
 	
 	@Column(name="username")
 	private String username;
 	
 	@Column(name="password")
-	@JsonIgnore
 	private String password;
-	
+	 
+	@Email
 	@Column(name="email")
 	private String email;
 	
 	@Column(name="phone")
 	private String phone;
 	
-	@Column(name="enabled", nullable = false, columnDefinition = "boolean default true")
-	private boolean enabled;
+	@Column(name="enabled", nullable = false,columnDefinition="bit default 1")
+	private boolean enabled = true;
 	
-	@OneToMany(fetch = FetchType.EAGER , cascade = CascadeType.ALL)
-	private List<Role> roles;
+	@ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 	
 	public User() {
 		
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> authorities = new ArrayList<>();
-		for (Role role : roles) {
-			String name = role.getName().toUpperCase();
-			authorities.add(new SimpleGrantedAuthority(name));
-		}
-		return authorities;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
 	}
 
 }

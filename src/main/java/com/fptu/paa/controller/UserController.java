@@ -1,14 +1,14 @@
 package com.fptu.paa.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/user")
 public class UserController {
 
-	@GetMapping(value = "create")
+	@PostMapping
 	public String createNewUser() {
 		
 		return "createController";

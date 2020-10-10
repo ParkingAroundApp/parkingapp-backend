@@ -6,7 +6,7 @@ import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import com.fptu.paa.entity.User;
+import com.fptu.paa.security.MyUserDetail;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,7 +25,7 @@ public class JwtTokenProvider {
     private int jwtExpiration;
 
     // Create jwt from user information
-    public String generateToken(User userDetails) {
+    public String generateToken(MyUserDetail userDetails) {
         // Create token by email
         return Jwts.builder()
                    .setSubject(userDetails.getEmail())
