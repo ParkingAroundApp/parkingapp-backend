@@ -17,8 +17,11 @@ import com.fptu.paa.security.MyUserDetail;
 import com.fptu.paa.security.jwt.JwtTokenProvider;
 import com.fptu.paa.service.UserService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/auth/")
+@Api(consumes = "application/json")
 public class AuthController {
 	@Autowired
 	AuthenticationManager authenticationManager;
