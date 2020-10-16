@@ -6,9 +6,13 @@ import com.fptu.paa.dto.UserDTO;
 
 @Service
 public interface UserService {
-	UserDTO createUser(UserDTO userDTO);
-
+	UserDTO registerNormalAccount(UserDTO userDTO);
+	
+	UserDTO registerGmailAccount(UserDTO userDTO); 
+	
 	UserDTO getUserDetail(Long idUser);
 
 	UserDTO updateUserProfile(UserDTO userDTO);
+	
+	boolean disableAccount(Long userID);
 }

@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fptu.paa.constant.RoleName;
+import com.fptu.paa.constant.NFCStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,20 +19,17 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Roles", schema = "parkingdb")
-public class Role {
+@Table(name = "NFCs", schema = "parkingdb")
+public class NFC {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 	
+	@Column(name="serialNumber")
+	private String serialNumber;
 	
-	@Column(name = "name")
+	@Column(name = "status", length = 16)
 	@Enumerated(EnumType.STRING)
-	private RoleName name;
-	
-	@Column(name = "enabled",columnDefinition="bit default 1")
-	private boolean enabled;
-
-	
+	private NFCStatus status;
 }

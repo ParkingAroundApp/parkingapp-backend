@@ -9,16 +9,21 @@ import com.fptu.paa.entity.Bike;
 import com.fptu.paa.repository.BikeRepository;
 import com.fptu.paa.service.BikeService;
 
+import io.swagger.annotations.Api;
+
 @RestController
 @RequestMapping("/api/bike")
-public class BikeController {
-
+@Api(consumes = "application/json"
+,description = "This controller will allow User to "
+		+ "Register new bike - Approve bike - Delete Bike - Checkin - Checkout")
+public class ParkingController {
 	@Autowired
 	BikeService BikeService;
-
+	
 	@Autowired
 	BikeRepository bikeRepo;
-
+	
+	//sample api
 	@GetMapping(value = "get")
 	public String getBike() {
 		Bike bike = bikeRepo.findById(1L).get();

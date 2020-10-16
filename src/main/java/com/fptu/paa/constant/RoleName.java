@@ -1,4 +1,4 @@
-package com.fptu.paa.utils;
+package com.fptu.paa.constant;
 
 public enum RoleName {
 	ROLE_USER,

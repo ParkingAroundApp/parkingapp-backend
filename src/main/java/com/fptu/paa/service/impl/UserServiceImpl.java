@@ -11,7 +11,13 @@ import com.fptu.paa.service.UserService;
 public class UserServiceImpl implements UserService{
 
 	@Override
-	public UserDTO createUser(UserDTO userDTO) {
+	public UserDTO registerNormalAccount(UserDTO userDTO) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public UserDTO registerGmailAccount(UserDTO userDTO) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -27,4 +33,11 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public boolean disableAccount(Long userID) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
