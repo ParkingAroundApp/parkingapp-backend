@@ -31,8 +31,8 @@ public class Role {
 	@Enumerated(EnumType.STRING)
 	private RoleName name;
 	
-	@Column(name = "enabled",columnDefinition="bit default 1")
-	private boolean enabled;
+	@Column(name = "enabled")
+	private boolean enabled =true;
 
 	
 }
