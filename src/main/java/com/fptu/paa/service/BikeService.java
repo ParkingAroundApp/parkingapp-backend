@@ -21,11 +21,13 @@ public interface BikeService {
 
 	public Bike deleteBike(BikeStatus bikeStatus);
 
-	public Bike getBikeByPlateNumber(String plateNumber);
+	public BikeViewDTO getBikeByPlateNumber(String plateNumber);
 
 	public List<BikeViewDTO> getAllBikeByUserid(Long user_id);
 
 	public List<BikeViewDTO> getAllActiveBikeByUserid(Long user_id);
+	
+	public List<BikeViewDTO> getAllBikesByStatus(BikeStatus status);
 	
 	
 }

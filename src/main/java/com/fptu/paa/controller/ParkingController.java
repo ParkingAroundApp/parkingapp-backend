@@ -45,6 +45,16 @@ public class ParkingController {
 		}
 		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
 	}
+	
+	@GetMapping(value = "licensePlate")
+	public ResponseEntity<BikeViewDTO> getBikeByLicensePlate( String plateNumber) {
+		BikeViewDTO bike = bikeService.getBikeByPlateNumber(plateNumber);
+		if (bike != null) {
+			return new ResponseEntity<BikeViewDTO>(bike, HttpStatus.OK);
+		}
+		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
+	}
+
 
 	@GetMapping(value = "register")
 	public ResponseEntity<BikeRegisterDTO> registerBike(BikeRegisterDTO registerBike) {
@@ -58,6 +68,14 @@ public class ParkingController {
 	public ResponseEntity<List<BikeViewDTO>> getBikesByUser() {
 		UserViewDTO userView = userService.getCurrentUser();
 		List<BikeViewDTO> bikeList = bikeService.getAllBikeByUserid(userView.getId());
+		if (bikeList !=null) {
+			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
+		}
+		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
+	}
+	@GetMapping(value = "getAllByStatus")
+	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(BikeStatus status) {
+		List<BikeViewDTO> bikeList = bikeService.getAllBikesByStatus(status);
 		if (bikeList !=null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}

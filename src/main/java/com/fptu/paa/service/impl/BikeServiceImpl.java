@@ -88,28 +88,6 @@ public class BikeServiceImpl implements BikeService {
 	}
 
 	@Override
-	public Bike getBikeByPlateNumber(String plateNumber) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public BikeViewDTO getBike(Long bike_id) {
-		Bike bike = bikeRepository.findBikeById(bike_id);
-		if(bike!=null) {
-			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
-			bikeView.setModel_id(bike.getModel().getId());
-			bikeView.setUser_id(bike.getUser().getId());
-			return bikeView;
-		}
-		return null;
-	}
-
-
-
-
-
-	@Override
 	public List<BikeViewDTO> getAllBikeByUserid(Long user_id) {
 		List<BikeViewDTO> bikeViewList =null;
 //		UserViewDTO userView = userService.getCurrentUser();
@@ -149,6 +127,50 @@ public class BikeServiceImpl implements BikeService {
 			// TODO: handle exception
 		}
 		return bikeViewList;
+	}
+
+	@Override
+	public List<BikeViewDTO> getAllBikesByStatus(BikeStatus status) {
+		List<BikeViewDTO> bikeViewList =null;
+		try {
+			List<Bike>bikeList = bikeRepository.findBikeByStatus(status);
+			if(bikeList!=null) {
+				java.lang.reflect.Type targetListType = new TypeToken<List<BikeViewDTO>>() {
+                }.getType();
+                bikeViewList= modelMapper.map(bikeList,targetListType);
+			}
+			 for (int i=0;i<bikeViewList.size();i++) {
+          	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
+          	   bikeViewList.get(i).setUser_id(bikeList.get(i).getUser().getId());    	   
+             }
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return bikeViewList;
+	}
+
+	@Override
+	public BikeViewDTO getBikeByPlateNumber(String plateNumber) {
+		Bike bike = bikeRepository.findBikeByLicensePlate(plateNumber);
+		if(bike!=null) {
+			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
+			bikeView.setModel_id(bike.getModel().getId());
+			bikeView.setUser_id(bike.getUser().getId());
+			return bikeView;
+		}
+		return null;
+	}
+
+	@Override
+	public BikeViewDTO getBike(Long bike_id) {
+		Bike bike = bikeRepository.findBikeById(bike_id);
+		if(bike!=null) {
+			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
+			bikeView.setModel_id(bike.getModel().getId());
+			bikeView.setUser_id(bike.getUser().getId());
+			return bikeView;
+		}
+		return null;
 	}
 
 

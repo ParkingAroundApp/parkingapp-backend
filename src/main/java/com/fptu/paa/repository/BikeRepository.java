@@ -17,5 +17,8 @@ public interface BikeRepository extends JpaRepository<Bike, Long>{
 
 	List<Bike> findBikeByUser_idAndStatus(Long user_id, BikeStatus status);
 	
+	List<Bike> findBikeByStatus(BikeStatus status);
+	
+	Bike findBikeByLicensePlate(String licensePlate);
 	
 }
