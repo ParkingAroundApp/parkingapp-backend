@@ -58,7 +58,7 @@ public class User {
 	@EqualsAndHashCode.Exclude
 	private String gender;
 
-	@Column(name = "enabled", nullable = false, columnDefinition = "bit default true")
+	@Column(name = "enabled")
 	private boolean enabled = true;
 
 	@ManyToMany(fetch = FetchType.EAGER)
