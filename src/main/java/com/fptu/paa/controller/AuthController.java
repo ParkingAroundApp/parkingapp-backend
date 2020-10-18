@@ -32,26 +32,26 @@ public class AuthController {
 	@Autowired
 	private JwtTokenProvider jwtTokenProvider;
 
-	//Login via Username-Password
+	// Login via Username-Password
 	@PostMapping("login")
 	public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-		
-		//If authentication success
-		//Set authentication information into SecurityHolder
+
+		// If authentication success
+		// Set authentication information into SecurityHolder
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		//Create and send JWT back to user
+		// Create and send JWT back to user
 		String jwt = jwtTokenProvider.generateToken((MyUserDetail) authentication.getPrincipal());
 		return ResponseEntity.ok(jwt);
 	}
-	
-	//Login via Gmail
+
+	// Login via Gmail
 	@PostMapping("gmail")
-	public ResponseEntity<String> loginWithGmail(@RequestBody LoginRequest loginRequest){
-		
-		//Unimplemented
+	public ResponseEntity<String> loginWithGmail(@RequestBody LoginRequest loginRequest) {
+
+		// Unimplemented
 		return ResponseEntity.ok("Not available");
 	}
 
