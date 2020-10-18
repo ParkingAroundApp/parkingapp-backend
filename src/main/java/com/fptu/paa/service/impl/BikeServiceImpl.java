@@ -21,7 +21,6 @@ import com.fptu.paa.repository.ModelRepository;
 import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.UserService;
-import com.sun.media.jfxmedia.logging.Logger;
 
 @Service
 @Transactional

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.NFCStatus;
-import com.fptu.paa.dto.NFCDTO;
 import com.fptu.paa.entity.NFC;
 import com.fptu.paa.repository.NFCRepository;
 import com.fptu.paa.service.NFCService;
@@ -22,7 +21,7 @@ public class NFCServiceImpl implements NFCService {
 	@Override
 	public NFC changeNFCStatus(String serialNumber, NFCStatus nfcStatus) {
 		NFC nfc = nfcRepository.findNFCBySerialNumber(serialNumber);
-		if(nfc!=null) {
+		if (nfc != null) {
 			nfc.setStatus(nfcStatus);
 			nfc = nfcRepository.save(nfc);
 			return nfc;
@@ -32,7 +31,7 @@ public class NFCServiceImpl implements NFCService {
 
 	@Override
 	public NFC insertNFCCard(String serialNumber) {
-		if(serialNumber!=null) {
+		if (serialNumber != null) {
 			NFC nfc = new NFC();
 			nfc.setSerialNumber(serialNumber);
 			nfc.setStatus(NFCStatus.ENABLED);

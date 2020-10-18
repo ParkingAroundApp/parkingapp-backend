@@ -15,7 +15,6 @@ import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.UserViewDTO;
-import com.fptu.paa.entity.Bike;
 import com.fptu.paa.repository.BikeRepository;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.UserService;
@@ -37,7 +36,7 @@ public class ParkingController {
 	BikeRepository bikeRepo;
 
 	// sample api
-	@GetMapping(value = "{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<BikeViewDTO> getBike(@PathVariable Long id) {
 		BikeViewDTO bike = bikeService.getBike(id);
 		if (bike != null) {
@@ -45,9 +44,9 @@ public class ParkingController {
 		}
 		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
 	}
-	
-	@GetMapping(value = "licensePlate")
-	public ResponseEntity<BikeViewDTO> getBikeByLicensePlate( String plateNumber) {
+
+	@GetMapping(value = "/licensePlate")
+	public ResponseEntity<BikeViewDTO> getBikeByLicensePlate(String plateNumber) {
 		BikeViewDTO bike = bikeService.getBikeByPlateNumber(plateNumber);
 		if (bike != null) {
 			return new ResponseEntity<BikeViewDTO>(bike, HttpStatus.OK);
@@ -55,8 +54,7 @@ public class ParkingController {
 		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
 	}
 
-
-	@GetMapping(value = "register")
+	@GetMapping(value = "/register")
 	public ResponseEntity<BikeRegisterDTO> registerBike(BikeRegisterDTO registerBike) {
 //		Bike bike = bikeRepo.findById(1L).get();
 
@@ -64,46 +62,48 @@ public class ParkingController {
 		return new ResponseEntity<BikeRegisterDTO>(registerBike, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "getAllByUser")
+	@GetMapping(value = "/getAllByUser")
 	public ResponseEntity<List<BikeViewDTO>> getBikesByUser() {
 		UserViewDTO userView = userService.getCurrentUser();
 		List<BikeViewDTO> bikeList = bikeService.getAllBikeByUserid(userView.getId());
-		if (bikeList !=null) {
-			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
-		}
-		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
-	}
-	@GetMapping(value = "getAllByStatus")
-	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(BikeStatus status) {
-		List<BikeViewDTO> bikeList = bikeService.getAllBikesByStatus(status);
-		if (bikeList !=null) {
+		if (bikeList != null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "getActiveByUser")
+	@GetMapping(value = "/getAllByStatus")
+	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(BikeStatus status) {
+		List<BikeViewDTO> bikeList = bikeService.getAllBikesByStatus(status);
+		if (bikeList != null) {
+			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
+		}
+		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping(value = "/getActiveByUser")
 	public ResponseEntity<List<BikeViewDTO>> getActiveByUser() {
 		UserViewDTO userView = userService.getCurrentUser();
 		List<BikeViewDTO> bikeList = bikeService.getAllActiveBikeByUserid(userView.getId());
-		if (bikeList !=null) {
+		if (bikeList != null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
-	@GetMapping(value = "getAllByUserId/{userId}")
+
+	@GetMapping(value = "/getAllByUserId/{userId}")
 	public ResponseEntity<List<BikeViewDTO>> getBikesByUserId(@PathVariable Long userId) {
 		List<BikeViewDTO> bikeList = bikeService.getAllBikeByUserid(userId);
-		if (bikeList !=null) {
+		if (bikeList != null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
-	
-	@GetMapping(value = "getActiveByUserId/{userId}")
+
+	@GetMapping(value = "/getActiveByUserId/{userId}")
 	public ResponseEntity<List<BikeViewDTO>> getActiveByUserId(@PathVariable Long userId) {
 		List<BikeViewDTO> bikeList = bikeService.getAllActiveBikeByUserid(userId);
-		if (bikeList !=null) {
+		if (bikeList != null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
