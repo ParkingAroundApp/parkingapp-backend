@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fptu.paa.constant.WalletStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,11 +30,10 @@ public class Wallet {
 	private Long id;
 
 	@Column(name = "balance")
-	private BigDecimal balance;
+	private BigDecimal balance = new BigDecimal("0.0");
 
-	@Column(name = "status", length = 16)
-	@Enumerated(EnumType.STRING)
-	private WalletStatus status;
+	@Column(name = "enabled")
+	private boolean enabled = true;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
