@@ -119,7 +119,9 @@ public class UserServiceImpl implements UserService {
 			tempUser.setEmail(email);
 			tempUser.setPassword(passwordEncoder.encode(tokenGmail));
 			// Create wallet
-			tempUser.setWallet(new Wallet());
+			Wallet wallet  = new Wallet();
+			wallet.setUser(tempUser);
+			tempUser.setWallet(wallet);
 			// Set role
 			Set<Role> roles = new HashSet<Role>();
 			roles.add(roleRepository.findByName(RoleName.ROLE_CUSTOMER));
