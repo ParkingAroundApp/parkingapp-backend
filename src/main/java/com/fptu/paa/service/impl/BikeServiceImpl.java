@@ -80,7 +80,6 @@ public class BikeServiceImpl implements BikeService {
 		if(bike!=null) {
 			bike.setStatus(bikeStatus);
 			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
-			bikeView.setModel_id(bike.getModel().getId());
 			bikeView.setUser_id(bike.getUser().getId());
 			return bikeView;
 		}
@@ -98,7 +97,6 @@ public class BikeServiceImpl implements BikeService {
                 }.getType();
                 bikeViewList= modelMapper.map(bikeList,targetListType);
                for (int i=0;i<bikeViewList.size();i++) {
-            	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
             	   bikeViewList.get(i).setUser_id(user_id);    	   
                }
 			}
@@ -120,7 +118,6 @@ public class BikeServiceImpl implements BikeService {
                 bikeViewList= modelMapper.map(bikeList,targetListType);
 			}
 			 for (int i=0;i<bikeViewList.size();i++) {
-          	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
           	   bikeViewList.get(i).setUser_id(user_id);    	   
              }
 		} catch (Exception e) {
@@ -140,7 +137,6 @@ public class BikeServiceImpl implements BikeService {
                 bikeViewList= modelMapper.map(bikeList,targetListType);
 			}
 			 for (int i=0;i<bikeViewList.size();i++) {
-          	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
           	   bikeViewList.get(i).setUser_id(bikeList.get(i).getUser().getId());    	   
              }
 		} catch (Exception e) {
@@ -154,7 +150,6 @@ public class BikeServiceImpl implements BikeService {
 		Bike bike = bikeRepository.findBikeByLicensePlate(plateNumber);
 		if(bike!=null) {
 			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
-			bikeView.setModel_id(bike.getModel().getId());
 			bikeView.setUser_id(bike.getUser().getId());
 			return bikeView;
 		}
@@ -166,7 +161,6 @@ public class BikeServiceImpl implements BikeService {
 		Bike bike = bikeRepository.findBikeById(bike_id);
 		if(bike!=null) {
 			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
-			bikeView.setModel_id(bike.getModel().getId());
 			bikeView.setUser_id(bike.getUser().getId());
 			return bikeView;
 		}

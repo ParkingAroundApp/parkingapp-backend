@@ -1,6 +1,7 @@
 package com.fptu.paa.dto;
 
 import com.fptu.paa.constant.BikeStatus;
+import com.fptu.paa.entity.Model;
 
 public class BikeViewDTO {
 	private Long id;
@@ -10,7 +11,7 @@ public class BikeViewDTO {
 	private String color;
 	private BikeStatus status;
 	private Long user_id;
-	private Long model_id;
+	private Model model;
 	public String getOwnerName() {
 		return ownerName;
 	}
@@ -47,16 +48,17 @@ public class BikeViewDTO {
 	public void setUser_id(Long user_id) {
 		this.user_id = user_id;
 	}
-	public Long getModel_id() {
-		return model_id;
-	}
-	public void setModel_id(Long model_id) {
-		this.model_id = model_id;
-	}
+
 	public BikeStatus getStatus() {
 		return status;
 	}
 	public void setStatus(BikeStatus status) {
 		this.status = status;
+	}
+	public Model getModel() {
+		return model;
+	}
+	public void setModel(Model model) {
+		this.model = model;
 	}
 }
