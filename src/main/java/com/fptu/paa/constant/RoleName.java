@@ -1,6 +1,7 @@
 package com.fptu.paa.constant;
 
 public enum RoleName {
-	ROLE_USER,
+	ROLE_CUSTOMER,
+	ROLE_OWNER,
 	ROLE_ADMIN,
 }

@@ -60,7 +60,8 @@ public class PaaApplication implements CommandLineRunner {
 
 	private void createRole() {
 		roleRepo.save(new Role(1L, RoleName.ROLE_ADMIN, true));
-		roleRepo.save(new Role(2L, RoleName.ROLE_USER, true));
+		roleRepo.save(new Role(2L, RoleName.ROLE_CUSTOMER, true));
+		roleRepo.save(new Role(3L, RoleName.ROLE_OWNER, true));
 	}
 
 	private User createDefaultAdmin() {

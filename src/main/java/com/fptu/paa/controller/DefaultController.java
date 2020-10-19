@@ -1,13 +1,13 @@
 package com.fptu.paa.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class DefaultController {
 	
-	@RequestMapping(value = "/swagger")
-	public String swaggerPage() {
+	@GetMapping(value = "")
+	public String homePage() {
 		return "redirect:/swagger-ui/";
 	}
 }

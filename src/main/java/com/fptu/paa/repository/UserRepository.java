@@ -9,5 +9,6 @@ import com.fptu.paa.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 	
 	public User findByEmail(String email);
+	
 	public User findUserById(Long id);
 }
