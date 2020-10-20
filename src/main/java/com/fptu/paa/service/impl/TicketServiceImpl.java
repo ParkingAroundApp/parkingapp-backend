@@ -36,7 +36,7 @@ public class TicketServiceImpl implements TicketService {
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("mycc");
 
-			contract.submitTransaction("createTicket", bikeID, "0", ownerCheckInID, checkInTime, checkInBikeImage,
+			contract.submitTransaction("createTicket", bikeID, "", ownerCheckInID, checkInTime, checkInBikeImage,
 					checkInFaceImage);
 		}
 
@@ -86,9 +86,9 @@ public class TicketServiceImpl implements TicketService {
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("mycc");
 			byte[] result;
-			result = contract.evaluateTransaction("getCheckoutTicketByBikeID", bikeID);
-			
-			//Close gateway
+			result = contract.evaluateTransaction("getCheckoutTicket", bikeID, "");
+
+			// Close gateway
 			gateway.close();
 			return new String(result);
 		}
@@ -112,9 +112,9 @@ public class TicketServiceImpl implements TicketService {
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("mycc");
 			byte[] result;
-			result = contract.evaluateTransaction("queryTicketByBikeID", bikeID);
+			result = contract.evaluateTransaction("queryTicketById", "", bikeID);
 
-			//Close gateway
+			// Close gateway
 			gateway.close();
 			return new String(result);
 		}
@@ -140,7 +140,7 @@ public class TicketServiceImpl implements TicketService {
 			byte[] result;
 			result = contract.evaluateTransaction("queryAllTicket");
 
-			//Close gateway
+			// Close gateway
 			gateway.close();
 			return new String(result);
 		}

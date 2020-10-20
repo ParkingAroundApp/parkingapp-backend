@@ -20,8 +20,12 @@ import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.BikeRepository;
 import com.fptu.paa.repository.RoleRepository;
 import com.fptu.paa.repository.UserRepository;
+import com.fptu.paa.utils.FabricUtils;
+
+import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
+@Slf4j
 public class PaaApplication implements CommandLineRunner {
 	static {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
@@ -29,11 +33,11 @@ public class PaaApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaaApplication.class, args);
-//		try {
-//			FabricUtils.enrollAdmin();
-//		} catch (Exception e) {
-//			log.error("Enroll admin error. Message - {}", e.getMessage());
-//		}
+		try {
+			FabricUtils.enrollAdmin();
+		} catch (Exception e) {
+			log.error("Enroll admin error. Message - {}", e.getMessage());
+		}
 	}
 
 	@Autowired

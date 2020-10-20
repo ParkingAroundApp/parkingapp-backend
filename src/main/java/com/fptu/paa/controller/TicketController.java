@@ -55,4 +55,16 @@ public class TicketController {
 		}
 		return ResponseEntity.ok(result);
 	}
+	
+	@GetMapping("/getall")
+	public ResponseEntity<String> getAllTicket() {
+		String result = "";
+		try {
+			result = ticketService.getAllTicket();
+		} catch (Exception e) {
+			System.out.println("getAllTicket: " + e.getMessage());
+			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something wrong!");
+		}
+		return ResponseEntity.ok(result);
+	}
 }
