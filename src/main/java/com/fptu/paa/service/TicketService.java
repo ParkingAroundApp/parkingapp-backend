@@ -7,7 +7,7 @@ public interface TicketService {
 	public String checkInByBikeID(String bikeID, String ownerCheckInID, 
 			String checkInTime, String checkInBikeImage,String checkInFaceImage) throws Exception;
 	
-	public String checkOutByBike(String ticketKey, String ownerCheckOutId,
+	public String checkOutByBikeID(String ticketKey, String ownerCheckOutId,
 			String checkOutTime, String checkOutBikeImage,String checkOutFaceImage,String paymentType) throws Exception;
 	
 	public String getCheckOutTicketByBikeID(String bikeID) throws Exception;

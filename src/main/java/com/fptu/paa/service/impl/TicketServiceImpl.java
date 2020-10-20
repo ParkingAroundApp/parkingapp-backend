@@ -44,7 +44,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String checkOutByBike(String ticketKey, String ownerCheckOutId, String checkOutTime,
+	public String checkOutByBikeID(String ticketKey, String ownerCheckOutId, String checkOutTime,
 			String checkOutBikeImage, String checkOutFaceImage, String paymentType) throws Exception {
 		// Load a file system based wallet for managing identities.
 		Path walletPath = Paths.get("wallet");
@@ -87,6 +87,9 @@ public class TicketServiceImpl implements TicketService {
 			Contract contract = network.getContract("mycc");
 			byte[] result;
 			result = contract.evaluateTransaction("getCheckoutTicketByBikeID", bikeID);
+			
+			//Close gateway
+			gateway.close();
 			return new String(result);
 		}
 	}
@@ -110,6 +113,9 @@ public class TicketServiceImpl implements TicketService {
 			Contract contract = network.getContract("mycc");
 			byte[] result;
 			result = contract.evaluateTransaction("queryTicketByBikeID", bikeID);
+
+			//Close gateway
+			gateway.close();
 			return new String(result);
 		}
 	}
@@ -133,6 +139,9 @@ public class TicketServiceImpl implements TicketService {
 			Contract contract = network.getContract("mycc");
 			byte[] result;
 			result = contract.evaluateTransaction("queryAllTicket");
+
+			//Close gateway
+			gateway.close();
 			return new String(result);
 		}
 	}
