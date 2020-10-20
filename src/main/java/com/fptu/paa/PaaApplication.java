@@ -33,11 +33,11 @@ public class PaaApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaaApplication.class, args);
-		try {
-			FabricUtils.enrollAdmin();
-		} catch (Exception e) {
-			log.error("Enroll admin error. Message - {}", e.getMessage());
-		}
+//		try {
+//			FabricUtils.enrollAdmin();
+//		} catch (Exception e) {
+//			log.error("Enroll admin error. Message - {}", e.getMessage());
+//		}
 	}
 
 	@Autowired
@@ -85,7 +85,7 @@ public class PaaApplication implements CommandLineRunner {
 	}
 
 	private void inputSampleBike(User user) {
-		Model model = new Model(1L, "AirBlade", "Honda", "Scooter", "125cc", ModelStatus.ENABLED);
+		Model model = new Model(1L, "Honda", "Airblade", "Scooter", "125cc", ModelStatus.ENABLED);
 		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", BikeStatus.ENABLED,
 				user, model);
 		bikeRepo.save(bike);
