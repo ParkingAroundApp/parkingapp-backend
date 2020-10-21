@@ -35,9 +35,14 @@ public class TicketServiceImpl implements TicketService {
 			// get the network and contract
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("mycc");
-
-			contract.submitTransaction("createTicket", bikeID, "", ownerCheckInID, checkInTime, checkInBikeImage,
-					checkInFaceImage);
+			byte[] result;
+			result = contract.submitTransaction("createTicket", bikeID, "", ownerCheckInID, checkInTime,
+					checkInBikeImage, checkInFaceImage);
+			if (result.length > 0) {
+				return new String(result);
+			}
+			// Close gateway
+			gateway.close();
 		}
 
 		return null;
@@ -61,9 +66,14 @@ public class TicketServiceImpl implements TicketService {
 			// get the network and contract
 			Network network = gateway.getNetwork("mychannel");
 			Contract contract = network.getContract("mycc");
-
-			contract.submitTransaction("checkOutByBike", ticketKey, ownerCheckOutId, checkOutTime, checkOutBikeImage,
-					checkOutFaceImage, paymentType);
+			byte[] result;
+			result = contract.submitTransaction("checkOutByBike", ticketKey, ownerCheckOutId, checkOutTime,
+					checkOutBikeImage, checkOutFaceImage, paymentType);
+			if (result.length > 0) {
+				return new String(result);
+			}
+			// Close gateway
+			gateway.close();
 		}
 		return null;
 	}
@@ -78,7 +88,7 @@ public class TicketServiceImpl implements TicketService {
 		Path networkConfigPath = Paths.get("connection.json");
 
 		Gateway.Builder builder = Gateway.createBuilder();
-		builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true);
+		builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true).commitHandler(null);
 
 		// create a gateway connection
 		try (Gateway gateway = builder.connect()) {
@@ -104,7 +114,7 @@ public class TicketServiceImpl implements TicketService {
 		Path networkConfigPath = Paths.get("connection.json");
 
 		Gateway.Builder builder = Gateway.createBuilder();
-		builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true);
+		builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true).commitHandler(null);
 
 		// create a gateway connection
 		try (Gateway gateway = builder.connect()) {
@@ -130,7 +140,7 @@ public class TicketServiceImpl implements TicketService {
 		Path networkConfigPath = Paths.get("connection.json");
 
 		Gateway.Builder builder = Gateway.createBuilder();
-		builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true);
+		builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true).commitHandler(null);
 
 		// create a gateway connection
 		try (Gateway gateway = builder.connect()) {
