@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class CheckOutRequest {
+	private String id;
 	private String checkInTime;
 	private String ownerCheckOutID;
 	private String checkOutTime;

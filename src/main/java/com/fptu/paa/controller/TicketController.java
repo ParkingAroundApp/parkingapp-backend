@@ -38,7 +38,7 @@ public class TicketController {
 	@PostMapping("/checkout")
 	public ResponseEntity<String> checkoutTicketByBikeID(@RequestBody CheckOutRequest ticket) {
 		try {
-			String ticketKey = "TICKET" + ticket.getCheckInTime();
+			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + ticket.getId();
 			String result = ticketService.checkOutByBikeID(ticketKey, ticket.getOwnerCheckOutID(),
 					ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
 					ticket.getPaymentType());
