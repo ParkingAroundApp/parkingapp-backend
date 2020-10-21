@@ -33,11 +33,11 @@ public class PaaApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaaApplication.class, args);
-//		try {
-//			FabricUtils.enrollAdmin();
-//		} catch (Exception e) {
-//			log.error("Enroll admin error. Message - {}", e.getMessage());
-//		}
+		try {
+			FabricUtils.enrollAdmin();
+		} catch (Exception e) {
+			log.error("Enroll admin error. Message - {}", e.getMessage());
+		}
 	}
 
 	@Autowired

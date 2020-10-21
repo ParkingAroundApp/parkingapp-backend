@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fptu.paa.dto.TicketDTO;
+import com.fptu.paa.dto.CheckInRequest;
+import com.fptu.paa.dto.CheckOutRequest;
 import com.fptu.paa.service.TicketService;
 
 @RestController
@@ -20,42 +21,49 @@ public class TicketController {
 	TicketService ticketService;
 
 	@PostMapping("/checkin")
-	public ResponseEntity<String> checkinTicketByBikeID(@RequestBody TicketDTO ticket) {
+	public ResponseEntity<String> checkinTicketByBikeID(@RequestBody CheckInRequest ticket) {
 		try {
-			ticketService.checkInByBikeID(ticket.getBikeID(), ticket.getOwnerCheckInID(), ticket.getCheckinTime(),
-					ticket.getCheckinImages()[0], ticket.getCheckinImages()[1]);
+			String result = ticketService.checkInByBikeID(ticket.getBikeID(), ticket.getOwnerCheckInID(),
+					ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
+			if (result != null && !result.isEmpty()) {
+				return ResponseEntity.ok(result);
+			}
 		} catch (Exception e) {
 			System.out.println("checkinTicketByBikeID: " + e.getMessage());
-			return ResponseEntity.ok("Exception: Done");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
-		return ResponseEntity.ok("Done");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check in failed!");
 	}
 
 	@PostMapping("/checkout")
-	public ResponseEntity<String> checkoutTicketByBikeID(@RequestBody TicketDTO ticket) {
+	public ResponseEntity<String> checkoutTicketByBikeID(@RequestBody CheckOutRequest ticket) {
 		try {
-			String ticketKey = "TICKET" + ticket.getCheckinTime();
-			ticketService.checkOutByBikeID(ticketKey, ticket.getOwnerCheckOutID(), ticket.getCheckoutTime(),
-					ticket.getCheckoutImages()[0], ticket.getCheckoutImages()[1], ticket.getPaymentType());
+			String ticketKey = "TICKET" + ticket.getCheckInTime();
+			String result = ticketService.checkOutByBikeID(ticketKey, ticket.getOwnerCheckOutID(),
+					ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
+					ticket.getPaymentType());
+			if (result != null && !result.isEmpty()) {
+				return ResponseEntity.ok(result);
+			}
 		} catch (Exception e) {
 			System.out.println("checkoutTicketByBikeID: " + e.getMessage());
-			return ResponseEntity.ok("Exception: Done");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
-		return ResponseEntity.ok("Done");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
 	}
 
-	@GetMapping("/get")
+	@GetMapping("/getCheckOutTicket")
 	public ResponseEntity<String> getCheckOutTicket(@PathVariable(required = true) String bikeID) {
 		String result = "";
 		try {
 			result = ticketService.getCheckOutTicketByBikeID(bikeID);
 		} catch (Exception e) {
 			System.out.println("getCheckOutTicket: " + e.getMessage());
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something wrong!");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
 	}
-	
+
 	@GetMapping("/getall")
 	public ResponseEntity<String> getAllTicket() {
 		String result = "";
@@ -63,7 +71,7 @@ public class TicketController {
 			result = ticketService.getAllTicket();
 		} catch (Exception e) {
 			System.out.println("getAllTicket: " + e.getMessage());
-			ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Something wrong!");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
 	}
