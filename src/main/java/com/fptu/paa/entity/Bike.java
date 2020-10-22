@@ -47,6 +47,9 @@ public class Bike {
 	@Enumerated(EnumType.STRING)
 	private BikeStatus status;
 
+	@Column(name = "enabled")
+	private boolean enabled=true;
+
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")
 	private User user;

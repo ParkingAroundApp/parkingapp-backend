@@ -12,12 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.ModelStatus;
-import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.ModelRegistrationDTO;
 import com.fptu.paa.entity.Model;
-import com.fptu.paa.repository.BikeRepository;
 import com.fptu.paa.repository.ModelRepository;
-import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.ModelService;
 
 import io.swagger.annotations.Api;
