@@ -1,5 +1,6 @@
 package com.fptu.paa.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -28,25 +29,25 @@ public class BikeServiceImpl implements BikeService {
 
 	@Autowired
 	BikeRepository bikeRepository;
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	ModelRepository modelRepository;
-	
+
 	@Autowired
 	UserService userService;
-	
+
 	ModelMapper modelMapper = new ModelMapper();
 
 	@Override
 	public BikeRegisterDTO registerBike(BikeRegisterDTO bikeRegister) {
 		Bike bike = null;
-		 UserViewDTO userView = userService.getCurrentUser();
-		 User user = userRepository.findUserById(userView.getId());
-		 Model model = modelRepository.findModelById(bikeRegister.getModel_id());
-		
+		UserViewDTO userView = userService.getCurrentUser();
+		User user = userRepository.findUserById(userView.getId());
+		Model model = modelRepository.findModelById(bikeRegister.getModel_id());
+
 		try {
 			if (bikeRegister != null) {
 				bike = modelMapper.map(bikeRegister, Bike.class);
@@ -76,7 +77,7 @@ public class BikeServiceImpl implements BikeService {
 	@Override
 	public BikeViewDTO changeBikeStatus(Long bike_id, BikeStatus bikeStatus) {
 		Bike bike = bikeRepository.findBikeById(bike_id);
-		if(bike!=null) {
+		if (bike != null) {
 			bike.setStatus(bikeStatus);
 			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
 			bikeView.setModel_id(bike.getModel().getId());
@@ -88,18 +89,18 @@ public class BikeServiceImpl implements BikeService {
 
 	@Override
 	public List<BikeViewDTO> getAllBikeByUserid(Long user_id) {
-		List<BikeViewDTO> bikeViewList =null;
+		List<BikeViewDTO> bikeViewList = null;
 //		UserViewDTO userView = userService.getCurrentUser();
 		try {
-			List<Bike>bikeList = bikeRepository.findBikeByUser_id(user_id);
-			if(bikeList!=null) {
+			List<Bike> bikeList = bikeRepository.findBikeByUser_id(user_id);
+			if (bikeList != null) {
 				java.lang.reflect.Type targetListType = new TypeToken<List<BikeViewDTO>>() {
-                }.getType();
-                bikeViewList= modelMapper.map(bikeList,targetListType);
-               for (int i=0;i<bikeViewList.size();i++) {
-            	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
-            	   bikeViewList.get(i).setUser_id(user_id);    	   
-               }
+				}.getType();
+				bikeViewList = modelMapper.map(bikeList, targetListType);
+				for (int i = 0; i < bikeViewList.size(); i++) {
+					bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
+					bikeViewList.get(i).setUser_id(user_id);
+				}
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -109,19 +110,21 @@ public class BikeServiceImpl implements BikeService {
 
 	@Override
 	public List<BikeViewDTO> getAllActiveBikeByUserid(Long user_id) {
-		List<BikeViewDTO> bikeViewList =null;
+		List<BikeViewDTO> bikeViewList = null;
 //		UserViewDTO userView = userService.getCurrentUser();
 		try {
-			List<Bike>bikeList = bikeRepository.findBikeByUser_idAndStatus(user_id, BikeStatus.ENABLED);
-			if(bikeList!=null) {
+//			List<Bike> bikeList = bikeRepository.findBikeByUser_idAndStatus(user_id, BikeStatus.ENABLED);
+			List<Bike> bikeList = new ArrayList<Bike>();
+
+			if (bikeList != null) {
 				java.lang.reflect.Type targetListType = new TypeToken<List<BikeViewDTO>>() {
-                }.getType();
-                bikeViewList= modelMapper.map(bikeList,targetListType);
+				}.getType();
+				bikeViewList = modelMapper.map(bikeList, targetListType);
 			}
-			 for (int i=0;i<bikeViewList.size();i++) {
-          	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
-          	   bikeViewList.get(i).setUser_id(user_id);    	   
-             }
+			for (int i = 0; i < bikeViewList.size(); i++) {
+				bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
+				bikeViewList.get(i).setUser_id(user_id);
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -130,18 +133,18 @@ public class BikeServiceImpl implements BikeService {
 
 	@Override
 	public List<BikeViewDTO> getAllBikesByStatus(BikeStatus status) {
-		List<BikeViewDTO> bikeViewList =null;
+		List<BikeViewDTO> bikeViewList = null;
 		try {
-			List<Bike>bikeList = bikeRepository.findBikeByStatus(status);
-			if(bikeList!=null) {
+			List<Bike> bikeList = bikeRepository.findBikeByStatus(status);
+			if (bikeList != null) {
 				java.lang.reflect.Type targetListType = new TypeToken<List<BikeViewDTO>>() {
-                }.getType();
-                bikeViewList= modelMapper.map(bikeList,targetListType);
+				}.getType();
+				bikeViewList = modelMapper.map(bikeList, targetListType);
 			}
-			 for (int i=0;i<bikeViewList.size();i++) {
-          	   bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
-          	   bikeViewList.get(i).setUser_id(bikeList.get(i).getUser().getId());    	   
-             }
+			for (int i = 0; i < bikeViewList.size(); i++) {
+				bikeViewList.get(i).setModel_id(bikeList.get(i).getModel().getId());
+				bikeViewList.get(i).setUser_id(bikeList.get(i).getUser().getId());
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
@@ -151,7 +154,7 @@ public class BikeServiceImpl implements BikeService {
 	@Override
 	public BikeViewDTO getBikeByPlateNumber(String plateNumber) {
 		Bike bike = bikeRepository.findBikeByLicensePlate(plateNumber);
-		if(bike!=null) {
+		if (bike != null) {
 			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
 			bikeView.setModel_id(bike.getModel().getId());
 			bikeView.setUser_id(bike.getUser().getId());
@@ -163,7 +166,7 @@ public class BikeServiceImpl implements BikeService {
 	@Override
 	public BikeViewDTO getBike(Long bike_id) {
 		Bike bike = bikeRepository.findBikeById(bike_id);
-		if(bike!=null) {
+		if (bike != null) {
 			BikeViewDTO bikeView = modelMapper.map(bike, BikeViewDTO.class);
 			bikeView.setModel_id(bike.getModel().getId());
 			bikeView.setUser_id(bike.getUser().getId());
@@ -172,5 +175,18 @@ public class BikeServiceImpl implements BikeService {
 		return null;
 	}
 
+	@Override
+	public BikeStatus checkIn(Long bikeId) {
+		Bike bike = bikeRepository.findBikeById(bikeId);
+		if (bike != null) {
+			if (bike.getStatus() != BikeStatus.PARKING) {
+				if (bike.getStatus() == BikeStatus.VERIFIED || bike.getStatus() == BikeStatus.FINISH) {
+					bike.setStatus(BikeStatus.PARKING);
+					bike = bikeRepository.save(bike);
+				}
+			}
+		}
+		return bike.getStatus();
+	}
 
 }

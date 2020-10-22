@@ -1,7 +1,5 @@
 package com.fptu.paa.dto;
 
-import com.fptu.paa.entity.Model;
-
 public class BikeRegisterDTO {
 	private String ownerName;
 	private String licensePlate;
