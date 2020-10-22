@@ -37,7 +37,7 @@ public class Bike {
 	@Column(name = "licensePlate", unique = true, length = 10)
 	private String licensePlate;
 
-	@Column(name = "chassisNum", length = 30)
+	@Column(name = "chassisNum", unique = true, length = 30)
 	private String chassisNum;
 
 	@Column(name = "color", length = 16)
