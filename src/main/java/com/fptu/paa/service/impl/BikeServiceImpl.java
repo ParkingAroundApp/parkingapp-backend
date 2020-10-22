@@ -62,15 +62,8 @@ public class BikeServiceImpl implements BikeService {
 	}
 
 	@Override
-	public Bike approveBike(BikeStatus bikeStatus) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Bike deleteBike(BikeStatus bikeStatus) {
-		// TODO Auto-generated method stub
-		return null;
+	public void deleteBike(Long bikeId) {
+		bikeRepository.disableBike(bikeId);
 	}
 
 	@Override
@@ -112,16 +105,19 @@ public class BikeServiceImpl implements BikeService {
 		try {
 			List<Bike> bikeList = bikeRepository.findBikeByUser_idAndEnabled(user_id, true);
 //			List<Bike> bikeList = new ArrayList<Bike>();
-			
+
 			if (bikeList != null) {
 				bikeList.removeIf(n -> (n.getStatus() == BikeStatus.UNVERIFIED));
 				java.lang.reflect.Type targetListType = new TypeToken<List<BikeViewDTO>>() {
 				}.getType();
 				bikeViewList = modelMapper.map(bikeList, targetListType);
+				for (int i = 0; i < bikeViewList.size(); i++) {
+					bikeViewList.get(i).setUser_id(user_id);
+				}
 			}
-			for (int i = 0; i < bikeViewList.size(); i++) {
-				bikeViewList.get(i).setUser_id(user_id);
-			}
+//			for (int i = 0; i < bikeViewList.size(); i++) {
+//				bikeViewList.get(i).setUser_id(user_id);
+//			}
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

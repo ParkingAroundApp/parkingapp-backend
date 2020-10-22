@@ -69,7 +69,7 @@ public class CustomerController{
 
 	@DeleteMapping(value = "/bike")
 	public ResponseEntity<String> deleteBike(@RequestParam Long bikeId) {
-
+		bikeService.deleteBike(bikeId);
 		return ResponseEntity.ok("Success");
 	}
 	
@@ -86,7 +86,7 @@ public class CustomerController{
 	public ResponseEntity<List<BikeViewDTO>> getBikesByUser() {
 		UserViewDTO userView = userService.getCurrentUser();
 		List<BikeViewDTO> bikeList = bikeService.getAllActiveBikeByUserid(userView.getId());
-		if (bikeList != null) {
+		if (bikeList != null && !bikeList.isEmpty()) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);

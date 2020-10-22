@@ -3,6 +3,8 @@ package com.fptu.paa.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.fptu.paa.constant.BikeStatus;
@@ -23,4 +25,7 @@ public interface BikeRepository extends JpaRepository<Bike, Long> {
 
 	Bike findBikeByLicensePlate(String licensePlate);
 
+	@Modifying
+	@Query("Update Bike b SET b.enabled = false WHERE b.id = :id")
+	void disableBike(Long id);
 }
