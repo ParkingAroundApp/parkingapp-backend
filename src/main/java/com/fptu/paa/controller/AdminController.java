@@ -26,8 +26,8 @@ public class AdminController {
 	BikeService bikeService;
 	
 	@PutMapping(value ="/verifyBike")
-	public ResponseEntity<String> verifyBike(@RequestParam Long bikeId){
-		BikeViewDTO rs = bikeService.changeBikeStatus(bikeId, BikeStatus.VERIFIED);
+	public ResponseEntity<String> verifyBike(@RequestParam Long bikeId, BikeStatus bikeStatus){
+		BikeViewDTO rs = bikeService.changeBikeStatus(bikeId, bikeStatus);
 		if (rs != null) {
 			return ResponseEntity.ok("Verify success!");
 		}
