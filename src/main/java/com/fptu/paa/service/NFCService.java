@@ -3,7 +3,6 @@ package com.fptu.paa.service;
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.NFCStatus;
-import com.fptu.paa.dto.NFCDTO;
 import com.fptu.paa.entity.NFC;
 
 @Service

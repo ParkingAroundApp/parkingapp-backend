@@ -156,4 +156,11 @@ public class TicketServiceImpl implements TicketService {
 		}
 	}
 
+	@Override
+	public String checkInByNFCID(String NFCID, String ownerCheckInID, String checkInTime, String checkInBikeImage,
+			String checkInFaceImage) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

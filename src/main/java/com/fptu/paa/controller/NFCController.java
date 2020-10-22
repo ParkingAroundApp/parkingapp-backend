@@ -26,7 +26,7 @@ public class NFCController {
 	@Autowired
 	NFCService nfcService;
 
-	@GetMapping(value = "{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<NFC> getNFCById(@PathVariable Long id) {
 		NFC nfc = nfcRepository.findNFCById(id);
 		if (nfc != null) {
@@ -35,7 +35,7 @@ public class NFCController {
 		return new ResponseEntity<NFC>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "serialNumber")
+	@GetMapping(value = "/serialNumber")
 	public ResponseEntity<NFC> getNFCBySerialNumber(String number) {
 		NFC nfc = nfcRepository.findNFCBySerialNumber(number);
 		if (nfc != null) {
@@ -44,7 +44,7 @@ public class NFCController {
 		return new ResponseEntity<NFC>(HttpStatus.BAD_REQUEST);
 	}
 
-	@PostMapping(value = "insert")
+	@PostMapping(value = "/insert")
 	public ResponseEntity<NFC> insertNFC(String serialNumber) {
 		NFC nfc = nfcService.insertNFCCard(serialNumber);
 		if (nfc != null) {
@@ -52,7 +52,8 @@ public class NFCController {
 		}
 		return new ResponseEntity<NFC>(HttpStatus.BAD_REQUEST);
 	}
-	@PutMapping(value = "changeStatus")
+
+	@PutMapping(value = "/changeStatus")
 	public ResponseEntity<NFC> changeStatus(String serialNumber, NFCStatus nfcStatus) {
 		NFC nfc = nfcService.changeNFCStatus(serialNumber, nfcStatus);
 		if (nfc != null) {
