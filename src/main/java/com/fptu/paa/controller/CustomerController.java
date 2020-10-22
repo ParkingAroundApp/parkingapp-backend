@@ -83,8 +83,9 @@ public class CustomerController{
 	}
 
 	@GetMapping(value = "/bike")
-	public ResponseEntity<List<BikeViewDTO>> getActiveByUserId(@RequestParam Long userId) {
-		List<BikeViewDTO> bikeList = bikeService.getAllActiveBikeByUserid(userId);
+	public ResponseEntity<List<BikeViewDTO>> getBikesByUser() {
+		UserViewDTO userView = userService.getCurrentUser();
+		List<BikeViewDTO> bikeList = bikeService.getAllBikeByUserid(userView.getId());
 		if (bikeList != null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
