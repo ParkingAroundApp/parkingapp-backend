@@ -42,6 +42,12 @@ public class Bike {
 
 	@Column(name = "color", length = 16)
 	private String color;
+	
+	@Column(name = "frontCertificateImage", length = 100)
+	private String frontCertificateImage;
+	
+	@Column(name = "afterCertificateImage", length = 100)
+	private String afterCertificateImage;
 
 	@Column(name = "status", length = 16)
 	@Enumerated(EnumType.STRING)

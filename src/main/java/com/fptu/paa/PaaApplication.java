@@ -19,12 +19,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.ModelStatus;
+import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.entity.Bike;
 import com.fptu.paa.entity.Model;
+import com.fptu.paa.entity.NFC;
 import com.fptu.paa.entity.Role;
 import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.BikeRepository;
+import com.fptu.paa.repository.NFCRepository;
 import com.fptu.paa.repository.RoleRepository;
 import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.utils.FabricUtils;
@@ -55,6 +58,8 @@ public class PaaApplication implements CommandLineRunner {
 	@Autowired
 	BikeRepository bikeRepo;
 	@Autowired
+	NFCRepository nfcRepo;
+	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Value("${paa.app.InsertSample}")
 	private boolean insertSample;
@@ -67,6 +72,7 @@ public class PaaApplication implements CommandLineRunner {
 			User user = createDefaultAdmin();
 			if (user != null)
 				inputSampleBike(user);
+			inputSampleNFC();
 		}
 	}
 
@@ -94,8 +100,13 @@ public class PaaApplication implements CommandLineRunner {
 
 	private void inputSampleBike(User user) {
 		Model model = new Model(1L, "Honda", "Airblade", "Scooter", "125cc", ModelStatus.ENABLED);
-		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", BikeStatus.PENDING, true,
+		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey","","", BikeStatus.PENDING, true,
 				user, model);
 		bikeRepo.save(bike);
+	}
+	
+	private void inputSampleNFC() {
+		NFC nfc = new NFC(1L,"123456789", NFCStatus.FINISH, true);
+		nfcRepo.save(nfc);
 	}
 }

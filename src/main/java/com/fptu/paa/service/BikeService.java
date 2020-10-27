@@ -26,5 +26,5 @@ public interface BikeService {
 	
 	public List<BikeViewDTO> getAllBikesByStatus(BikeStatus status);
 	
-	public BikeStatus checkIn(Long bikeId);
+	public boolean checkIn(Long bikeId);
 }

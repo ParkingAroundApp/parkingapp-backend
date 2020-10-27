@@ -25,11 +25,14 @@ public class NFC {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@Column(name="serialNumber")
+
+	@Column(name = "serialNumber" ,unique = true)
 	private String serialNumber;
-	
+
 	@Column(name = "status", length = 16)
 	@Enumerated(EnumType.STRING)
 	private NFCStatus status;
+
+	@Column(name = "enabled")
+	private boolean enabled = true;
 }

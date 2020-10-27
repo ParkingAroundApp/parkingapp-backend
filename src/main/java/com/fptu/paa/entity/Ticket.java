@@ -1,4 +1,4 @@
-package com.fptu.paa.dto;
+package com.fptu.paa.entity;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -6,7 +6,7 @@ import java.util.Objects;
 import com.owlike.genson.annotation.JsonProperty;
 
 //Mapping with Blockchain dto
-public class TicketDTO {
+public class Ticket {
     private String bikeID;
 
     private String ownerCheckInID;
@@ -28,10 +28,10 @@ public class TicketDTO {
     
     private String status;
 
-    public TicketDTO() {
+    public Ticket() {
     }
 
-    public TicketDTO(@JsonProperty("bikeID") String bikeID,@JsonProperty("ownerCheckInID") String ownerCheckInID,@JsonProperty("checkinTime") String checkinTime,
+    public Ticket(@JsonProperty("bikeID") String bikeID,@JsonProperty("ownerCheckInID") String ownerCheckInID,@JsonProperty("checkinTime") String checkinTime,
                   @JsonProperty("nfcNumber") String nfcNumber,@JsonProperty("checkinImages") String[] checkinImages,@JsonProperty("status") String status) {
         this.bikeID = bikeID;
         this.ownerCheckInID = ownerCheckInID;
@@ -125,7 +125,7 @@ public class TicketDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        TicketDTO ticket = (TicketDTO) o;
+        Ticket ticket = (Ticket) o;
         return getBikeID().equals(ticket.getBikeID()) &&
                 getOwnerCheckInID().equals(ticket.getOwnerCheckInID()) &&
                 getCheckinTime().equals(ticket.getCheckinTime()) &&
