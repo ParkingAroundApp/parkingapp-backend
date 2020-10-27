@@ -38,7 +38,7 @@ public class TicketServiceImpl implements TicketService {
 		Network network = gateway.getNetwork("mychannel");
 		Contract contract = network.getContract("mycc");
 		byte[] result;
-		result = contract.submitTransaction("checkOutByBike", ticketKey, ownerCheckOutId, checkOutTime,
+		result = contract.submitTransaction("checkOut", ticketKey, ownerCheckOutId, checkOutTime,
 				checkOutBikeImage, checkOutFaceImage, paymentType);
 		if (result.length > 0) {
 			return new String(result);
