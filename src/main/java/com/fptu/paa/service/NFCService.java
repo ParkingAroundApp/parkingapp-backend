@@ -8,5 +8,8 @@ import com.fptu.paa.entity.NFC;
 @Service
 public interface NFCService {
 	public NFC insertNFCCard(String  serialNumber);
+	
 	public NFC changeNFCStatus(String serialNumber, NFCStatus nfcStatus);
+	
+	public NFC getNFCBySerial(String serialNumber);
 }

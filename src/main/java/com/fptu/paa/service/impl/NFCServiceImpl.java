@@ -41,4 +41,15 @@ public class NFCServiceImpl implements NFCService {
 		return null;
 	}
 
+	@Override
+	public NFC getNFCBySerial(String serialNumber) {
+		if (serialNumber != null && !serialNumber.isEmpty()) {
+			NFC nfc = nfcRepository.findNFCBySerialNumber(serialNumber);
+			if (nfc != null) {
+				return nfc;
+			}
+		}
+		return null;
+	}
+
 }
