@@ -24,8 +24,8 @@ import io.swagger.annotations.Api;
 
 @RestController
 @RequestMapping("/customer")
-@Api(consumes = "application/json", description = "Customer API", tags = {"Customer"})
-public class CustomerController{
+@Api(consumes = "application/json", description = "Customer API", tags = { "Customer" })
+public class CustomerController {
 	@Autowired
 	BikeService bikeService;
 	@Autowired
@@ -79,5 +79,19 @@ public class CustomerController{
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping(value = "/ticket")
+	public ResponseEntity<String> getTicketListByCustomerID(@RequestParam String userId) {
+		String result = "No available ticket!";
+		try {
+			String tmp = ticketService.getListTicketByCustomerID(userId);
+			if (!tmp.isEmpty()) {
+				result = tmp;
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
 	}
 }

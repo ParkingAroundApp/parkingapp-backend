@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.NFCStatus;
+import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.CheckInRequest;
 import com.fptu.paa.dto.CheckOutRequest;
 import com.fptu.paa.entity.NFC;
@@ -39,13 +40,20 @@ public class OwnerController {
 	public ResponseEntity<String> checkinTicket(@RequestBody CheckInRequest ticket,
 			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
 		try {
-			String result;
+			String result = "";
 			if (!isNFC) {
-				result = ticketService.checkInByBikeID(ticket.getId(), ticket.getOwnerCheckInID(),
-						ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
+				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
+				if (bike != null) {
+					result = ticketService.checkInByBikeID(ticket.getId(), ticket.getOwnerCheckInID(),
+							bike.getUser_id().toString(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
+							ticket.getCheckInFaceImage());
+				}
 			} else {
-				result = ticketService.checkInByNFCID(ticket.getId(), ticket.getOwnerCheckInID(),
-						ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
+				NFC nfc = nfcService.getNFCBySerial(ticket.getId());
+				if (nfc != null) {
+					result = ticketService.checkInByNFCID(ticket.getId(), ticket.getOwnerCheckInID(),
+							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
+				}
 			}
 			if (result != null && !result.isEmpty()) {
 				return ResponseEntity.ok(result);
@@ -86,7 +94,7 @@ public class OwnerController {
 	@PutMapping(value = "/nfc/checkin")
 	public ResponseEntity<NFC> checkin(@RequestParam String serialNumber) {
 		NFC nfc = nfcService.getNFCBySerial(serialNumber);
-		//Only check-in when status is FINISH
+		// Only check-in when status is FINISH
 		if (nfc != null && nfc.getStatus() == NFCStatus.FINISH) {
 			nfc = nfcService.changeNFCStatus(serialNumber, NFCStatus.KEEPING);
 			if (nfc != null) {
