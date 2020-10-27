@@ -86,6 +86,7 @@ public class OwnerController {
 	@PutMapping(value = "/nfc/checkin")
 	public ResponseEntity<NFC> checkin(@RequestParam String serialNumber) {
 		NFC nfc = nfcService.getNFCBySerial(serialNumber);
+		//Only check-in when status is FINISH
 		if (nfc != null && nfc.getStatus() == NFCStatus.FINISH) {
 			nfc = nfcService.changeNFCStatus(serialNumber, NFCStatus.KEEPING);
 			if (nfc != null) {
