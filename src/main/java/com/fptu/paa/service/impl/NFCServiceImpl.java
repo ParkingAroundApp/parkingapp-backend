@@ -34,7 +34,7 @@ public class NFCServiceImpl implements NFCService {
 		if (serialNumber != null) {
 			NFC nfc = new NFC();
 			nfc.setSerialNumber(serialNumber);
-			nfc.setStatus(NFCStatus.ENABLED);
+			nfc.setStatus(NFCStatus.FINISH);
 			nfc = nfcRepository.save(nfc);
 			return nfc;
 		}
