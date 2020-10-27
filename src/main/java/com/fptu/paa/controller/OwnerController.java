@@ -59,8 +59,8 @@ public class OwnerController {
 
 	@PutMapping("/bike/checkin")
 	public ResponseEntity<String> checkin(@RequestParam Long bikeId) {
-		BikeStatus rs = bikeService.checkIn(bikeId);
-		if (rs != null && rs == BikeStatus.KEEPING) {
+		boolean success = bikeService.checkIn(bikeId);
+		if (success) {
 			return ResponseEntity.ok("Checkin success!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Checkin failed!");
