@@ -8,12 +8,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.entity.NFC;
 import com.fptu.paa.repository.NFCRepository;
 import com.fptu.paa.service.NFCService;
+import com.fptu.paa.service.TicketService;
 
 import io.swagger.annotations.Api;
 
@@ -25,6 +27,8 @@ public class NFCController {
 	NFCRepository nfcRepository;
 	@Autowired
 	NFCService nfcService;
+	@Autowired
+	TicketService ticketService;
 
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<NFC> getNFCById(@PathVariable Long id) {
@@ -35,9 +39,9 @@ public class NFCController {
 		return new ResponseEntity<NFC>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "/serialNumber")
-	public ResponseEntity<NFC> getNFCBySerialNumber(String number) {
-		NFC nfc = nfcRepository.findNFCBySerialNumber(number);
+	@GetMapping(value = "")
+	public ResponseEntity<NFC> getNFCBySerialNumber(@RequestParam String serialNumber) {
+		NFC nfc = nfcRepository.findNFCBySerialNumber(serialNumber);
 		if (nfc != null) {
 			return new ResponseEntity<NFC>(nfc, HttpStatus.OK);
 		}
