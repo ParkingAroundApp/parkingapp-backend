@@ -166,17 +166,18 @@ public class BikeServiceImpl implements BikeService {
 	}
 
 	@Override
-	public BikeStatus checkIn(Long bikeId) {
+	public boolean checkIn(Long bikeId) {
 		Bike bike = bikeRepository.findBikeById(bikeId);
 		if (bike != null) {
 			if (bike.getStatus() != BikeStatus.KEEPING) {
 				if (bike.getStatus() == BikeStatus.VERIFIED || bike.getStatus() == BikeStatus.FINISH) {
 					bike.setStatus(BikeStatus.KEEPING);
 					bike = bikeRepository.save(bike);
+					return true;
 				}
 			}
 		}
-		return bike.getStatus();
+		return false;
 	}
 
 }
