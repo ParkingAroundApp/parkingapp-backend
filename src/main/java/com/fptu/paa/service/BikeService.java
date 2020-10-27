@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeViewDTO;
-import com.fptu.paa.entity.Bike;
 
 @Service
 public interface BikeService {
@@ -15,11 +14,9 @@ public interface BikeService {
 
 	public BikeRegisterDTO registerBike(BikeRegisterDTO newBike);
 
-	public Bike approveBike(BikeStatus bikeStatus);
-
 	public BikeViewDTO changeBikeStatus(Long bike_id, BikeStatus bikeStatus);
 
-	public Bike deleteBike(BikeStatus bikeStatus);
+	public void deleteBike(Long bikeId);
 
 	public BikeViewDTO getBikeByPlateNumber(String plateNumber);
 
@@ -29,5 +26,5 @@ public interface BikeService {
 	
 	public List<BikeViewDTO> getAllBikesByStatus(BikeStatus status);
 	
-	
+	public BikeStatus checkIn(Long bikeId);
 }

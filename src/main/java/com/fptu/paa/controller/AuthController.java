@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.dto.LoginRequest;
@@ -25,11 +24,10 @@ public class AuthController {
 
 	// Login via Username-Password
 	@PostMapping("/login")
-	public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest,
-			@RequestParam(defaultValue = "false") boolean isGmail) {
+	public ResponseEntity<String> authenticateUser(@RequestBody LoginRequest loginRequest) {
 		String jwt = "";
 		try {
-			jwt = isGmail ? userService.loginViaGmail(loginRequest) : userService.loginViaUsername(loginRequest);
+			jwt = userService.loginViaUsername(loginRequest);
 			if (jwt == null) {
 				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Something wrong!");
 			}

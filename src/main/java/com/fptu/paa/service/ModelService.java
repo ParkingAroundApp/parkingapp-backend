@@ -3,7 +3,6 @@ package com.fptu.paa.service;
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.dto.ModelRegistrationDTO;
-import com.fptu.paa.entity.Model;
 
 @Service
 public interface ModelService {

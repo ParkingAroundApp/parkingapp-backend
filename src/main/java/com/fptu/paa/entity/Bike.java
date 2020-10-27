@@ -37,7 +37,7 @@ public class Bike {
 	@Column(name = "licensePlate", unique = true, length = 10)
 	private String licensePlate;
 
-	@Column(name = "chassisNum", length = 30)
+	@Column(name = "chassisNum", unique = true, length = 30)
 	private String chassisNum;
 
 	@Column(name = "color", length = 16)
@@ -46,6 +46,9 @@ public class Bike {
 	@Column(name = "status", length = 16)
 	@Enumerated(EnumType.STRING)
 	private BikeStatus status;
+
+	@Column(name = "enabled")
+	private boolean enabled = true;
 
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id")

@@ -94,7 +94,7 @@ public class PaaApplication implements CommandLineRunner {
 
 	private void inputSampleBike(User user) {
 		Model model = new Model(1L, "Honda", "Airblade", "Scooter", "125cc", ModelStatus.ENABLED);
-		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", BikeStatus.ENABLED,
+		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", BikeStatus.PENDING, true,
 				user, model);
 		bikeRepo.save(bike);
 	}
