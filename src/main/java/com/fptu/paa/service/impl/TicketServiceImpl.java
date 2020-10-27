@@ -138,4 +138,18 @@ public class TicketServiceImpl implements TicketService {
 		return null;
 	}
 
+	@Override
+	public String getTicketDetail(String key) throws Exception {
+		Gateway gateway = FabricGatewaySingleton.getInstance().gateway;
+		// get the network and contract
+		Network network = gateway.getNetwork("mychannel");
+		Contract contract = network.getContract("mycc");
+		byte[] result;
+		result = contract.evaluateTransaction("queryByKey", key);
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
 }

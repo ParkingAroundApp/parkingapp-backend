@@ -94,4 +94,19 @@ public class CustomerController {
 		}
 		return ResponseEntity.ok(result);
 	}
+
+	@GetMapping(value = "/ticket/")
+	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
+		String result = "No available ticket!";
+		try {
+			String ticketKey = "TICKET" + "_" + checkInTime + "_" + bikeID;
+			String tmp = ticketService.getTicketDetail(ticketKey);
+			if (!tmp.isEmpty()) {
+				result = tmp;
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
+	}
 }

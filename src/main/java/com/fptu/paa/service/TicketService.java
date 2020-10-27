@@ -14,6 +14,10 @@ public interface TicketService {
 
 	public String getListTicketByBikeID(String bikeID) throws Exception;
 
+	public String getTicketDetail(String key) throws Exception;
+
+	public String getListTicketByCustomerID(String customerID) throws Exception;
+	
 	public String getAllTicket() throws Exception;
 
 	public String checkInByNFCID(String NFCID, String ownerCheckInID, String checkInTime, String checkInBikeImage,
@@ -23,6 +27,5 @@ public interface TicketService {
 
 	public String getListTicketByNFC(String NFCSerial) throws Exception;
 	
-	public String getListTicketByCustomerID(String customerID) throws Exception;
 
 }
