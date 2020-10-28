@@ -45,7 +45,7 @@ public class OwnerController {
 				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 				if (bike != null) {
 					result = ticketService.checkInByBikeID(ticket.getId(), ticket.getOwnerCheckInID(),
-							bike.getUser_id().toString(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
+							bike.getUserViewDTO().getId().toString(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
 							ticket.getCheckInFaceImage());
 				}
 			} else {

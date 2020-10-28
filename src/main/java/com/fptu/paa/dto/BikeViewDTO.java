@@ -11,7 +11,7 @@ public class BikeViewDTO {
 	private String chassisNum;
 	private String color;
 	private BikeStatus status;
-	private Long user_id;
+	private UserViewDTO userViewDTO;
 	private Model model;
 	
 	public Long getId() {
@@ -50,17 +50,17 @@ public class BikeViewDTO {
 	public void setStatus(BikeStatus status) {
 		this.status = status;
 	}
-	public Long getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
-	}
 	public Model getModel() {
 		return model;
 	}
 	public void setModel(Model model) {
 		this.model = model;
+	}
+	public UserViewDTO getUserViewDTO() {
+		return userViewDTO;
+	}
+	public void setUserViewDTO(UserViewDTO userViewDTO) {
+		this.userViewDTO = userViewDTO;
 	}
 	
 	

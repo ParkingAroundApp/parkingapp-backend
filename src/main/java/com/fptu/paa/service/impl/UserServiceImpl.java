@@ -1,11 +1,13 @@
 package com.fptu.paa.service.impl;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fptu.paa.constant.RoleName;
+import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
 import com.fptu.paa.dto.UserDTO;
 import com.fptu.paa.dto.UserViewDTO;
@@ -149,5 +152,22 @@ public class UserServiceImpl implements UserService {
 		String jwt = jwtProvider.generateToken((MyUserDetail) authentication.getPrincipal());
 		return jwt;
 	}
+
+	@Override
+	public List<UserViewDTO> getUsersByRole(RoleName roleName) {
+		Set<Role> roles = new HashSet<Role>();
+		List<UserViewDTO> userList= null;
+		roles.add(roleRepository.findByName(roleName));
+		List<User> users = userRepository.findByRoles(roleRepository.findByName(roleName));
+		if (users != null) {
+			java.lang.reflect.Type targetListType = new TypeToken<List<UserViewDTO>>() {
+			}.getType();
+			userList = modelMapper.map(users, targetListType);
+			return userList;
+		}
+		return null;
+	}
+
+
 
 }
