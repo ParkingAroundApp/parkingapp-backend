@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.BikeStatus;
+import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.dto.BikeViewDTO;
+import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.service.BikeService;
+import com.fptu.paa.service.UserService;
 
 import io.swagger.annotations.Api;
 
@@ -24,6 +27,8 @@ import io.swagger.annotations.Api;
 public class AdminController {
 	@Autowired
 	BikeService bikeService;
+	@Autowired
+	UserService userService;
 	
 
 	@PutMapping(value ="/bike/verify")
@@ -52,5 +57,13 @@ public class AdminController {
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
-	
+  
+	@GetMapping(value = "/getAllUsersByRole")
+	public ResponseEntity<List<UserViewDTO>> getAllUsersByRole(RoleName roleName) {
+		List<UserViewDTO> userList  = userService.getUsersByRole(roleName) ;
+		if (userList != null) {
+			return new ResponseEntity<List<UserViewDTO>>(userList, HttpStatus.OK);
+		}
+		return new ResponseEntity<List<UserViewDTO>>(HttpStatus.BAD_REQUEST);
+	}
 }
