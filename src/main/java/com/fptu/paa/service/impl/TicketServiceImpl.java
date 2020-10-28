@@ -24,6 +24,7 @@ public class TicketServiceImpl implements TicketService {
 		byte[] result;
 		result = contract.submitTransaction("createTicket", bikeID, "", customerId, ownerCheckInID, checkInTime,
 				checkInBikeImage, checkInFaceImage);
+//		gateway.close();
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -73,7 +74,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListTicketByBikeID(String bikeID) throws Exception {
+	public String getListBikeTicket(String bikeID) throws Exception {
 		Gateway gateway = FabricGatewaySingleton.getInstance().gateway;
 		// get the network and contract
 		Network network = gateway.getNetwork("mychannel");
@@ -86,7 +87,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListTicketByNFC(String NFCSerial) throws Exception {
+	public String getListNFCTicket(String NFCSerial) throws Exception {
 		Gateway gateway = FabricGatewaySingleton.getInstance().gateway;
 		// get the network and contract
 		Network network = gateway.getNetwork("mychannel");
@@ -116,7 +117,7 @@ public class TicketServiceImpl implements TicketService {
 		Network network = gateway.getNetwork("mychannel");
 		Contract contract = network.getContract("mycc");
 		byte[] result;
-		result = contract.submitTransaction("createTicket", "", "", NFCID, ownerCheckInID, checkInTime,
+		result = contract.submitTransaction("createTicket", "", NFCID, "", ownerCheckInID, checkInTime,
 				checkInBikeImage, checkInFaceImage);
 		if (result.length > 0) {
 			return new String(result);
@@ -132,6 +133,20 @@ public class TicketServiceImpl implements TicketService {
 		Contract contract = network.getContract("mycc");
 		byte[] result;
 		result = contract.evaluateTransaction("queryTicketByCustomer", customerID);
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
+	@Override
+	public String getTicketDetail(String key) throws Exception {
+		Gateway gateway = FabricGatewaySingleton.getInstance().gateway;
+		// get the network and contract
+		Network network = gateway.getNetwork("mychannel");
+		Contract contract = network.getContract("mycc");
+		byte[] result;
+		result = contract.evaluateTransaction("queryByKey", key);
 		if (result.length > 0) {
 			return new String(result);
 		}
