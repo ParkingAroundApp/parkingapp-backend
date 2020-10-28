@@ -1,5 +1,6 @@
 package com.fptu.paa.service.impl;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -119,8 +120,9 @@ public class UserServiceImpl implements UserService {
 			User tempUser = new User();
 			tempUser.setEmail(email);
 			tempUser.setPassword(passwordEncoder.encode(tokenGmail));
-			// Create wallet
+			// Create wallet and set default balance
 			Wallet wallet  = new Wallet();
+			wallet.setBalance(new BigDecimal(300000));
 			wallet.setUser(tempUser);
 			tempUser.setWallet(wallet);
 			// Set role

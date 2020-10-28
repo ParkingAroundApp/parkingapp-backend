@@ -16,12 +16,12 @@ public class TicketController {
 	@Autowired
 	TicketService ticketService;
 
-	@GetMapping("/getTicketById")
-	public ResponseEntity<String> getTicketById(@RequestParam(required = true) String id,
+	@GetMapping("")
+	public ResponseEntity<String> getListById(@RequestParam(required = true) String id,
 			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
 		String result = "";
 		try {
-			result = ticketService.getListTicketByBikeID(id);
+			result = isNFC ? ticketService.getListNFCTicket(id) : ticketService.getListBikeTicket(id);
 		} catch (Exception e) {
 			System.out.println("getCheckOutTicket: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
@@ -29,13 +29,30 @@ public class TicketController {
 		return ResponseEntity.ok(result);
 	}
 
-	@GetMapping("/getAll")
+	@GetMapping("/all")
 	public ResponseEntity<String> getAllTicket() {
 		String result = "";
 		try {
 			result = ticketService.getAllTicket();
 		} catch (Exception e) {
 			System.out.println("getAllTicket: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("/checkout")
+	public ResponseEntity<String> getCheckOutTicket(@RequestParam(required = true) String id,
+			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
+		String result = "No available ticket!";
+		try {
+			String tmpResult = isNFC ? ticketService.getCheckOutTicketByNFC(id)
+					: ticketService.getCheckOutTicketByBikeID(id);
+			if (!tmpResult.isEmpty()) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			System.out.println("getCheckOutTicket: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
