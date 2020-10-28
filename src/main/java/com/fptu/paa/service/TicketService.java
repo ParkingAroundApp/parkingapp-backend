@@ -12,7 +12,7 @@ public interface TicketService {
 
 	public String getCheckOutTicketByBikeID(String bikeID) throws Exception;
 
-	public String getListTicketByBikeID(String bikeID) throws Exception;
+	public String getListBikeTicket(String bikeID) throws Exception;
 
 	public String getTicketDetail(String key) throws Exception;
 
@@ -25,7 +25,7 @@ public interface TicketService {
 
 	public String getCheckOutTicketByNFC(String NFCSerial) throws Exception;
 
-	public String getListTicketByNFC(String NFCSerial) throws Exception;
+	public String getListNFCTicket(String NFCSerial) throws Exception;
 	
 
 }

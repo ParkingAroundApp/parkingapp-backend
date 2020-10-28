@@ -73,7 +73,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListTicketByBikeID(String bikeID) throws Exception {
+	public String getListBikeTicket(String bikeID) throws Exception {
 		Gateway gateway = FabricGatewaySingleton.getInstance().gateway;
 		// get the network and contract
 		Network network = gateway.getNetwork("mychannel");
@@ -86,7 +86,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListTicketByNFC(String NFCSerial) throws Exception {
+	public String getListNFCTicket(String NFCSerial) throws Exception {
 		Gateway gateway = FabricGatewaySingleton.getInstance().gateway;
 		// get the network and contract
 		Network network = gateway.getNetwork("mychannel");
