@@ -24,6 +24,7 @@ public class TicketServiceImpl implements TicketService {
 		byte[] result;
 		result = contract.submitTransaction("createTicket", bikeID, "", customerId, ownerCheckInID, checkInTime,
 				checkInBikeImage, checkInFaceImage);
+//		gateway.close();
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -116,7 +117,7 @@ public class TicketServiceImpl implements TicketService {
 		Network network = gateway.getNetwork("mychannel");
 		Contract contract = network.getContract("mycc");
 		byte[] result;
-		result = contract.submitTransaction("createTicket", "", "", NFCID, ownerCheckInID, checkInTime,
+		result = contract.submitTransaction("createTicket", "", NFCID, "", ownerCheckInID, checkInTime,
 				checkInBikeImage, checkInFaceImage);
 		if (result.length > 0) {
 			return new String(result);
