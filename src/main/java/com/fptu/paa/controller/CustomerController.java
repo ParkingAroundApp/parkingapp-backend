@@ -54,18 +54,7 @@ public class CustomerController {
 		return new ResponseEntity<BikeRegisterDTO>(registerBike, HttpStatus.OK);
 	}
 
-	@GetMapping("/checkout")
-	public ResponseEntity<String> getCheckOutTicket(@RequestParam(required = true) String id,
-			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
-		String result = "No available ticket!";
-		try {
-			result = ticketService.getCheckOutTicketByBikeID(id);
-		} catch (Exception e) {
-			System.out.println("getCheckOutTicket: " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
-		}
-		return ResponseEntity.ok(result);
-	}
+
 
 	@DeleteMapping(value = "/bike")
 	public ResponseEntity<String> deleteBike(@RequestParam Long bikeId) {
@@ -97,6 +86,21 @@ public class CustomerController {
 		String result = "No available ticket!";
 		try {
 			String tmp = ticketService.getListTicketByCustomerID(userId);
+			if (!tmp.isEmpty()) {
+				result = tmp;
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping(value = "/ticket/detail")
+	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
+		String result = "No available ticket!";
+		try {
+			String ticketKey = "TICKET" + "_" + checkInTime + "_" + bikeID;
+			String tmp = ticketService.getTicketDetail(ticketKey);
 			if (!tmp.isEmpty()) {
 				result = tmp;
 			}
