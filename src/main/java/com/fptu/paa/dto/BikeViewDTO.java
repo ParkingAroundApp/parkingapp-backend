@@ -1,6 +1,8 @@
 package com.fptu.paa.dto;
 
 import com.fptu.paa.constant.BikeStatus;
+import com.fptu.paa.entity.Model;
+
 
 public class BikeViewDTO {
 	private Long id;
@@ -10,30 +12,19 @@ public class BikeViewDTO {
 	private String color;
 	private BikeStatus status;
 	private Long user_id;
-	private Long model_id;
-	public String getOwnerName() {
-		return ownerName;
-	}
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
-	}
+	private Model model;
+	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getColor() {
-		return color;
+	public String getOwnerName() {
+		return ownerName;
 	}
-	public void setColor(String color) {
-		this.color = color;
-	}
-	public String getChassisNum() {
-		return chassisNum;
-	}
-	public void setChassisNum(String chassisNum) {
-		this.chassisNum = chassisNum;
+	public void setOwnerName(String ownerName) {
+		this.ownerName = ownerName;
 	}
 	public String getLicensePlate() {
 		return licensePlate;
@@ -41,17 +32,17 @@ public class BikeViewDTO {
 	public void setLicensePlate(String licensePlate) {
 		this.licensePlate = licensePlate;
 	}
-	public Long getUser_id() {
-		return user_id;
+	public String getChassisNum() {
+		return chassisNum;
 	}
-	public void setUser_id(Long user_id) {
-		this.user_id = user_id;
+	public void setChassisNum(String chassisNum) {
+		this.chassisNum = chassisNum;
 	}
-	public Long getModel_id() {
-		return model_id;
+	public String getColor() {
+		return color;
 	}
-	public void setModel_id(Long model_id) {
-		this.model_id = model_id;
+	public void setColor(String color) {
+		this.color = color;
 	}
 	public BikeStatus getStatus() {
 		return status;
@@ -59,4 +50,18 @@ public class BikeViewDTO {
 	public void setStatus(BikeStatus status) {
 		this.status = status;
 	}
+	public Long getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(Long user_id) {
+		this.user_id = user_id;
+	}
+	public Model getModel() {
+		return model;
+	}
+	public void setModel(Model model) {
+		this.model = model;
+	}
+	
+	
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
+import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.TicketService;
 import com.fptu.paa.service.UserService;
@@ -57,14 +58,24 @@ public class CustomerController {
 
 	@DeleteMapping(value = "/bike")
 	public ResponseEntity<String> deleteBike(@RequestParam Long bikeId) {
-
+		bikeService.deleteBike(bikeId);
 		return ResponseEntity.ok("Success");
+	}
+	
+	@GetMapping("")
+	public ResponseEntity<UserViewDTO> getUserDetail() {
+		UserViewDTO userViewDTO = userService.getCurrentUser();
+		if(userViewDTO != null) {
+			return new ResponseEntity<UserViewDTO>(userViewDTO, HttpStatus.OK);
+		}
+		return new ResponseEntity<UserViewDTO>(HttpStatus.BAD_REQUEST);
 	}
 
 	@GetMapping(value = "/bike")
-	public ResponseEntity<List<BikeViewDTO>> getActiveByUserId(@RequestParam Long userId) {
-		List<BikeViewDTO> bikeList = bikeService.getAllActiveBikeByUserid(userId);
-		if (bikeList != null) {
+	public ResponseEntity<List<BikeViewDTO>> getBikesByUser() {
+		UserViewDTO userView = userService.getCurrentUser();
+		List<BikeViewDTO> bikeList = bikeService.getAllActiveBikeByUserid(userView.getId());
+		if (bikeList != null && !bikeList.isEmpty()) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);

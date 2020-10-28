@@ -6,7 +6,8 @@ import org.springframework.stereotype.Repository;
 import com.fptu.paa.entity.NFC;
 
 @Repository
-public interface NFCRepository extends JpaRepository<NFC, Long>{
+public interface NFCRepository extends JpaRepository<NFC, Long> {
 	NFC findNFCBySerialNumber(String serialNumber);
+
 	NFC findNFCById(Long id);
 }

@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
 		return false;
 	}
 
-	public String getToken() {
+	public String decodeEmailFromToken() {
 		String[] header = request.getHeader("Authorization").split(" ");
 		String token = header[header.length - 1];
 		String email = jwtProvider.getEmailFromJwtToken(token);
@@ -93,9 +93,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserViewDTO getCurrentUser() {
-		String[] header = request.getHeader("Authorization").split(" ");
-		String token = header[header.length - 1];
-		String email = jwtProvider.getEmailFromJwtToken(token);
+//		String[] header = request.getHeader("Authorization").split(" ");
+//		String token = header[header.length - 1];
+//		String email = jwtProvider.getEmailFromJwtToken(token);
+		String email = decodeEmailFromToken();
 		User user = userRepository.findByEmail(email);
 		if (user != null) {
 			UserViewDTO userView = modelMapper.map(user, UserViewDTO.class);
