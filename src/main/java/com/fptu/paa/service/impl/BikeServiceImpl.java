@@ -22,8 +22,11 @@ import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
 @Transactional
+@Slf4j
 public class BikeServiceImpl implements BikeService {
 
 	@Autowired
@@ -56,7 +59,7 @@ public class BikeServiceImpl implements BikeService {
 				bike = bikeRepository.save(bike);
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.debug("registerBike " + e.getMessage());
 		}
 		return bikeRegister;
 	}
@@ -93,7 +96,7 @@ public class BikeServiceImpl implements BikeService {
 				}
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.debug("getAllBikeByUserid " + e.getMessage());
 		}
 		return bikeViewList;
 	}
@@ -105,7 +108,6 @@ public class BikeServiceImpl implements BikeService {
 		try {
 			List<Bike> bikeList = bikeRepository.findBikeByUser_idAndEnabled(user_id, true);
 //			List<Bike> bikeList = new ArrayList<Bike>();
-
 			if (bikeList != null) {
 				bikeList.removeIf(n -> (n.getStatus() == BikeStatus.UNVERIFIED));
 				java.lang.reflect.Type targetListType = new TypeToken<List<BikeViewDTO>>() {
@@ -119,7 +121,7 @@ public class BikeServiceImpl implements BikeService {
 //				bikeViewList.get(i).setUser_id(user_id);
 //			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.debug("getAllActiveBikeByUserid " + e.getMessage());
 		}
 		return bikeViewList;
 	}
@@ -138,7 +140,7 @@ public class BikeServiceImpl implements BikeService {
 				bikeViewList.get(i).setUser_id(bikeList.get(i).getUser().getId());
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			log.debug("getAllBikesByStatus " + e.getMessage());
 		}
 		return bikeViewList;
 	}
