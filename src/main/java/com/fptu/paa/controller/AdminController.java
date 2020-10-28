@@ -49,10 +49,10 @@ public class AdminController {
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "/bike/{status}")
-	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(@PathVariable BikeStatus status) {
+	@GetMapping(value = "/bike/status")
+	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(@RequestParam BikeStatus status) {
 		List<BikeViewDTO> bikeList = bikeService.getAllBikesByStatus(status);
-		if (bikeList != null) {
+		if (bikeList != null && !bikeList.isEmpty()) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
