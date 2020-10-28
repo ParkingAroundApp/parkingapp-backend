@@ -25,6 +25,7 @@ public class AdminController {
 	@Autowired
 	BikeService bikeService;
 	
+
 	@PutMapping(value ="/bike/verify")
 	public ResponseEntity<String> verifyBike(@RequestParam Long bikeId, BikeStatus bikeStatus){
 		BikeViewDTO rs = bikeService.changeBikeStatus(bikeId, bikeStatus);
