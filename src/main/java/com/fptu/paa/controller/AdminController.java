@@ -25,7 +25,7 @@ public class AdminController {
 	@Autowired
 	BikeService bikeService;
 	
-	@PutMapping(value ="/verifyBike")
+	@PutMapping(value ="/bike/verify")
 	public ResponseEntity<String> verifyBike(@RequestParam Long bikeId, BikeStatus bikeStatus){
 		BikeViewDTO rs = bikeService.changeBikeStatus(bikeId, bikeStatus);
 		if (rs != null) {
@@ -34,7 +34,7 @@ public class AdminController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verify failed!");
 	}
 	
-	@GetMapping(value = "/getAllByUserId/{userId}")
+	@GetMapping(value = "/bike/{userId}")
 	public ResponseEntity<List<BikeViewDTO>> getBikesByUserId(@PathVariable Long userId) {
 		List<BikeViewDTO> bikeList = bikeService.getAllBikeByUserid(userId);
 		if (bikeList != null) {
@@ -43,8 +43,8 @@ public class AdminController {
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "/getAllByStatus")
-	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(BikeStatus status) {
+	@GetMapping(value = "/bike/{status}")
+	public ResponseEntity<List<BikeViewDTO>> getBikesByStatus(@PathVariable BikeStatus status) {
 		List<BikeViewDTO> bikeList = bikeService.getAllBikesByStatus(status);
 		if (bikeList != null) {
 			return new ResponseEntity<List<BikeViewDTO>>(bikeList, HttpStatus.OK);

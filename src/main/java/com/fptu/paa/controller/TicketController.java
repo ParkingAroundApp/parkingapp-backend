@@ -29,7 +29,7 @@ public class TicketController {
 		return ResponseEntity.ok(result);
 	}
 
-	@GetMapping("/getAll")
+	@GetMapping("/all")
 	public ResponseEntity<String> getAllTicket() {
 		String result = "";
 		try {
