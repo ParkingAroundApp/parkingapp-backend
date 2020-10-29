@@ -33,7 +33,10 @@ public class TicketController {
 	public ResponseEntity<String> getAllTicket() {
 		String result = "";
 		try {
-			result = ticketService.getAllTicket();
+			String tmpResult = ticketService.getAllTicket();
+			if (!tmpResult.isEmpty()) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			System.out.println("getAllTicket: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
