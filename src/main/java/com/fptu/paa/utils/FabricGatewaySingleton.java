@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.hyperledger.fabric.gateway.Contract;
 import org.hyperledger.fabric.gateway.Gateway;
+import org.hyperledger.fabric.gateway.Network;
 import org.hyperledger.fabric.gateway.Wallet;
 
 import lombok.extern.slf4j.Slf4j;
@@ -13,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 public class FabricGatewaySingleton {
 	private static FabricGatewaySingleton gatewaySingleton = null;
 
-	public Gateway gateway = null;
+	public Contract contract = null;
 
 	private FabricGatewaySingleton() {
 		try {
@@ -27,7 +29,9 @@ public class FabricGatewaySingleton {
 			builder.identity(wallet, "admin").networkConfig(networkConfigPath).discovery(true);
 			
 			// create a gateway connection
-			gateway = builder.connect();
+			Gateway gateway = builder.connect();
+			Network network = gateway.getNetwork("mychannel");
+			contract = network.getContract("mycc");
 		} catch (IOException e) {
 			log.info("FabricGatewaySingleton " + e.getMessage());
 
