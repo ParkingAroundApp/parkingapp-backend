@@ -76,11 +76,6 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	@Override
-	public UserDTO updateUserProfile(UserDTO userDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean disableAccount(Long userID) {
@@ -167,6 +162,23 @@ public class UserServiceImpl implements UserService {
 			userList = modelMapper.map(users, targetListType);
 			return userList;
 		}
+		return null;
+	}
+
+	@Override
+	public UserViewDTO updateUserProfile(UserViewDTO userViewDTO) {
+		if(userViewDTO!= null) {
+			User user = userRepository.findUserById(userViewDTO.getId());
+			if (user!=null) {
+				user.setAddress(userViewDTO.getAddress());
+				user.setBirthday(userViewDTO.getBirthday());
+				user.setGender(userViewDTO.getGender());
+				user.setPhone(userViewDTO.getPhone());
+				UserViewDTO userView = modelMapper.map(user, UserViewDTO.class);
+				return userView;
+			}
+		}
+		
 		return null;
 	}
 

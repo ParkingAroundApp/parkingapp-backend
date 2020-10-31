@@ -19,7 +19,7 @@ public interface UserService {
 
 	UserDTO getUserDetail(Long idUser);
 
-	UserDTO updateUserProfile(UserDTO userDTO);
+	UserViewDTO updateUserProfile(UserViewDTO userViewDTO);
 
 	boolean disableAccount(Long userID);
 
