@@ -1,9 +1,9 @@
 package com.fptu.paa.entity;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
@@ -51,13 +50,16 @@ public class User {
 	@EqualsAndHashCode.Exclude
 	private String birthday;
 
-	@Column(name = "addrezz")
+	@Column(name = "address")
 	@EqualsAndHashCode.Exclude
 	private String address;
 
 	@Column(name = "gender", length = 10)
 	@EqualsAndHashCode.Exclude
 	private String gender;
+	
+	@Column(name = "balance")
+	private BigDecimal balance = new BigDecimal("0.0");
 
 	@Column(name = "enabled")
 	private boolean enabled = true;
@@ -65,8 +67,4 @@ public class User {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(schema = "parkingdb", name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles = new HashSet<>();
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-	@EqualsAndHashCode.Exclude
-	private Wallet wallet;
 }
