@@ -19,13 +19,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fptu.paa.constant.RoleName;
-import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
 import com.fptu.paa.dto.UserDTO;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Role;
 import com.fptu.paa.entity.User;
-import com.fptu.paa.entity.Wallet;
 import com.fptu.paa.repository.RoleRepository;
 import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.security.MyUserDetail;
@@ -123,11 +121,7 @@ public class UserServiceImpl implements UserService {
 			User tempUser = new User();
 			tempUser.setEmail(email);
 			tempUser.setPassword(passwordEncoder.encode(tokenGmail));
-			// Create wallet and set default balance
-			Wallet wallet  = new Wallet();
-			wallet.setBalance(new BigDecimal(300000));
-			wallet.setUser(tempUser);
-			tempUser.setWallet(wallet);
+			tempUser.setBalance(new BigDecimal("300000"));
 			// Set role
 			Set<Role> roles = new HashSet<Role>();
 			roles.add(roleRepository.findByName(RoleName.ROLE_CUSTOMER));
