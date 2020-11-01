@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +48,14 @@ public class CustomerController {
 		}
 		return ResponseEntity.ok(jwt);
 	}
-
+	@PutMapping(value = "/user/update")
+	public ResponseEntity<String> updateUser(@RequestBody UserViewDTO userView) {
+		UserViewDTO userViewDTO = userService.updateUserProfile(userView);
+		if(userViewDTO != null) {
+			return ResponseEntity.ok("Verify success!");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verify failed!");
+	}
 	@PostMapping(value = "/bike")
 	public ResponseEntity<BikeRegisterDTO> registerBike(BikeRegisterDTO registerBike) {
 		registerBike = bikeService.registerBike(registerBike);
