@@ -74,7 +74,7 @@ public class AdminController {
 			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-			String tmpResult = ticketService.getListTicketInDateRange(year, month, pageSize, bookmark);
+			String tmpResult = ticketService.getListTicketInMonth(year, month, pageSize, bookmark);
 			if (!tmpResult.isEmpty()) {
 				result = tmpResult;
 			}

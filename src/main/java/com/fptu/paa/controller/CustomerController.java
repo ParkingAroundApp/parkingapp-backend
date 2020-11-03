@@ -96,21 +96,6 @@ public class CustomerController {
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "/ticket")
-	public ResponseEntity<String> getTicketList(@RequestParam String userId, @RequestParam String month,
-			@RequestParam String year) {
-		String result = "No available ticket!";
-		try {
-			String tmp = ticketService.getListTicketByCustomerID(userId, year, month);
-			if (!tmp.isEmpty()) {
-				result = tmp;
-			}
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
-		}
-		return ResponseEntity.ok(result);
-	}
-
 	@GetMapping(value = "/ticket/detail")
 	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
 		String result = "No available ticket!";

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +41,21 @@ public class TicketController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			System.out.println("getAllTicket: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping(value = "/month")
+	public ResponseEntity<String> getTicketInMonth(@RequestParam String userId, @RequestParam String month,
+			@RequestParam String year) {
+		String result = "No available ticket!";
+		try {
+			String tmp = ticketService.getListTicketByCustomerID(userId, year, month);
+			if (!tmp.isEmpty()) {
+				result = tmp;
+			}
+		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
@@ -58,7 +73,35 @@ public class TicketController {
 			}
 		} catch (Exception e) {
 			System.out.println("getCheckOutTicket: " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+		return ResponseEntity.ok(result);
+	}
+
+	@PostMapping("/report")
+	public ResponseEntity<String> reportTicket(@RequestParam String checkInTime, String key) {
+		String result = "No available ticket!";
+		try {
+			String tmpResult = ticketService.reportTicket(checkInTime, key);
+			if (!tmpResult.isEmpty()) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+		return ResponseEntity.ok(result);
+	}
+	
+	@GetMapping("/history")
+	public ResponseEntity<String> getTicketHistory(@RequestParam String checkInTime, String key) {
+		String result = "No available ticket!";
+		try {
+			String tmpResult = ticketService.getTicketHistory(checkInTime, key);
+			if (!tmpResult.isEmpty()) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
 	}
