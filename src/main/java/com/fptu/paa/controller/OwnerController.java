@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.NFCStatus;
+import com.fptu.paa.constant.PaymentType;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.CheckInRequest;
 import com.fptu.paa.dto.CheckOutRequest;
@@ -86,10 +87,12 @@ public class OwnerController {
 			String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(), ticket.getCheckOutTime(),
 					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType());
 			if (result != null && !result.isEmpty()) {
-				// Payment
-				String price = "3000";
-				Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
-				userService.ticketPaymnet(price, userID);
+				// Make wallet payment
+				if (ticket.getPaymentType().equals(PaymentType.WALLET.name())) {
+					String price = "3000";
+					Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
+					userService.ticketPaymnet(price, userID);
+				}
 				// Change bike status
 				bikeService.changeBikeStatus(Long.parseLong(ticket.getId()), BikeStatus.FINISH);
 				return ResponseEntity.ok(result);
