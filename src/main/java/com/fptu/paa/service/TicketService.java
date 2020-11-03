@@ -21,7 +21,7 @@ public interface TicketService {
 	public String getTicketByOnwerIdAndDate(String ownerID, String date, String pageSize, String bookmark,
 			boolean isCheckIn) throws Exception;
 
-	public String getListTicketInDateRange(String year, String month, String pageSize, String bookmark)
+	public String getListTicketInMonth(String year, String month, String pageSize, String bookmark)
 			throws Exception;
 
 	public String getAllTicket(String pageSize, String bookmark) throws Exception;
@@ -34,4 +34,6 @@ public interface TicketService {
 	public String getListNFCTicket(String NFCSerial, String bookmark) throws Exception;
 
 	public String getTicketHistory(String checkInTime, String id) throws Exception;
+	
+	public String reportTicket(String checkInTime, String key) throws Exception;
 }
