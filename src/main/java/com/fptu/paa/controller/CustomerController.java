@@ -19,7 +19,6 @@ import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
 import com.fptu.paa.dto.UserViewDTO;
-import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.TicketService;
 import com.fptu.paa.service.UserService;
