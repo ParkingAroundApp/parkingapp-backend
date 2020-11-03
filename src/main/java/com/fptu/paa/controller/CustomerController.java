@@ -62,18 +62,16 @@ public class CustomerController {
 		return new ResponseEntity<BikeRegisterDTO>(registerBike, HttpStatus.OK);
 	}
 
-
-
 	@DeleteMapping(value = "/bike")
 	public ResponseEntity<String> deleteBike(@RequestParam Long bikeId) {
 		bikeService.deleteBike(bikeId);
 		return ResponseEntity.ok("Success");
 	}
-	
+
 	@GetMapping("")
 	public ResponseEntity<UserViewDTO> getUserDetail() {
 		UserViewDTO userViewDTO = userService.getCurrentUser();
-		if(userViewDTO != null) {
+		if (userViewDTO != null) {
 			return new ResponseEntity<UserViewDTO>(userViewDTO, HttpStatus.OK);
 		}
 		return new ResponseEntity<UserViewDTO>(HttpStatus.BAD_REQUEST);
@@ -90,10 +88,11 @@ public class CustomerController {
 	}
 
 	@GetMapping(value = "/ticket")
-	public ResponseEntity<String> getTicketList(@RequestParam String userId) {
+	public ResponseEntity<String> getTicketList(@RequestParam String userId, @RequestParam String month,
+			@RequestParam String year) {
 		String result = "No available ticket!";
 		try {
-			String tmp = ticketService.getListTicketByCustomerID(userId);
+			String tmp = ticketService.getListTicketByCustomerID(userId, year, month);
 			if (!tmp.isEmpty()) {
 				result = tmp;
 			}
@@ -103,7 +102,6 @@ public class CustomerController {
 		return ResponseEntity.ok(result);
 	}
 
-	
 	@GetMapping(value = "/ticket/detail")
 	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
 		String result = "No available ticket!";

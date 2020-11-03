@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.dto.RequestMetaData;
 import com.fptu.paa.service.TicketService;
 
 @RestController
@@ -17,23 +19,23 @@ public class TicketController {
 	TicketService ticketService;
 
 	@GetMapping("")
-	public ResponseEntity<String> getListById(@RequestParam(required = true) String id,
+	public ResponseEntity<String> getListById(@RequestParam(required = true) String id, @RequestParam String bookmark,
 			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
 		String result = "";
 		try {
-			result = isNFC ? ticketService.getListNFCTicket(id) : ticketService.getListBikeTicket(id);
+			result = isNFC ? ticketService.getListNFCTicket(id, bookmark)
+					: ticketService.getListBikeTicket(id, bookmark);
 		} catch (Exception e) {
-			System.out.println("getCheckOutTicket: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<String> getAllTicket() {
+	public ResponseEntity<String> getAllTicket(@RequestBody RequestMetaData metaData) {
 		String result = "";
 		try {
-			String tmpResult = ticketService.getAllTicket();
+			String tmpResult = ticketService.getAllTicket(metaData.getPageSize(), metaData.getBookmark());
 			if (!tmpResult.isEmpty()) {
 				result = tmpResult;
 			}
