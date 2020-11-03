@@ -31,7 +31,7 @@ public class FabricGatewaySingleton {
 			// create a gateway connection
 			Gateway gateway = builder.connect();
 			Network network = gateway.getNetwork("mychannel");
-			contract = network.getContract("mycc");
+			contract = network.getContract("parkingcc");
 		} catch (IOException e) {
 			log.info("FabricGatewaySingleton " + e.getMessage());
 

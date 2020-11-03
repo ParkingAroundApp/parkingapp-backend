@@ -55,7 +55,7 @@ public class TicketServiceImpl implements TicketService {
 	public String getCheckOutTicketByNFC(String NFCSerial) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("getCheckoutTicket", "", NFCSerial);
+		result = contract.evaluateTransaction("getCheckoutTicket", "null", NFCSerial);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -143,11 +143,10 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListTicketInDateRange(String year, String month, String pageSize, String bookmark)
-			throws Exception {
+	public String getListTicketInMonth(String year, String month, String pageSize, String bookmark) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("queryTicketByDate", year, month, pageSize, bookmark);
+		result = contract.evaluateTransaction("queryTicketInMonth", year, month, pageSize, bookmark);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -188,7 +187,17 @@ public class TicketServiceImpl implements TicketService {
 		if (result.length > 0) {
 			return new String(result);
 		}
+		return null;
+	}
 
+	@Override
+	public String reportTicket(String checkInTime, String key) throws Exception {
+		Contract contract = FabricGatewaySingleton.getInstance().contract;
+		byte[] result;
+		result = contract.submitTransaction("reportTicket", checkInTime, key);
+		if (result.length > 0) {
+			return new String(result);
+		}
 		return null;
 	}
 
