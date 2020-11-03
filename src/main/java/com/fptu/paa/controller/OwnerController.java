@@ -3,6 +3,7 @@ package com.fptu.paa.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +21,7 @@ import com.fptu.paa.entity.Ticket;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.NFCService;
 import com.fptu.paa.service.TicketService;
+import com.fptu.paa.service.UserService;
 import com.owlike.genson.Genson;
 
 import io.swagger.annotations.Api;
@@ -34,6 +36,8 @@ public class OwnerController {
 	@Autowired
 	TicketService ticketService;
 	@Autowired
+	UserService userService;
+	@Autowired
 	NFCService nfcService;
 
 	@PostMapping("/createTicket")
@@ -44,15 +48,16 @@ public class OwnerController {
 			if (!isNFC) {
 				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 				if (bike != null) {
-					result = ticketService.checkInByBikeID(ticket.getId(), ticket.getOwnerCheckInID(),
-							bike.getUserViewDTO().getId().toString(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
-							ticket.getCheckInFaceImage());
+					result = ticketService.checkInByBikeID(ticket.getLicensePlate(), ticket.getId(),
+							ticket.getOwnerCheckInID(), bike.getUserViewDTO().getId().toString(),
+							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
 				}
 			} else {
 				NFC nfc = nfcService.getNFCBySerial(ticket.getId());
 				if (nfc != null) {
-					result = ticketService.checkInByNFCID(ticket.getId(), ticket.getOwnerCheckInID(),
-							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
+					result = ticketService.checkInByNFCID(ticket.getLicensePlate(), ticket.getId(),
+							ticket.getOwnerCheckInID(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
+							ticket.getCheckInFaceImage());
 				}
 			}
 			if (result != null && !result.isEmpty()) {
@@ -81,6 +86,11 @@ public class OwnerController {
 			String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(), ticket.getCheckOutTime(),
 					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType());
 			if (result != null && !result.isEmpty()) {
+				// Payment
+				String price = "3000";
+				Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
+				userService.ticketPaymnet(price, userID);
+				// Change bike status
 				bikeService.changeBikeStatus(Long.parseLong(ticket.getId()), BikeStatus.FINISH);
 				return ResponseEntity.ok(result);
 			}
@@ -112,12 +122,12 @@ public class OwnerController {
 			if (state != null && !state.isEmpty()) {
 				Genson genson = new Genson();
 				Ticket nfcTicket = genson.deserialize(state, Ticket.class);
-				//Call service
+				// Call service
 				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getNfcNumber();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(),
 						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
 						ticket.getPaymentType());
-				//If success respond 200
+				// If success respond 200
 				if (result != null && !result.isEmpty()) {
 					nfcService.changeNFCStatus(ticket.getId(), NFCStatus.FINISH);
 					return ResponseEntity.ok(result);
@@ -126,6 +136,23 @@ public class OwnerController {
 
 		} catch (Exception e) {
 			System.out.println("checkoutNfcTicket: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
+	}
+
+	@GetMapping("/ticket")
+	public ResponseEntity<String> getTicketByOwnerID(@RequestParam String ownerID, @RequestParam String date,
+			@RequestParam String pageSize, @RequestParam String bookmark,
+			@RequestParam(defaultValue = "true") boolean isCheckIn) {
+		try {
+			String result = ticketService.getTicketByOnwerIdAndDate(ownerID, date, pageSize, bookmark, isCheckIn);
+			// If success respond 200
+			if (result != null && !result.isEmpty()) {
+				return ResponseEntity.ok(result);
+			}
+		} catch (Exception e) {
+			System.out.println("getTicketByOwnerID: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
