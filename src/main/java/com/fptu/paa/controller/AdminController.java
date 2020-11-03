@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.dto.BikeViewDTO;
+import com.fptu.paa.dto.RequestMetaData;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.service.BikeService;
+import com.fptu.paa.service.TicketService;
 import com.fptu.paa.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -27,6 +30,8 @@ import io.swagger.annotations.Api;
 public class AdminController {
 	@Autowired
 	BikeService bikeService;
+	@Autowired
+	TicketService ticketService;
 	@Autowired
 	UserService userService;
 	
@@ -65,5 +70,21 @@ public class AdminController {
 			return new ResponseEntity<List<UserViewDTO>>(userList, HttpStatus.OK);
 		}
 		return new ResponseEntity<List<UserViewDTO>>(HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@GetMapping("/ticket")
+	public ResponseEntity<String> getListTicketInDateRange(@RequestParam String year, @RequestParam String month, @RequestBody RequestMetaData metaData) {
+		String result = "";
+		try {
+			String tmpResult = ticketService.getListTicketInDateRange(year, month, metaData.getPageSize(), metaData.getBookmark());
+			if (!tmpResult.isEmpty()) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			System.out.println("getAllTicket: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
 	}
 }

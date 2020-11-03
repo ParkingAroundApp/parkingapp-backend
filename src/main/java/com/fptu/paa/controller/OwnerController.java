@@ -17,6 +17,7 @@ import com.fptu.paa.constant.PaymentType;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.CheckInRequest;
 import com.fptu.paa.dto.CheckOutRequest;
+import com.fptu.paa.dto.RequestMetaData;
 import com.fptu.paa.entity.NFC;
 import com.fptu.paa.entity.Ticket;
 import com.fptu.paa.service.BikeService;
@@ -146,10 +147,10 @@ public class OwnerController {
 
 	@GetMapping("/ticket")
 	public ResponseEntity<String> getTicketByOwnerID(@RequestParam String ownerID, @RequestParam String date,
-			@RequestParam String pageSize, @RequestParam String bookmark,
-			@RequestParam(defaultValue = "true") boolean isCheckIn) {
+			@RequestBody RequestMetaData metaData, @RequestParam(defaultValue = "true") boolean isCheckIn) {
 		try {
-			String result = ticketService.getTicketByOnwerIdAndDate(ownerID, date, pageSize, bookmark, isCheckIn);
+			String result = ticketService.getTicketByOnwerIdAndDate(ownerID, date, metaData.getPageSize(),
+					metaData.getBookmark(), isCheckIn);
 			// If success respond 200
 			if (result != null && !result.isEmpty()) {
 				return ResponseEntity.ok(result);
