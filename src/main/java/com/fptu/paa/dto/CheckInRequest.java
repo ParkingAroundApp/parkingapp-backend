@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 public class CheckInRequest {
 	private String id;
+	private String licensePlate;
 	private String ownerCheckInID;
 	private String checkInTime;
 	private String checkInBikeImage;

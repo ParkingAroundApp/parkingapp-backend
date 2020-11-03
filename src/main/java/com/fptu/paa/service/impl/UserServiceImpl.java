@@ -188,7 +188,16 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
-
-
-
+  
+  @Override
+	public boolean ticketPaymnet(String price, Long userID) {
+		User user = userRepository.getOne(userID);
+		//Begin payment
+		BigDecimal oldBalance = user.getBalance();
+		BigDecimal newBalance = oldBalance.subtract(new BigDecimal("price"));
+		user.setBalance(newBalance);
+		//Save
+		userRepository.save(user);
+		return false;
+	}
 }

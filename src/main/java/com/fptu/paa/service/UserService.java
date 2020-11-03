@@ -27,6 +27,8 @@ public interface UserService {
 	boolean disableAccount(Long userID);
 
 	UserViewDTO getCurrentUser();
+	
+	boolean ticketPaymnet(String price, Long userID);
 
 	List<UserViewDTO> getUsersByRole(RoleName roleName);
 }
