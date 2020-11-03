@@ -1,5 +1,6 @@
 package com.fptu.paa.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
 import com.fptu.paa.dto.UserViewDTO;
+import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.TicketService;
 import com.fptu.paa.service.UserService;
@@ -55,6 +57,14 @@ public class CustomerController {
 			return ResponseEntity.ok("Verify success!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verify failed!");
+	}
+	@PutMapping(value = "/user/recharge")
+	public ResponseEntity<String> rechargeBalance(Long userId, BigDecimal balance) {
+		boolean recharge =  userService.rechargeBalance(userId, balance);
+		if(recharge) {
+			return ResponseEntity.ok("Recharge success!");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Recharge failed!");
 	}
 	@PostMapping(value = "/bike")
 	public ResponseEntity<BikeRegisterDTO> registerBike(BikeRegisterDTO registerBike) {

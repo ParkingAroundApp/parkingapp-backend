@@ -176,6 +176,19 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
+	@Override
+	public boolean rechargeBalance(Long userId, BigDecimal balance) {
+		if(userId !=null) {
+			User user = userRepository.findUserById(userId);
+			if (user!=null) {
+				BigDecimal newBalance = user.getBalance().add(balance);
+				user.setBalance(newBalance);
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 
 }

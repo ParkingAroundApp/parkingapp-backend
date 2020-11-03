@@ -6,6 +6,8 @@ public class BikeRegisterDTO {
 	private String chassisNum;
 	private String color;
 	private Long model_id;
+	private String afterCertificateImage;
+	private String frontCertificateImage;
 	public String getOwnerName() {
 		return ownerName;
 	}
@@ -35,5 +37,17 @@ public class BikeRegisterDTO {
 	}
 	public void setChassisNum(String chassisNum) {
 		this.chassisNum = chassisNum;
+	}
+	public String getAfterCertificateImage() {
+		return afterCertificateImage;
+	}
+	public void setAfterCertificateImage(String afterCertificateImage) {
+		this.afterCertificateImage = afterCertificateImage;
+	}
+	public String getFrontCertificateImage() {
+		return frontCertificateImage;
+	}
+	public void setFrontCertificateImage(String frontCertificateImage) {
+		this.frontCertificateImage = frontCertificateImage;
 	}
 }
