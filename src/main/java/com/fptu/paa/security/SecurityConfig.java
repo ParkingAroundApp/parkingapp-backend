@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()//
-				.antMatchers("/auth/**","/customer/login").permitAll()//
+				.antMatchers("/auth/**","/customer/login","/amazon/s3/images/**").permitAll()//
 				.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
