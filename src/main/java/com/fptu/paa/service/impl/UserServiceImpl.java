@@ -2,11 +2,13 @@ package com.fptu.paa.service.impl;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +24,6 @@ import com.fptu.paa.dto.UserDTO;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Role;
 import com.fptu.paa.entity.User;
-import com.fptu.paa.entity.Wallet;
 import com.fptu.paa.repository.RoleRepository;
 import com.fptu.paa.repository.UserRepository;
 import com.fptu.paa.security.MyUserDetail;
@@ -73,11 +74,6 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	@Override
-	public UserDTO updateUserProfile(UserDTO userDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public boolean disableAccount(Long userID) {
@@ -120,11 +116,7 @@ public class UserServiceImpl implements UserService {
 			User tempUser = new User();
 			tempUser.setEmail(email);
 			tempUser.setPassword(passwordEncoder.encode(tokenGmail));
-			// Create wallet and set default balance
-			Wallet wallet  = new Wallet();
-			wallet.setBalance(new BigDecimal(300000));
-			wallet.setUser(tempUser);
-			tempUser.setWallet(wallet);
+			tempUser.setBalance(new BigDecimal("300000"));
 			// Set role
 			Set<Role> roles = new HashSet<Role>();
 			roles.add(roleRepository.findByName(RoleName.ROLE_CUSTOMER));
@@ -151,5 +143,39 @@ public class UserServiceImpl implements UserService {
 		String jwt = jwtProvider.generateToken((MyUserDetail) authentication.getPrincipal());
 		return jwt;
 	}
+
+	@Override
+	public List<UserViewDTO> getUsersByRole(RoleName roleName) {
+		Set<Role> roles = new HashSet<Role>();
+		List<UserViewDTO> userList= null;
+		roles.add(roleRepository.findByName(roleName));
+		List<User> users = userRepository.findByRoles(roleRepository.findByName(roleName));
+		if (users != null) {
+			java.lang.reflect.Type targetListType = new TypeToken<List<UserViewDTO>>() {
+			}.getType();
+			userList = modelMapper.map(users, targetListType);
+			return userList;
+		}
+		return null;
+	}
+
+	@Override
+	public UserViewDTO updateUserProfile(UserViewDTO userViewDTO) {
+		if(userViewDTO!= null) {
+			User user = userRepository.findUserById(userViewDTO.getId());
+			if (user!=null) {
+				user.setAddress(userViewDTO.getAddress());
+				user.setBirthday(userViewDTO.getBirthday());
+				user.setGender(userViewDTO.getGender());
+				user.setPhone(userViewDTO.getPhone());
+				UserViewDTO userView = modelMapper.map(user, UserViewDTO.class);
+				return userView;
+			}
+		}
+		
+		return null;
+	}
+
+
 
 }

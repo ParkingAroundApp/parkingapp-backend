@@ -45,7 +45,7 @@ public class OwnerController {
 				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 				if (bike != null) {
 					result = ticketService.checkInByBikeID(ticket.getId(), ticket.getOwnerCheckInID(),
-							bike.getUser_id().toString(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
+							bike.getUserViewDTO().getId().toString(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
 							ticket.getCheckInFaceImage());
 				}
 			} else {
@@ -112,10 +112,12 @@ public class OwnerController {
 			if (state != null && !state.isEmpty()) {
 				Genson genson = new Genson();
 				Ticket nfcTicket = genson.deserialize(state, Ticket.class);
+				//Call service
 				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getNfcNumber();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(),
 						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
 						ticket.getPaymentType());
+				//If success respond 200
 				if (result != null && !result.isEmpty()) {
 					nfcService.changeNFCStatus(ticket.getId(), NFCStatus.FINISH);
 					return ResponseEntity.ok(result);
