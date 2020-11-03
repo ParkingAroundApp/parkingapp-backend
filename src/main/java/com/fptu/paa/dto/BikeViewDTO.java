@@ -13,6 +13,8 @@ public class BikeViewDTO {
 	private BikeStatus status;
 	private UserViewDTO userViewDTO;
 	private Model model;
+	private String afterCertificateImage;
+	private String frontCertificateImage;
 	
 	public Long getId() {
 		return id;
@@ -61,6 +63,18 @@ public class BikeViewDTO {
 	}
 	public void setUserViewDTO(UserViewDTO userViewDTO) {
 		this.userViewDTO = userViewDTO;
+	}
+	public String getAfterCertificateImage() {
+		return afterCertificateImage;
+	}
+	public void setAfterCertificateImage(String afterCertificateImage) {
+		this.afterCertificateImage = afterCertificateImage;
+	}
+	public String getFrontCertificateImage() {
+		return frontCertificateImage;
+	}
+	public void setFrontCertificateImage(String frontCertificateImage) {
+		this.frontCertificateImage = frontCertificateImage;
 	}
 	
 	

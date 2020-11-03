@@ -56,10 +56,11 @@ public class BikeServiceImpl implements BikeService {
 				bike.setUser(user);
 				bike.setModel(model);
 				bike.setStatus(BikeStatus.PENDING);
+				bike.setEnabled(true);
 				bike = bikeRepository.save(bike);
 			}
 		} catch (Exception e) {
-			log.debug("registerBike " + e.getMessage());
+//			log.debug("registerBike " + e.getMessage());
 		}
 		return bikeRegister;
 	}

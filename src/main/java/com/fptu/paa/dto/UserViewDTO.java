@@ -1,5 +1,7 @@
 package com.fptu.paa.dto;
 
+import java.math.BigDecimal;
+
 public class UserViewDTO {
 	private Long id;
 	private String username;
@@ -8,6 +10,7 @@ public class UserViewDTO {
 	private String birthday;
 	private String address;
 	private String gender;
+	private BigDecimal balance;
 	public String getUsername() {
 		return username;
 	}
@@ -49,6 +52,12 @@ public class UserViewDTO {
 	}
 	public void setGender(String gender) {
 		this.gender = gender;
+	}
+	public BigDecimal getBalance() {
+		return balance;
+	}
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
 	}
 
 	

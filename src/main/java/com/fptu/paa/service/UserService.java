@@ -1,5 +1,6 @@
 package com.fptu.paa.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -20,6 +21,8 @@ public interface UserService {
 	UserDTO getUserDetail(Long idUser);
 
 	UserViewDTO updateUserProfile(UserViewDTO userViewDTO);
+
+	boolean rechargeBalance(Long userId, BigDecimal balance);
 
 	boolean disableAccount(Long userID);
 

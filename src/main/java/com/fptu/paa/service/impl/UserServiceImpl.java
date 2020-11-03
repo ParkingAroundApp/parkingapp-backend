@@ -177,6 +177,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public boolean rechargeBalance(Long userId, BigDecimal balance) {
+		if(userId !=null) {
+			User user = userRepository.findUserById(userId);
+			if (user!=null) {
+				BigDecimal newBalance = user.getBalance().add(balance);
+				user.setBalance(newBalance);
+				return true;
+			}
+		}
+		return false;
+	}
+  
+  @Override
 	public boolean ticketPaymnet(String price, Long userID) {
 		User user = userRepository.getOne(userID);
 		//Begin payment
@@ -187,7 +200,4 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return false;
 	}
-
-
-
 }
