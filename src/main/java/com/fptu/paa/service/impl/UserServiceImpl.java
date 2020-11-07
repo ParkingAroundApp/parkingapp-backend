@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	
 
 	ModelMapper modelMapper = new ModelMapper();
 

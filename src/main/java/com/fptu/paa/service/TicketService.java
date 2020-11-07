@@ -8,7 +8,7 @@ public interface TicketService {
 			String checkInTime, String checkInBikeImage, String checkInFaceImage) throws Exception;
 
 	public String checkOutByID(String ticketKey, String ownerCheckOutId, String checkOutTime, String checkOutBikeImage,
-			String checkOutFaceImage, String paymentType) throws Exception;
+			String checkOutFaceImage, String paymentType, String price, String userID) throws Exception;
 
 	public String getCheckOutTicketByBikeID(String bikeID) throws Exception;
 
@@ -21,8 +21,7 @@ public interface TicketService {
 	public String getTicketByOnwerIdAndDate(String ownerID, String date, String pageSize, String bookmark,
 			boolean isCheckIn) throws Exception;
 
-	public String getListTicketInMonth(String year, String month, String pageSize, String bookmark)
-			throws Exception;
+	public String getListTicketInMonth(String year, String month, String pageSize, String bookmark) throws Exception;
 
 	public String getAllTicket(String pageSize, String bookmark) throws Exception;
 
@@ -34,6 +33,6 @@ public interface TicketService {
 	public String getListNFCTicket(String NFCSerial, String bookmark) throws Exception;
 
 	public String getTicketHistory(String checkInTime, String id) throws Exception;
-	
+
 	public String reportTicket(String checkInTime, String key) throws Exception;
 }
