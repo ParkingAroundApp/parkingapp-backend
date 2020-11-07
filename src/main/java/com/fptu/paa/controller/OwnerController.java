@@ -83,14 +83,17 @@ public class OwnerController {
 	@PostMapping("/bike/checkout")
 	public ResponseEntity<String> checkoutBikeTicket(@RequestBody CheckOutRequest ticket) {
 		try {
+			String price = "3000";
+
+			Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
 			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + ticket.getId();
 			String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(), ticket.getCheckOutTime(),
-					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType());
+					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType(), price,
+					String.valueOf(userID));
+
 			if (result != null && !result.isEmpty()) {
 				// Make wallet payment
 				if (ticket.getPaymentType().equals(PaymentType.WALLET.name())) {
-					String price = "3000";
-					Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
 					userService.ticketPaymnet(price, userID);
 				}
 				// Change bike status
@@ -125,11 +128,12 @@ public class OwnerController {
 			if (state != null && !state.isEmpty()) {
 				Genson genson = new Genson();
 				Ticket nfcTicket = genson.deserialize(state, Ticket.class);
+				String price = "3000";
 				// Call service
 				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getNfcNumber();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(),
 						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
-						ticket.getPaymentType());
+						ticket.getPaymentType(), price, "");
 				// If success respond 200
 				if (result != null && !result.isEmpty()) {
 					nfcService.changeNFCStatus(ticket.getId(), NFCStatus.FINISH);

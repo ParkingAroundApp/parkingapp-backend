@@ -18,9 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
+import com.fptu.paa.dto.RechargeRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.TicketService;
+import com.fptu.paa.service.TransactionService;
 import com.fptu.paa.service.UserService;
 
 import io.swagger.annotations.Api;
@@ -35,6 +37,8 @@ public class CustomerController {
 	TicketService ticketService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	TransactionService transactionService;
 
 	@PostMapping("/login")
 	public ResponseEntity<String> loginViaGmail(@RequestBody LoginRequest loginRequest) {
@@ -49,22 +53,31 @@ public class CustomerController {
 		}
 		return ResponseEntity.ok(jwt);
 	}
-	@PutMapping(value = "/user/update")
+
+	@PutMapping(value = "/update")
 	public ResponseEntity<String> updateUser(@RequestBody UserViewDTO userView) {
 		UserViewDTO userViewDTO = userService.updateUserProfile(userView);
-		if(userViewDTO != null) {
+		if (userViewDTO != null) {
 			return ResponseEntity.ok("Verify success!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Verify failed!");
 	}
-	@PutMapping(value = "/user/recharge")
-	public ResponseEntity<String> rechargeBalance(Long userId, BigDecimal balance) {
-		boolean recharge =  userService.rechargeBalance(userId, balance);
-		if(recharge) {
-			return ResponseEntity.ok("Recharge success!");
+
+	@PostMapping(value = "/recharge")
+	public ResponseEntity<String> rechargeBalance(@RequestBody RechargeRequest rechargeRequest) {
+		try {
+			transactionService.saveTopUpTransaction(rechargeRequest.getUserID(), rechargeRequest.getAmount(), rechargeRequest.getDescription(),
+					rechargeRequest.getCreateTime());
+			boolean recharge = userService.rechargeBalance(Long.valueOf(rechargeRequest.getUserID()), new BigDecimal(rechargeRequest.getAmount()));
+			if (recharge) {
+				return ResponseEntity.ok("Recharge success!");
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Recharge failed!");
 	}
+
 	@PostMapping(value = "/bike")
 	public ResponseEntity<BikeRegisterDTO> registerBike(BikeRegisterDTO registerBike) {
 		registerBike = bikeService.registerBike(registerBike);

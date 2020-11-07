@@ -29,11 +29,11 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public String checkOutByID(String ticketKey, String ownerCheckOutId, String checkOutTime, String checkOutBikeImage,
-			String checkOutFaceImage, String paymentType) throws Exception {
+			String checkOutFaceImage, String paymentType, String price, String userID) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("checkOut", ticketKey, ownerCheckOutId, checkOutTime, checkOutBikeImage,
-				checkOutFaceImage, paymentType);
+				checkOutFaceImage, paymentType, price, userID);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -124,7 +124,7 @@ public class TicketServiceImpl implements TicketService {
 	public String getListTicketByCustomerID(String customerID, String year, String month) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("queryTicketByCustomer", customerID, year, month);
+		result = contract.evaluateTransaction("queryTicketByUserID", customerID, year, month);
 		if (result.length > 0) {
 			return new String(result);
 		}
