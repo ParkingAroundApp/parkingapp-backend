@@ -22,7 +22,10 @@ public class TransactionController {
 			@RequestParam String month) {
 		String result = "";
 		try {
-			result = transcationService.getTransactionByUserIdInMonth(userID, year, month);
+			String tmpResult = transcationService.getTransactionByUserIdInMonth(userID, year, month);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
@@ -31,10 +34,13 @@ public class TransactionController {
 
 	@GetMapping("/byUserID/{userID}")
 	public ResponseEntity<String> getListByUserId(@PathVariable String userID, @RequestParam String pageSize,
-			@RequestParam String bookmark) {
+			@RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-			result = transcationService.getTransactionByUserId(userID, pageSize, bookmark);
+			String tmpResult = transcationService.getTransactionByUserId(userID, pageSize, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
@@ -43,10 +49,13 @@ public class TransactionController {
 
 	@GetMapping("/payment")
 	public ResponseEntity<String> getPayment(@RequestParam(defaultValue = "false") boolean isNFC,
-			@RequestParam String pageSize, @RequestParam String bookmark) {
+			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-			result = transcationService.getAllPayemntTransactionByType(isNFC, pageSize, bookmark);
+			String tmpResult = transcationService.getAllPayemntTransactionByType(isNFC, pageSize, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
@@ -54,21 +63,28 @@ public class TransactionController {
 	}
 
 	@GetMapping("/recharge")
-	public ResponseEntity<String> getRecharge(@RequestParam String pageSize, @RequestParam String bookmark) {
+	public ResponseEntity<String> getRecharge(@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-			result = transcationService.getAllTopUpTransaction(pageSize, bookmark);
+			String tmpResult = transcationService.getAllTopUpTransaction(pageSize, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
 	}
-	
+
 	@GetMapping("/byNFC/{nfcSerial}")
-	public ResponseEntity<String> getByNFCSerial(@PathVariable String nfcSerial,@RequestParam String pageSize, @RequestParam String bookmark) {
+	public ResponseEntity<String> getByNFCSerial(@PathVariable String nfcSerial, @RequestParam String pageSize,
+			@RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-
+			String tmpResult = transcationService.getNFCTransactionBySerial(nfcSerial, pageSize, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}

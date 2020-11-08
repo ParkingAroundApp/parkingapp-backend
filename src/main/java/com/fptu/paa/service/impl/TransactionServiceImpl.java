@@ -18,7 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
 			throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("rechargeAccount", userID, amount, description, createTime);
+		result = contract.submitTransaction("rechargeAccount", userID, amount, description, createTime);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -29,7 +29,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public String getTransactionByUserIdInMonth(String userID, String year, String month) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("queryTransactionByUserID", userID, month, year);
+		result = contract.evaluateTransaction("queryTransactionByUserID", userID, year, month);
 		if (result.length > 0) {
 			return new String(result);
 		}

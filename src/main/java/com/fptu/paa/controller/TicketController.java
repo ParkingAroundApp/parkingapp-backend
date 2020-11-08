@@ -5,10 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.dto.ReportRequest;
 import com.fptu.paa.service.TicketService;
 
 @RestController
@@ -79,10 +81,12 @@ public class TicketController {
 	}
 
 	@PostMapping("/report")
-	public ResponseEntity<String> reportTicket(@RequestParam String checkInTime, String key) {
+	public ResponseEntity<String> reportTicket(@RequestBody ReportRequest reportRequest) {
 		String result = "No available ticket!";
 		try {
-			String tmpResult = ticketService.reportTicket(checkInTime, key);
+			String tmpResult = ticketService.reportTicket(reportRequest.getCheckInTime(), reportRequest.getId(),
+					reportRequest.getOwnerCheckOutID(), reportRequest.getReportTime(),
+					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage());
 			if (!tmpResult.isEmpty()) {
 				result = tmpResult;
 			}
@@ -91,7 +95,7 @@ public class TicketController {
 		}
 		return ResponseEntity.ok(result);
 	}
-	
+
 	@GetMapping("/history")
 	public ResponseEntity<String> getTicketHistory(@RequestParam String checkInTime, String key) {
 		String result = "No available ticket!";

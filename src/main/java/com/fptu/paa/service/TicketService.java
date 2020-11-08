@@ -34,5 +34,6 @@ public interface TicketService {
 
 	public String getTicketHistory(String checkInTime, String id) throws Exception;
 
-	public String reportTicket(String checkInTime, String key) throws Exception;
+	public String reportTicket(String checkInTime, String id, String ownerCheckoutId, String reportTime,
+			String bikeImage, String faceImage) throws Exception;
 }

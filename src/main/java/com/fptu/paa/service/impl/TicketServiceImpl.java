@@ -191,10 +191,12 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String reportTicket(String checkInTime, String key) throws Exception {
+	public String reportTicket(String checkInTime, String id, String ownerCheckoutId, String reportTime,
+			String bikeImage, String faceImage) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.submitTransaction("reportTicket", checkInTime, key);
+		result = contract.submitTransaction("reportTicket", checkInTime, id, ownerCheckoutId, reportTime, bikeImage,
+				faceImage);
 		if (result.length > 0) {
 			return new String(result);
 		}
