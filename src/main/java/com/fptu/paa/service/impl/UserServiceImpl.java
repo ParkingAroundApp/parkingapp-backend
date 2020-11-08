@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
+	
 
 	ModelMapper modelMapper = new ModelMapper();
 
@@ -194,7 +195,7 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.getOne(userID);
 		//Begin payment
 		BigDecimal oldBalance = user.getBalance();
-		BigDecimal newBalance = oldBalance.subtract(new BigDecimal("price"));
+		BigDecimal newBalance = oldBalance.subtract(new BigDecimal(price));
 		user.setBalance(newBalance);
 		//Save
 		userRepository.save(user);
