@@ -25,8 +25,11 @@ public class TicketController {
 			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
 		String result = "";
 		try {
-			result = isNFC ? ticketService.getListNFCTicket(id, bookmark)
+			String tmpResult = isNFC ? ticketService.getListNFCTicket(id, bookmark)
 					: ticketService.getListBikeTicket(id, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
@@ -39,7 +42,7 @@ public class TicketController {
 		String result = "";
 		try {
 			String tmpResult = ticketService.getAllTicket(pageSize, bookmark);
-			if (!tmpResult.isEmpty()) {
+			if (tmpResult != null) {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
@@ -54,7 +57,7 @@ public class TicketController {
 		String result = "No available ticket!";
 		try {
 			String tmp = ticketService.getListTicketByCustomerID(userId, year, month);
-			if (!tmp.isEmpty()) {
+			if (tmp != null) {
 				result = tmp;
 			}
 		} catch (Exception e) {
@@ -70,7 +73,7 @@ public class TicketController {
 		try {
 			String tmpResult = isNFC ? ticketService.getCheckOutTicketByNFC(id)
 					: ticketService.getCheckOutTicketByBikeID(id);
-			if (!tmpResult.isEmpty()) {
+			if (tmpResult != null) {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
@@ -87,7 +90,7 @@ public class TicketController {
 			String tmpResult = ticketService.reportTicket(reportRequest.getCheckInTime(), reportRequest.getId(),
 					reportRequest.getOwnerCheckOutID(), reportRequest.getReportTime(),
 					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage());
-			if (!tmpResult.isEmpty()) {
+			if (tmpResult != null) {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
@@ -101,7 +104,7 @@ public class TicketController {
 		String result = "No available ticket!";
 		try {
 			String tmpResult = ticketService.getTicketHistory(checkInTime, key);
-			if (!tmpResult.isEmpty()) {
+			if (tmpResult != null) {
 				result = tmpResult;
 			}
 		} catch (Exception e) {

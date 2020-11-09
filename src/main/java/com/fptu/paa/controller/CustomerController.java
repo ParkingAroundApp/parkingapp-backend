@@ -66,9 +66,10 @@ public class CustomerController {
 	@PostMapping(value = "/recharge")
 	public ResponseEntity<String> rechargeBalance(@RequestBody RechargeRequest rechargeRequest) {
 		try {
-			transactionService.saveTopUpTransaction(rechargeRequest.getUserID(), rechargeRequest.getAmount(), rechargeRequest.getDescription(),
-					rechargeRequest.getCreateTime());
-			boolean recharge = userService.rechargeBalance(Long.valueOf(rechargeRequest.getUserID()), new BigDecimal(rechargeRequest.getAmount()));
+			transactionService.saveTopUpTransaction(rechargeRequest.getUserID(), rechargeRequest.getAmount(),
+					rechargeRequest.getDescription(), rechargeRequest.getCreateTime());
+			boolean recharge = userService.rechargeBalance(Long.valueOf(rechargeRequest.getUserID()),
+					new BigDecimal(rechargeRequest.getAmount()));
 			if (recharge) {
 				return ResponseEntity.ok("Recharge success!");
 			}
@@ -115,7 +116,7 @@ public class CustomerController {
 		try {
 			String ticketKey = "TICKET" + "_" + checkInTime + "_" + bikeID;
 			String tmp = ticketService.getTicketDetail(ticketKey);
-			if (!tmp.isEmpty()) {
+			if (tmp != null) {
 				result = tmp;
 			}
 		} catch (Exception e) {
