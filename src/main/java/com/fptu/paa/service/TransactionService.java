@@ -16,5 +16,7 @@ public interface TransactionService {
 	public String getAllPayemntTransactionByType(boolean isNFC, String pageSize, String bookmark) throws Exception;
 
 	public String getAllTopUpTransaction(String pageSize, String bookmark) throws Exception;
+	
+	public String getTransactionDetail(String createTime, String id) throws Exception;
 
 }
