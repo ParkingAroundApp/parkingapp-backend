@@ -30,19 +30,17 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @Slf4j
 public class PaaApplication implements CommandLineRunner {
-	static {
-		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
-	}
+//	@Value("${paa.app.aslocalhost}")
+//	static String asLocalHost;
+
+//	static {
+//		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
+//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaaApplication.class, args);
-		try {
-			FabricUtils.enrollAdmin();
-		} catch (Exception e) {
-			log.error("Enroll admin error. Message - {}", e.getMessage());
-		}
+
 	}
-	 
 
 	@Autowired
 	UserRepository userRepo;
@@ -56,9 +54,18 @@ public class PaaApplication implements CommandLineRunner {
 	PasswordEncoder passwordEncoder;
 	@Value("${paa.app.InsertSample}")
 	private boolean insertSample;
+	@Value("${paa.app.aslocalhost}")
+	String asLocalHost;
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", asLocalHost);
+		try {
+			FabricUtils.enrollAdmin();
+		} catch (Exception e) {
+			log.error("Enroll admin error. Message - {}", e.getMessage());
+		}
+
 		// Add sample admin and bike to DB
 		if (insertSample) {
 			createRole();
@@ -93,13 +100,13 @@ public class PaaApplication implements CommandLineRunner {
 
 	private void inputSampleBike(User user) {
 		Model model = new Model(1L, "Honda", "Airblade", "Scooter", "125cc", ModelStatus.ENABLED);
-		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey","","", BikeStatus.PENDING, true,
-				user, model);
+		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", "", "", BikeStatus.PENDING,
+				true, user, model);
 		bikeRepo.save(bike);
 	}
-	
+
 	private void inputSampleNFC() {
-		NFC nfc = new NFC(1L,"123456789", NFCStatus.FINISH, true);
+		NFC nfc = new NFC(1L, "123456789", NFCStatus.FINISH, true);
 		nfcRepo.save(nfc);
 	}
 }
