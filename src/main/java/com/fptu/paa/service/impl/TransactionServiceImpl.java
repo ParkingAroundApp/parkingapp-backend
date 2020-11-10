@@ -62,7 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.evaluateTransaction("getNFCPaymentTransaction", nfcSerial, pageSize, bookmark);
-		if(result.length > 0) {
+		if (result.length > 0) {
 			return new String(result);
 		}
 		return null;
@@ -104,6 +104,18 @@ public class TransactionServiceImpl implements TransactionService {
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
+	@Override
+	public String getTransactionDetail(String createTime, String id) throws Exception {
+		Contract contract = FabricGatewaySingleton.getInstance().contract;
+		byte[] result;
+		String key = "TRANSACTION" + "_" + createTime + "_" + id;
+		result = contract.evaluateTransaction("queryByKey", key);
 		if (result.length > 0) {
 			return new String(result);
 		}

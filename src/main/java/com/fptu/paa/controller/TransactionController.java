@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.service.TransactionService;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/api/transaction")
+@Slf4j
 public class TransactionController {
 	@Autowired
 	TransactionService transcationService;
@@ -27,6 +30,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
+			log.error("Getting list transaction by userID in month error: "+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
@@ -42,6 +46,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
+			log.error("Getting all transaction by userID with pagination error: "+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
@@ -57,6 +62,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
+			log.error("Getting list payment transaction error: "+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
@@ -71,6 +77,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
+			log.error("Getting list top-up transaction error: "+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
@@ -86,7 +93,23 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
+			log.error("Getting list transaction by NFC Serial error: "+e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+		return ResponseEntity.ok(result);
+	}
+	
+	@GetMapping("/detail/{id}")
+	public ResponseEntity<String> getByNFCSerial(@PathVariable String id, @RequestParam String createTime) {
+		String result = "";
+		try {
+			String tmpResult = transcationService.getTransactionDetail(createTime, id);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			log.error("Getting detail transaction error: "+e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something wrong!");
 		}
 		return ResponseEntity.ok(result);
 	}

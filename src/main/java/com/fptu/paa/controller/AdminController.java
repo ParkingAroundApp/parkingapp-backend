@@ -75,7 +75,7 @@ public class AdminController {
 		String result = "";
 		try {
 			String tmpResult = ticketService.getListTicketInMonth(year, month, pageSize, bookmark);
-			if (!tmpResult.isEmpty()) {
+			if (tmpResult != null) {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
