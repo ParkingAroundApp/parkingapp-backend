@@ -20,7 +20,24 @@ public class TransactionController {
 	@Autowired
 	TransactionService transcationService;
 
-	@GetMapping("/inMonth")
+	@GetMapping("/all/inMonth")
+	public ResponseEntity<String> getAllInMonth(@RequestParam boolean isPayment, @RequestParam String year,
+			@RequestParam String month, @RequestParam String pageSize,
+			@RequestParam(defaultValue = "") String bookmark) {
+		String result = "";
+		try {
+			String tmpResult = transcationService.getAllTransactionInMonth(year, month, isPayment, pageSize, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			log.error("Getting list transaction by in month error: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("/byUserID/inMonth")
 	public ResponseEntity<String> getListByUserIdInMonth(@RequestParam String userID, @RequestParam String year,
 			@RequestParam String month) {
 		String result = "";
@@ -30,7 +47,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			log.error("Getting list transaction by userID in month error: "+e.getMessage());
+			log.error("Getting list transaction by userID in month error: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
@@ -46,7 +63,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			log.error("Getting all transaction by userID with pagination error: "+e.getMessage());
+			log.error("Getting all transaction by userID with pagination error: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.ok(result);
@@ -62,14 +79,15 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			log.error("Getting list payment transaction error: "+e.getMessage());
+			log.error("Getting list payment transaction error: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
 	}
 
 	@GetMapping("/recharge")
-	public ResponseEntity<String> getRecharge(@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
+	public ResponseEntity<String> getRecharge(@RequestParam String pageSize,
+			@RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
 			String tmpResult = transcationService.getAllTopUpTransaction(pageSize, bookmark);
@@ -77,7 +95,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			log.error("Getting list top-up transaction error: "+e.getMessage());
+			log.error("Getting list top-up transaction error: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
@@ -93,12 +111,12 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			log.error("Getting list transaction by NFC Serial error: "+e.getMessage());
+			log.error("Getting list transaction by NFC Serial error: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
 	}
-	
+
 	@GetMapping("/detail/{id}")
 	public ResponseEntity<String> getByNFCSerial(@PathVariable String id, @RequestParam String createTime) {
 		String result = "";
@@ -108,7 +126,7 @@ public class TransactionController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			log.error("Getting detail transaction error: "+e.getMessage());
+			log.error("Getting detail transaction error: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Something wrong!");
 		}
 		return ResponseEntity.ok(result);

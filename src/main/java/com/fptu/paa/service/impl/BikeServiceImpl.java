@@ -44,25 +44,33 @@ public class BikeServiceImpl implements BikeService {
 	ModelMapper modelMapper = new ModelMapper();
 
 	@Override
-	public BikeRegisterDTO registerBike(BikeRegisterDTO bikeRegister) {
-		Bike bike = null;
-		UserViewDTO userView = userService.getCurrentUser();
-		User user = userRepository.findUserById(userView.getId());
-		Model model = modelRepository.findModelById(bikeRegister.getModel_id());
-
-		try {
-			if (bikeRegister != null) {
-				bike = modelMapper.map(bikeRegister, Bike.class);
-				bike.setUser(user);
-				bike.setModel(model);
-				bike.setStatus(BikeStatus.PENDING);
-				bike.setEnabled(true);
-				bike = bikeRepository.save(bike);
+	public Bike registerBike(BikeRegisterDTO bikeRegister) {
+		Bike newBike = bikeRepository.findBikeByLicensePlateOrChassisNum(bikeRegister.getLicensePlate(),
+				bikeRegister.getChassisNum());
+		if (newBike == null) {
+			User user = userRepository.findById(bikeRegister.getUserID()).get();
+			if (user != null) {
+				newBike = new Bike();
+				// set user
+				newBike.setUser(user);
+				// Set image
+				newBike.setFrontCertificateImage(bikeRegister.getFrontCertificateImage());
+				newBike.setAfterCertificateImage(bikeRegister.getAfterCertificateImage());
+				// Set model
+				Model model = modelRepository.findModelById(bikeRegister.getModel_id());
+				newBike.setModel(model);
+				// Set other stuff
+				newBike.setStatus(BikeStatus.PENDING);
+				newBike.setOwnerName(bikeRegister.getOwnerName());
+				newBike.setColor(bikeRegister.getColor());
+				newBike.setLicensePlate(bikeRegister.getLicensePlate().toUpperCase());
+				newBike.setChassisNum(bikeRegister.getChassisNum());
+				// Save to db
+				bikeRepository.save(newBike);
+				return newBike;
 			}
-		} catch (Exception e) {
-//			log.debug("registerBike " + e.getMessage());
 		}
-		return bikeRegister;
+		return null;
 	}
 
 	@Override

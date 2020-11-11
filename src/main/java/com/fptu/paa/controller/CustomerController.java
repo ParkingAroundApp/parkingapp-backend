@@ -3,6 +3,7 @@ package com.fptu.paa.controller;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
 import com.fptu.paa.dto.RechargeRequest;
 import com.fptu.paa.dto.UserViewDTO;
+import com.fptu.paa.entity.Bike;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.TicketService;
 import com.fptu.paa.service.TransactionService;
@@ -39,6 +41,8 @@ public class CustomerController {
 	UserService userService;
 	@Autowired
 	TransactionService transactionService;
+
+	private ModelMapper modelMapper = new ModelMapper();
 
 	@PostMapping("/login")
 	public ResponseEntity<String> loginViaGmail(@RequestBody LoginRequest loginRequest) {
@@ -80,9 +84,18 @@ public class CustomerController {
 	}
 
 	@PostMapping(value = "/bike")
-	public ResponseEntity<BikeRegisterDTO> registerBike(BikeRegisterDTO registerBike) {
-		registerBike = bikeService.registerBike(registerBike);
-		return new ResponseEntity<BikeRegisterDTO>(registerBike, HttpStatus.OK);
+	public ResponseEntity<BikeViewDTO> registerBike(BikeRegisterDTO registerBike) {
+		BikeViewDTO bike = null;
+		try {
+			Bike newBike = bikeService.registerBike(registerBike);
+			if (newBike != null) {
+				bike = modelMapper.map(newBike, BikeViewDTO.class);
+				bike.setUserViewDTO(modelMapper.map(newBike.getUser(), UserViewDTO.class));
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
+		return ResponseEntity.ok(bike);
 	}
 
 	@DeleteMapping(value = "/bike")

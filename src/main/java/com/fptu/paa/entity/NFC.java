@@ -21,12 +21,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "NFCs", schema = "parkingdb")
 public class NFC {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "serialNumber" ,unique = true)
+	@Column(name = "serialNumber", unique = true)
 	private String serialNumber;
 
 	@Column(name = "status", length = 16)

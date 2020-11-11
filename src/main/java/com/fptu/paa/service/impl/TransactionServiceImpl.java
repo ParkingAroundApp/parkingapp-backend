@@ -122,4 +122,17 @@ public class TransactionServiceImpl implements TransactionService {
 		return null;
 	}
 
+	@Override
+	public String getAllTransactionInMonth(String year, String month, boolean isPaymentTransaction, String pageSize,
+			String bookmark) throws Exception {
+		Contract contract = FabricGatewaySingleton.getInstance().contract;
+		byte[] result;
+		result = contract.evaluateTransaction("queryTransactionInMonth", year, month,
+				String.valueOf(isPaymentTransaction), pageSize, bookmark);
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
 }

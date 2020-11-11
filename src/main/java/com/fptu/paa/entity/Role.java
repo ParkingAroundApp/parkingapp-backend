@@ -20,19 +20,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "Roles", schema = "parkingdb")
-public class Role {
+public class Role{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	
+
 	@Column(name = "name")
 	@Enumerated(EnumType.STRING)
 	private RoleName name;
-	
-	@Column(name = "enabled")
-	private boolean enabled =true;
 
-	
+	@Column(name = "enabled")
+	private boolean enabled = true;
+
 }
