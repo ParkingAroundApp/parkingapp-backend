@@ -26,6 +26,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "Bikes", schema = "parkingdb")
 public class Bike {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -42,10 +43,10 @@ public class Bike {
 
 	@Column(name = "color", length = 16)
 	private String color;
-	
+
 	@Column(name = "frontCertificateImage", length = 100)
 	private String frontCertificateImage;
-	
+
 	@Column(name = "afterCertificateImage", length = 100)
 	private String afterCertificateImage;
 

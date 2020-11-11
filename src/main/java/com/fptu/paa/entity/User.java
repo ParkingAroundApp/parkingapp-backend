@@ -27,7 +27,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "Users", schema = "parkingdb")
 public class User {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -57,7 +56,7 @@ public class User {
 	@Column(name = "gender", length = 10)
 	@EqualsAndHashCode.Exclude
 	private String gender;
-	
+
 	@Column(name = "balance")
 	private BigDecimal balance = new BigDecimal("0.0");
 

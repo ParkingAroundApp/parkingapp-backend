@@ -24,6 +24,8 @@ public interface BikeRepository extends JpaRepository<Bike, Long> {
 	List<Bike> findBikeByStatus(BikeStatus status);
 
 	Bike findBikeByLicensePlate(String licensePlate);
+	
+	Bike findBikeByLicensePlateOrChassisNum(String licensePlate, String chassisNum);
 
 	@Modifying
 	@Query("Update Bike b SET b.enabled = false WHERE b.id = :id")

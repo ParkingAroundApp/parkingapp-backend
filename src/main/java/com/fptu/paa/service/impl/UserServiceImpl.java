@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.dto.LoginRequest;
-import com.fptu.paa.dto.UserDTO;
+import com.fptu.paa.dto.RegisterOwnerRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Role;
 import com.fptu.paa.entity.User;
@@ -46,40 +46,46 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	@Autowired
 	private RoleRepository roleRepository;
-	
 
 	ModelMapper modelMapper = new ModelMapper();
 
 	@Override
-	public UserDTO registerOwnerAccount(UserDTO userDTO) {
-		String username = userDTO.getUsername();
+	public User registerOwnerAccount(RegisterOwnerRequest userDTO) {
 		String rawPassword = userDTO.getPassword();
 		User temp = new User();
-		temp.setEmail(username);
+		temp.setEmail(userDTO.getEmail());
 		temp.setPassword(passwordEncoder.encode(rawPassword));
+		//Set information
+		temp.setUsername(userDTO.getUsername());
+		temp.setBirthday(userDTO.getBirthday());
+		temp.setGender(userDTO.getGender());
+		temp.setPhone(userDTO.getPhone());
+		temp.setAddress(userDTO.getAddress());
 		// Set role
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(roleRepository.findByName(RoleName.ROLE_OWNER));
 		temp.setRoles(roles);
 		// Save new owner
 		User newOwner = userRepository.save(temp);
-		if (newOwner == null) {
-			return null;
-		}
-		return userDTO;
+		return newOwner;
 	}
 
 	@Override
-	public UserDTO getUserDetail(Long idUser) {
-		// TODO Auto-generated method stub
-		return null;
+	public User getUserDetail(Long idUser) {
+		User user = userRepository.getOne(idUser);
+		return user;
 	}
-
 
 	@Override
 	public boolean disableAccount(Long userID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean isSuccess = false;
+		User user = userRepository.getOne(userID);
+		if (user != null) {
+			user.setEnabled(false);
+			userRepository.save(user);
+			isSuccess = true;
+		}
+		return isSuccess;
 	}
 
 	public String decodeEmailFromToken() {
@@ -148,7 +154,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserViewDTO> getUsersByRole(RoleName roleName) {
 		Set<Role> roles = new HashSet<Role>();
-		List<UserViewDTO> userList= null;
+		List<UserViewDTO> userList = null;
 		roles.add(roleRepository.findByName(roleName));
 		List<User> users = userRepository.findByRoles(roleRepository.findByName(roleName));
 		if (users != null) {
@@ -162,9 +168,9 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserViewDTO updateUserProfile(UserViewDTO userViewDTO) {
-		if(userViewDTO!= null) {
+		if (userViewDTO != null) {
 			User user = userRepository.findUserById(userViewDTO.getId());
-			if (user!=null) {
+			if (user != null) {
 				user.setAddress(userViewDTO.getAddress());
 				user.setBirthday(userViewDTO.getBirthday());
 				user.setGender(userViewDTO.getGender());
@@ -173,15 +179,15 @@ public class UserServiceImpl implements UserService {
 				return userView;
 			}
 		}
-		
+
 		return null;
 	}
 
 	@Override
 	public boolean rechargeBalance(Long userId, BigDecimal balance) {
-		if(userId !=null) {
+		if (userId != null) {
 			User user = userRepository.findUserById(userId);
-			if (user!=null) {
+			if (user != null) {
 				BigDecimal newBalance = user.getBalance().add(balance);
 				user.setBalance(newBalance);
 				return true;
@@ -189,15 +195,15 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	}
-  
-  @Override
+
+	@Override
 	public boolean ticketPaymnet(String price, Long userID) {
 		User user = userRepository.getOne(userID);
-		//Begin payment
+		// Begin payment
 		BigDecimal oldBalance = user.getBalance();
 		BigDecimal newBalance = oldBalance.subtract(new BigDecimal(price));
 		user.setBalance(newBalance);
-		//Save
+		// Save
 		userRepository.save(user);
 		return false;
 	}

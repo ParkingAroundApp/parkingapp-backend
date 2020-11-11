@@ -85,7 +85,7 @@ public class TicketController {
 
 	@PostMapping("/report")
 	public ResponseEntity<String> reportTicket(@RequestBody ReportRequest reportRequest) {
-		String result = "No available ticket!";
+		String result = "Report Fail!";
 		try {
 			String tmpResult = ticketService.reportTicket(reportRequest.getCheckInTime(), reportRequest.getId(),
 					reportRequest.getOwnerCheckOutID(), reportRequest.getReportTime(),
@@ -101,7 +101,7 @@ public class TicketController {
 
 	@GetMapping("/history")
 	public ResponseEntity<String> getTicketHistory(@RequestParam String checkInTime, String key) {
-		String result = "No available ticket!";
+		String result = "No history found!";
 		try {
 			String tmpResult = ticketService.getTicketHistory(checkInTime, key);
 			if (tmpResult != null) {

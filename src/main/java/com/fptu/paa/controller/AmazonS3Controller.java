@@ -31,7 +31,7 @@ public class AmazonS3Controller {
 	
 	@PostMapping(value = "/uploadFiles", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<?> uploadFiles(@RequestPart(value = "file") MultipartFile[] images)  {
-		List<String> fileNames = new ArrayList();
+		List<String> fileNames = new ArrayList<String>();
 		for(MultipartFile image : images) {
 			fileNames.add(amazonS3Service.uploadFile(image));
 		}
