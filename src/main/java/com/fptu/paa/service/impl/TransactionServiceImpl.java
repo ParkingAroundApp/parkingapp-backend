@@ -3,6 +3,7 @@ package com.fptu.paa.service.impl;
 import javax.transaction.Transactional;
 
 import org.hyperledger.fabric.gateway.Contract;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -77,7 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
 		JSONObject options = new JSONObject();
 
 		query.put("selector", options.put("type", "transaction"));
-		query.put("selector", options.put("transactionType", isNFC ? "NFC_PAYMENT" : "BIKE_PAYMENT"));
+		query.put("selector", options.put("transactionType", isNFC ? "PAYMENT_NFC" : "PAYMENT_BIKE"));
 
 		System.out.println("QUERY getTransactionByUserId: " + query.toString());
 		// Submit query
@@ -123,12 +124,31 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public String getAllTransactionInMonth(String year, String month, boolean isPaymentTransaction, String pageSize,
-			String bookmark) throws Exception {
+	public String getAllTransactionInMonth(String startDate, String endDate, boolean isPaymentTransaction,
+			String pageSize, String bookmark) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("queryTransactionInMonth", year, month,
-				String.valueOf(isPaymentTransaction), pageSize, bookmark);
+
+		JSONObject query = new JSONObject();
+		JSONObject selectorOptions = new JSONObject();
+		JSONObject sortValue = new JSONObject();
+		JSONObject checkinTime = new JSONObject();
+		JSONObject transacationType = new JSONObject();
+		JSONArray sortOptions = new JSONArray();
+
+		checkinTime.put("$gt", startDate);
+		checkinTime.put("$lt", endDate);
+		query.put("selector", selectorOptions.put("createTime", checkinTime));
+
+		query.put("selector",
+				selectorOptions.put("transactionType",
+						!isPaymentTransaction ? transacationType.put("$regex", "^RECHARGE")
+								: transacationType.put("$regex", "^PAYMENT")));
+		query.put("selector", selectorOptions.put("type", "transaction"));
+
+		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
+		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
+				bookmark);
 		if (result.length > 0) {
 			return new String(result);
 		}

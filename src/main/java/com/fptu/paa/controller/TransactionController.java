@@ -21,12 +21,13 @@ public class TransactionController {
 	TransactionService transcationService;
 
 	@GetMapping("/all/inMonth")
-	public ResponseEntity<String> getAllInMonth(@RequestParam boolean isPayment, @RequestParam String year,
-			@RequestParam String month, @RequestParam String pageSize,
+	public ResponseEntity<String> getAllInMonth(@RequestParam boolean isPayment, @RequestParam String startDate,
+			@RequestParam String endDate, @RequestParam String pageSize,
 			@RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-			String tmpResult = transcationService.getAllTransactionInMonth(year, month, isPayment, pageSize, bookmark);
+			String tmpResult = transcationService.getAllTransactionInMonth(startDate, endDate, isPayment, pageSize,
+					bookmark);
 			if (tmpResult != null) {
 				result = tmpResult;
 			}
@@ -118,7 +119,7 @@ public class TransactionController {
 	}
 
 	@GetMapping("/detail/{id}")
-	public ResponseEntity<String> getByNFCSerial(@PathVariable String id, @RequestParam String createTime) {
+	public ResponseEntity<String> getTransactionDetail(@PathVariable String id, @RequestParam String createTime) {
 		String result = "";
 		try {
 			String tmpResult = transcationService.getTransactionDetail(createTime, id);

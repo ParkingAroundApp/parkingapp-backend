@@ -17,7 +17,7 @@ public interface TransactionService {
 
 	public String getAllTopUpTransaction(String pageSize, String bookmark) throws Exception;
 
-	public String getAllTransactionInMonth(String year, String month, boolean isPaymentTransaction, String pageSize,
+	public String getAllTransactionInMonth(String startDate, String endDate, boolean isPaymentTransaction, String pageSize,
 			String bookmark) throws Exception;
 
 	public String getTransactionDetail(String createTime, String id) throws Exception;
