@@ -99,4 +99,13 @@ public class AdminController {
 		}
 		return ResponseEntity.ok(result);
 	}
+	@PutMapping("/disableAccount")
+	public ResponseEntity<String> disableAccount(Long id) {
+		User result = null;
+		boolean disableAccount = userService.disableAccount(id);
+		if (disableAccount) {
+			return ResponseEntity.ok("Disable Success");
+		}
+		return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+	}
 }

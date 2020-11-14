@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 		User temp = new User();
 		temp.setEmail(userDTO.getEmail());
 		temp.setPassword(passwordEncoder.encode(rawPassword));
-		//Set information
+		// Set information
 		temp.setUsername(userDTO.getUsername());
 		temp.setBirthday(userDTO.getBirthday());
 		temp.setGender(userDTO.getGender());
@@ -70,10 +70,14 @@ public class UserServiceImpl implements UserService {
 		return newOwner;
 	}
 
-	@Override
-	public User getUserDetail(Long idUser) {
-		User user = userRepository.getOne(idUser);
-		return user;
+	public UserViewDTO getUserDetail(Long idUser) {
+		// TODO Auto-generated method stub
+		User user = userRepository.findUserById(idUser);
+		if (user != null) {
+			UserViewDTO userView = modelMapper.map(user, UserViewDTO.class);
+			return userView;
+		}
+		return null;
 	}
 
 	@Override
