@@ -19,7 +19,7 @@ public interface UserService {
 
 	User registerOwnerAccount(RegisterOwnerRequest userDTO);
 
-	User getUserDetail(Long idUser);
+	UserViewDTO getUserDetail(Long idUser);
 
 	UserViewDTO updateUserProfile(UserViewDTO userViewDTO);
 

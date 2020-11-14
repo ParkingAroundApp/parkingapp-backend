@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -105,8 +106,12 @@ public class CustomerController {
 	}
 
 	@GetMapping("")
-	public ResponseEntity<UserViewDTO> getUserDetail() {
-		UserViewDTO userViewDTO = userService.getCurrentUser();
+	public ResponseEntity<UserViewDTO> getUserDetail(@RequestParam(defaultValue = "")  Long userID) {
+		UserViewDTO userViewDTO = null;
+		if (userID != null) {
+			userViewDTO = userService.getUserDetail(userID);
+		} else
+			userViewDTO = userService.getCurrentUser();
 		if (userViewDTO != null) {
 			return new ResponseEntity<UserViewDTO>(userViewDTO, HttpStatus.OK);
 		}
@@ -122,7 +127,14 @@ public class CustomerController {
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
-
+	@GetMapping(value = "/bike/{id}")
+	public ResponseEntity<BikeViewDTO> getBikeByID(@PathVariable Long id) {
+		BikeViewDTO bike = bikeService.getBike(id);
+		if (bike != null ) {
+			return new ResponseEntity<BikeViewDTO>(bike, HttpStatus.OK);
+		}
+		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
+	}
 	@GetMapping(value = "/ticket/detail")
 	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
 		String result = "No available ticket!";
