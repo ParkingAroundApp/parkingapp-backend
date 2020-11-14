@@ -75,21 +75,6 @@ public class AdminController {
 		return new ResponseEntity<List<UserViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping("/ticket")
-	public ResponseEntity<String> getListTicketInDateRange(@RequestParam String year, @RequestParam String month,
-			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
-		String result = "";
-		try {
-			String tmpResult = ticketService.getListTicketInMonth(year, month, pageSize, bookmark);
-			if (tmpResult != null) {
-				result = tmpResult;
-			}
-		} catch (Exception e) {
-			System.out.println("getAllTicket: " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
-		}
-		return ResponseEntity.ok(result);
-	}
 
 	@PostMapping("/registerOwner")
 	public ResponseEntity<User> registerOwnerAccount(RegisterOwnerRequest newOwner) {

@@ -3,6 +3,7 @@ package com.fptu.paa.service.impl;
 import javax.transaction.Transactional;
 
 import org.hyperledger.fabric.gateway.Contract;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
@@ -78,14 +79,28 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListNFCTicket(String NFCSerial, String bookmark) throws Exception {
+	public String getListNFCTicket(String NFCSerial, String startDate, String endDate, String pageSize, String bookmark)
+			throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-
+		// Create query
 		JSONObject query = new JSONObject();
-		JSONObject option = new JSONObject();
-		query.put("selector", option.put("nfcNumber", NFCSerial));
-		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), PAGE_SIZE, bookmark);
+		JSONObject selectorOptions = new JSONObject();
+		JSONObject sortValue = new JSONObject();
+		JSONObject checkinTime = new JSONObject();
+
+		JSONArray sortOptions = new JSONArray();
+		checkinTime.put("$gt", startDate);
+		if (!endDate.isEmpty()) {
+			checkinTime.put("$lt", endDate);
+		}
+		query.put("selector", selectorOptions.put("nfcNumber", NFCSerial));
+		query.put("selector", selectorOptions.put("checkinTime", checkinTime));
+		query.put("selector", selectorOptions.put("type", "ticket"));
+		query.put("sort", sortOptions.put(sortValue.put("checkinTime", "desc")));
+		System.out.println(query.toString());
+		// Submit query
+		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -93,12 +108,23 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getAllTicket(String pageSize, String bookmark) throws Exception {
+	public String getAllTicket(String startDate, String endDate, String pageSize, String bookmark) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
-		JSONObject query = new JSONObject();
-		JSONObject option = new JSONObject();
-		query.put("selector", option.put("type", "ticket"));
 		byte[] result;
+		// Create query
+		JSONObject query = new JSONObject();
+		JSONObject selectorOptions = new JSONObject();
+		JSONObject sortValue = new JSONObject();
+		JSONObject checkinTime = new JSONObject();
+
+		JSONArray sortOptions = new JSONArray();
+		checkinTime.put("$gt", startDate);
+		checkinTime.put("$lt", endDate);
+		query.put("selector", selectorOptions.put("checkinTime", checkinTime));
+		query.put("selector", selectorOptions.put("type", "ticket"));
+		query.put("sort", sortOptions.put(sortValue.put("checkinTime", "desc")));
+		System.out.println(query.toString());
+		// Submit query
 		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
 		if (result.length > 0) {
 			return new String(result);
@@ -143,17 +169,6 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListTicketInMonth(String year, String month, String pageSize, String bookmark) throws Exception {
-		Contract contract = FabricGatewaySingleton.getInstance().contract;
-		byte[] result;
-		result = contract.evaluateTransaction("queryTicketInMonth", year, month, pageSize, bookmark);
-		if (result.length > 0) {
-			return new String(result);
-		}
-		return null;
-	}
-
-	@Override
 	public String getTicketHistory(String checkInTime, String id) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
@@ -173,13 +188,17 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject query = new JSONObject();
 		JSONObject options = new JSONObject();
 		JSONObject checkInTime = new JSONObject();
-		if (isCheckIn) {
-			query.put("selector", options.put("ownerCheckInID", ownerID));
-		} else {
-			query.put("selector", options.put("ownerCheckOutID", ownerID));
+		checkInTime.put("$gt", date + "-" + "01:00:00:000");
+		checkInTime.put("$lt", date + "-" + "24:00:00:000");
+		if (!ownerID.isEmpty()) {
+			if (isCheckIn) {
+				query.put("selector", options.put("ownerCheckInID", ownerID));
+			} else {
+				query.put("selector", options.put("ownerCheckOutID", ownerID));
+			}
 		}
-		checkInTime.put("$regex", String.format("^%s", date));
 		query.put("selector", options.put("checkinTime", checkInTime));
+		query.put("selector", options.put("type", "ticket"));
 		System.out.println("QUERY getTicketByOnwerIdAndDate: " + query.toString());
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
@@ -197,6 +216,35 @@ public class TicketServiceImpl implements TicketService {
 		byte[] result;
 		result = contract.submitTransaction("reportTicket", checkInTime, id, ownerCheckoutId, reportTime, bikeImage,
 				faceImage);
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
+	@Override
+	public String getListTicketByPlateNumber(String plateNumber, String startDate, String endDate, String pageSize,
+			String bookmark) throws Exception {
+		Contract contract = FabricGatewaySingleton.getInstance().contract;
+		byte[] result;
+		// Create query
+		JSONObject query = new JSONObject();
+		JSONObject selectorOptions = new JSONObject();
+		JSONObject sortValue = new JSONObject();
+		JSONObject checkinTime = new JSONObject();
+
+		JSONArray sortOptions = new JSONArray();
+		checkinTime.put("$gt", startDate);
+		if (!endDate.isEmpty()) {
+			checkinTime.put("$lt", endDate);
+		}
+		query.put("selector", selectorOptions.put("licensePlate", plateNumber));
+		query.put("selector", selectorOptions.put("checkinTime", checkinTime));
+		query.put("selector", selectorOptions.put("type", "ticket"));
+		query.put("sort", sortOptions.put(sortValue.put("checkinTime", "desc")));
+		// Submit query
+		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
+
 		if (result.length > 0) {
 			return new String(result);
 		}
