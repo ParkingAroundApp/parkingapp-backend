@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.constant.TransactionType;
 import com.fptu.paa.service.TransactionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -56,12 +57,16 @@ public class TransactionController {
 
 	@GetMapping("/byUserID/{userID}")
 	public ResponseEntity<String> getListByUserId(@PathVariable String userID, @RequestParam String pageSize,
-			@RequestParam(defaultValue = "") String bookmark) {
+			@RequestParam(defaultValue = "") String bookmark, @RequestParam(defaultValue = "") String endDate,
+			@RequestParam String startDate, TransactionType transactionType) {
 		String result = "";
 		try {
-			String tmpResult = transcationService.getTransactionByUserId(userID, pageSize, bookmark);
-			if (tmpResult != null) {
-				result = tmpResult;
+			if (transactionType != TransactionType.PAYMENT_NFC) {
+				String tmpResult = transcationService.getTransactionByUserId(userID, startDate, endDate, pageSize,
+						transactionType, bookmark);
+				if (tmpResult != null) {
+					result = tmpResult;
+				}
 			}
 		} catch (Exception e) {
 			log.error("Getting all transaction by userID with pagination error: " + e.getMessage());

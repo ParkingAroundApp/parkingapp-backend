@@ -2,6 +2,8 @@ package com.fptu.paa.service;
 
 import org.springframework.stereotype.Service;
 
+import com.fptu.paa.constant.TransactionType;
+
 @Service
 public interface TransactionService {
 	public String saveTopUpTransaction(String userID, String amount, String description, String createTime)
@@ -9,7 +11,8 @@ public interface TransactionService {
 
 	public String getTransactionByUserIdInMonth(String userID, String year, String month) throws Exception;
 
-	public String getTransactionByUserId(String userID, String pageSize, String bookmark) throws Exception;
+	public String getTransactionByUserId(String userID, String startDate, String endDate, String pageSize,
+			TransactionType transactionType, String bookmark) throws Exception;
 
 	public String getNFCTransactionBySerial(String nfcSerial, String pageSize, String bookmark) throws Exception;
 
@@ -17,8 +20,8 @@ public interface TransactionService {
 
 	public String getAllTopUpTransaction(String pageSize, String bookmark) throws Exception;
 
-	public String getAllTransactionInMonth(String startDate, String endDate, boolean isPaymentTransaction, String pageSize,
-			String bookmark) throws Exception;
+	public String getAllTransactionInMonth(String startDate, String endDate, boolean isPaymentTransaction,
+			String pageSize, String bookmark) throws Exception;
 
 	public String getTransactionDetail(String createTime, String id) throws Exception;
 

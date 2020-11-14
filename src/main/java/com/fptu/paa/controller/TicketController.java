@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,14 +20,29 @@ public class TicketController {
 	@Autowired
 	TicketService ticketService;
 
-	@GetMapping("")
-	public ResponseEntity<String> getListById(@RequestParam(required = true) String id,
-			@RequestParam(defaultValue = "") String bookmark,
-			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
+	@GetMapping("/nfc/{serial}")
+	public ResponseEntity<String> getListByNFCSerial(@PathVariable String serial,
+			@RequestParam(defaultValue = "") String bookmark, @RequestParam String pageSize,
+			@RequestParam String startDate, @RequestParam(defaultValue = "") String endDate) {
 		String result = "";
 		try {
-			String tmpResult = isNFC ? ticketService.getListNFCTicket(id, bookmark)
-					: ticketService.getListBikeTicket(id, bookmark);
+			String tmpResult = ticketService.getListNFCTicket(serial, startDate, endDate, pageSize, bookmark);
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("/{plateNumber}")
+	public ResponseEntity<String> getListByPlateNumber(@PathVariable String plateNumber,
+			@RequestParam(defaultValue = "") String bookmark, String pageSize, String startDate, String endDate) {
+		String result = "";
+		try {
+			String tmpResult = ticketService.getListTicketByPlateNumber(plateNumber, startDate, endDate, pageSize,
+					bookmark);
 			if (tmpResult != null) {
 				result = tmpResult;
 			}
@@ -37,11 +53,11 @@ public class TicketController {
 	}
 
 	@GetMapping("/all")
-	public ResponseEntity<String> getAllTicket(@RequestParam String pageSize,
-			@RequestParam(defaultValue = "") String bookmark) {
+	public ResponseEntity<String> getAllTicket(@RequestParam String startDate, @RequestParam String endDate,
+			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
 		String result = "";
 		try {
-			String tmpResult = ticketService.getAllTicket(pageSize, bookmark);
+			String tmpResult = ticketService.getAllTicket(startDate, endDate, pageSize, bookmark);
 			if (tmpResult != null) {
 				result = tmpResult;
 			}

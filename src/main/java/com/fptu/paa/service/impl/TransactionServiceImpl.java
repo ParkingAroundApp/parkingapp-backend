@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
+import com.fptu.paa.constant.TransactionType;
 import com.fptu.paa.service.TransactionService;
 import com.fptu.paa.utils.FabricGatewaySingleton;
 
@@ -38,17 +39,30 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
-	public String getTransactionByUserId(String userID, String pageSize, String bookmark) throws Exception {
+	public String getTransactionByUserId(String userID, String startDate, String endDate, String pageSize,
+			TransactionType transactionType, String bookmark) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		// Create query
 		JSONObject query = new JSONObject();
-		JSONObject options = new JSONObject();
+		JSONObject selectorOptions = new JSONObject();
+		JSONObject sortValue = new JSONObject();
+		JSONObject checkinTime = new JSONObject();
+		JSONArray sortOptions = new JSONArray();
 
-		query.put("selector", options.put("userID", userID));
-		query.put("selector", options.put("type", "transaction"));
+		checkinTime.put("$gt", startDate);
+		if (endDate != null && !endDate.isEmpty()) {
+			checkinTime.put("$lt", endDate);
+		}
+		query.put("selector", selectorOptions.put("createTime", checkinTime));
+		if (transactionType != null) {
+			query.put("selector", selectorOptions.put("transactionType", transactionType.name()));
+		}
+		query.put("selector", selectorOptions.put("userID", userID));
+		query.put("selector", selectorOptions.put("type", "transaction"));
 
-		System.out.println("QUERY getTransactionByUserId: " + query.toString());
+		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
+		System.out.println(query.toString());
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
@@ -78,7 +92,8 @@ public class TransactionServiceImpl implements TransactionService {
 		JSONObject options = new JSONObject();
 
 		query.put("selector", options.put("type", "transaction"));
-		query.put("selector", options.put("transactionType", isNFC ? "PAYMENT_NFC" : "PAYMENT_BIKE"));
+		query.put("selector", options.put("transactionType",
+				isNFC ? TransactionType.PAYMENT_NFC.name() : TransactionType.PAYMENT_BIKE.name()));
 
 		System.out.println("QUERY getTransactionByUserId: " + query.toString());
 		// Submit query
@@ -99,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
 		JSONObject options = new JSONObject();
 
 		query.put("selector", options.put("type", "transaction"));
-		query.put("selector", options.put("transactionType", "RECHARGE"));
+		query.put("selector", options.put("transactionType", TransactionType.RECHARGE));
 
 		System.out.println("QUERY getAllTransaction: " + query.toString());
 		// Submit query
@@ -147,6 +162,7 @@ public class TransactionServiceImpl implements TransactionService {
 		query.put("selector", selectorOptions.put("type", "transaction"));
 
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
+
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
 		if (result.length > 0) {
