@@ -93,7 +93,6 @@ public class TicketController {
 				result = tmpResult;
 			}
 		} catch (Exception e) {
-			System.out.println("getCheckOutTicket: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
@@ -127,6 +126,22 @@ public class TicketController {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 		return ResponseEntity.ok(result);
+	}
+
+	@GetMapping("/inday")
+	public ResponseEntity<String> getTicketInDate(@RequestParam String date, @RequestParam String pageSize,
+			@RequestParam(defaultValue = "") String bookmark) {
+		try {
+			String result = ticketService.getTicketInDate(date, pageSize, bookmark);
+			// If success respond 200
+			if (result != null && !result.isEmpty()) {
+				return ResponseEntity.ok(result);
+			}
+		} catch (Exception e) {
+			System.out.println("getTicketInDate: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
 	}
 
 }

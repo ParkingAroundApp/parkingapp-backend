@@ -19,6 +19,8 @@ public interface TicketService {
 			boolean isCheckIn) throws Exception;
 
 	// FOR NFC AND BIKE
+	public String getTicketInDate(String date, String pageSize, String bookmark)throws Exception;
+	
 	public String getListTicketByPlateNumber(String plateNumber, String startDate, String endDate, String pageSize,
 			String bookmark) throws Exception;
 

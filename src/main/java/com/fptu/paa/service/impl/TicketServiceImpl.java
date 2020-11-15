@@ -190,13 +190,34 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject checkInTime = new JSONObject();
 		checkInTime.put("$gt", date + "-" + "01:00:00:000");
 		checkInTime.put("$lt", date + "-" + "24:00:00:000");
-		if (!ownerID.isEmpty()) {
-			if (isCheckIn) {
-				query.put("selector", options.put("ownerCheckInID", ownerID));
-			} else {
-				query.put("selector", options.put("ownerCheckOutID", ownerID));
-			}
+		if (isCheckIn) {
+			query.put("selector", options.put("ownerCheckInID", ownerID));
+		} else {
+			query.put("selector", options.put("ownerCheckOutID", ownerID));
 		}
+		query.put("selector", options.put("checkinTime", checkInTime));
+		query.put("selector", options.put("type", "ticket"));
+		System.out.println("QUERY getTicketByOnwerIdAndDate: " + query.toString());
+		// Submit query
+		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
+
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
+	@Override
+	public String getTicketInDate(String date, String pageSize, String bookmark) throws Exception {
+		Contract contract = FabricGatewaySingleton.getInstance().contract;
+		byte[] result;
+		// Create query
+		JSONObject query = new JSONObject();
+		JSONObject options = new JSONObject();
+		JSONObject checkInTime = new JSONObject();
+		checkInTime.put("$gt", date + "-" + "01:00:00:000");
+		checkInTime.put("$lt", date + "-" + "24:00:00:000");
+
 		query.put("selector", options.put("checkinTime", checkInTime));
 		query.put("selector", options.put("type", "ticket"));
 		System.out.println("QUERY getTicketByOnwerIdAndDate: " + query.toString());
