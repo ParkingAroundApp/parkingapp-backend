@@ -103,7 +103,7 @@ public class TicketController {
 		String result = "Report Fail!";
 		try {
 			String tmpResult = ticketService.reportTicket(reportRequest.getCheckInTime(), reportRequest.getId(),
-					reportRequest.getOwnerCheckOutID(), reportRequest.getReportTime(),
+					reportRequest.getStaffCheckOutID(), reportRequest.getReportTime(),
 					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage());
 			if (tmpResult != null) {
 				result = tmpResult;
