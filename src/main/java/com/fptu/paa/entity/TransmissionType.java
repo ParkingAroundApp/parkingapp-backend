@@ -15,26 +15,14 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Models", schema = "parkingdb")
-public class Model {
-
+@Table(name = "TransmissionTypes", schema = "parkingdb")
+public class TransmissionType {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-
-	@Column(name = "brandName", length = 30)
-	private String brandName;
-
-	@Column(name = "modelCode", length = 30)
-	private String modelCode;
-
-	@Column(name = "transmissionType", length = 16)
-	private String transmissionType;
-
-	@Column(name = "volume", length = 16)
-	private String volume;
-
+	@Column(name = "name")
+	private String name;
 	@Column(name = "enabled")
 	private boolean enabled = true;
 }

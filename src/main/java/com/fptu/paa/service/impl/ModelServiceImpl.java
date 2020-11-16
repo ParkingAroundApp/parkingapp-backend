@@ -6,7 +6,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fptu.paa.constant.ModelStatus;
 import com.fptu.paa.dto.ModelRegistrationDTO;
 import com.fptu.paa.entity.Model;
 import com.fptu.paa.repository.ModelRepository;
@@ -23,7 +22,6 @@ public class ModelServiceImpl  implements ModelService{
 	public ModelRegistrationDTO insertNewModel(ModelRegistrationDTO modelRegistration) {
 		if (modelRegistration != null) {
 			Model model = modelMapper.map(modelRegistration, Model.class);
-			model.setStatus(ModelStatus.ENABLED);
 			model = modelRepository.save(model);
 			return modelRegistration;
 		}

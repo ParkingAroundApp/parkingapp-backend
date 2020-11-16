@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fptu.paa.constant.BikeStatus;
-import com.fptu.paa.constant.ModelStatus;
 import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.entity.Bike;
@@ -99,7 +98,7 @@ public class PaaApplication implements CommandLineRunner {
 	}
 
 	private void inputSampleBike(User user) {
-		Model model = new Model(1L, "Honda", "Airblade", "Scooter", "125cc", ModelStatus.ENABLED);
+		Model model = new Model(1L, "Honda", "Airblade", "Scooter", "125cc", true);
 		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", "", "", BikeStatus.PENDING,
 				true, user, model);
 		bikeRepo.save(bike);
