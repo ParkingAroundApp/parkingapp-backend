@@ -16,11 +16,11 @@ public class TicketServiceImpl implements TicketService {
 	private final String PAGE_SIZE = "20";
 
 	@Override
-	public String checkInByBikeID(String licensePlate, String bikeID, String ownerCheckInID, String customerId,
+	public String checkInByBikeID(String licensePlate, String bikeID, String staffCheckInID, String customerId,
 			String checkInTime, String checkInBikeImage, String checkInFaceImage) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.submitTransaction("createTicket", licensePlate, bikeID, "", customerId, ownerCheckInID,
+		result = contract.submitTransaction("createTicket", licensePlate, bikeID, "", customerId, staffCheckInID,
 				checkInTime, checkInBikeImage, checkInFaceImage);
 		if (result.length > 0) {
 			return new String(result);
@@ -29,11 +29,11 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String checkOutByID(String ticketKey, String ownerCheckOutId, String checkOutTime, String checkOutBikeImage,
+	public String checkOutByID(String ticketKey, String staffCheckOutId, String checkOutTime, String checkOutBikeImage,
 			String checkOutFaceImage, String paymentType, String price, String userID) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.submitTransaction("checkOut", ticketKey, ownerCheckOutId, checkOutTime, checkOutBikeImage,
+		result = contract.submitTransaction("checkOut", ticketKey, staffCheckOutId, checkOutTime, checkOutBikeImage,
 				checkOutFaceImage, paymentType, price, userID);
 		if (result.length > 0) {
 			return new String(result);
@@ -134,11 +134,11 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String checkInByNFCID(String licensePlate, String NFCID, String ownerCheckInID, String checkInTime,
+	public String checkInByNFCID(String licensePlate, String NFCID, String staffCheckInID, String checkInTime,
 			String checkInBikeImage, String checkInFaceImage) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.submitTransaction("createTicket", licensePlate, "", NFCID, "", ownerCheckInID, checkInTime,
+		result = contract.submitTransaction("createTicket", licensePlate, "", NFCID, "", staffCheckInID, checkInTime,
 				checkInBikeImage, checkInFaceImage);
 		if (result.length > 0) {
 			return new String(result);
@@ -180,7 +180,7 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getTicketByOnwerIdAndDate(String ownerID, String date, String pageSize, String bookmark,
+	public String getTicketByStaffIdAndDate(String staffID, String date, String pageSize, String bookmark,
 			boolean isCheckIn) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
@@ -191,9 +191,9 @@ public class TicketServiceImpl implements TicketService {
 		checkInTime.put("$gt", date + "-" + "01:00:00:000");
 		checkInTime.put("$lt", date + "-" + "24:00:00:000");
 		if (isCheckIn) {
-			query.put("selector", options.put("ownerCheckInID", ownerID));
+			query.put("selector", options.put("staffCheckInID", staffID));
 		} else {
-			query.put("selector", options.put("ownerCheckOutID", ownerID));
+			query.put("selector", options.put("staffCheckOutID", staffID));
 		}
 		query.put("selector", options.put("checkinTime", checkInTime));
 		query.put("selector", options.put("type", "ticket"));
@@ -231,11 +231,11 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String reportTicket(String checkInTime, String id, String ownerCheckoutId, String reportTime,
+	public String reportTicket(String checkInTime, String id, String staffCheckoutId, String reportTime,
 			String bikeImage, String faceImage) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.submitTransaction("reportTicket", checkInTime, id, ownerCheckoutId, reportTime, bikeImage,
+		result = contract.submitTransaction("reportTicket", checkInTime, id, staffCheckoutId, reportTime, bikeImage,
 				faceImage);
 		if (result.length > 0) {
 			return new String(result);

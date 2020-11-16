@@ -15,10 +15,11 @@ public interface TicketService {
 
 	public String getListTicketByCustomerID(String customerID, String year, String month) throws Exception;
 
-	public String getTicketByOnwerIdAndDate(String staffID, String date, String pageSize, String bookmark,
-			boolean isCheckIn) throws Exception;
 
 	// FOR NFC AND BIKE
+	public String getTicketByStaffIdAndDate(String staffID, String date, String pageSize, String bookmark,
+											boolean isCheckIn) throws Exception;
+
 	public String getTicketInDate(String date, String pageSize, String bookmark)throws Exception;
 	
 	public String getListTicketByPlateNumber(String plateNumber, String startDate, String endDate, String pageSize,
