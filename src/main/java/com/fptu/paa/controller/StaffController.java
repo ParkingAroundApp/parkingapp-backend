@@ -50,14 +50,14 @@ public class StaffController {
 				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 				if (bike != null) {
 					result = ticketService.checkInByBikeID(ticket.getLicensePlate(), ticket.getId(),
-							ticket.getOwnerCheckInID(), bike.getUserViewDTO().getId().toString(),
+							ticket.getStaffCheckInID(), bike.getUserViewDTO().getId().toString(),
 							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
 				}
 			} else {
 				NFC nfc = nfcService.getNFCBySerial(ticket.getId());
 				if (nfc != null) {
 					result = ticketService.checkInByNFCID(ticket.getLicensePlate(), ticket.getId(),
-							ticket.getOwnerCheckInID(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
+							ticket.getStaffCheckInID(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
 							ticket.getCheckInFaceImage());
 				}
 			}
@@ -87,7 +87,7 @@ public class StaffController {
 
 			Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
 			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + ticket.getId();
-			String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(), ticket.getCheckOutTime(),
+			String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(), ticket.getCheckOutTime(),
 					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType(), price,
 					String.valueOf(userID));
 
@@ -131,7 +131,7 @@ public class StaffController {
 				String price = "3000";
 				// Call service
 				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getNfcNumber();
-				String result = ticketService.checkOutByID(ticketKey, ticket.getOwnerCheckOutID(),
+				String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
 						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
 						ticket.getPaymentType(), price, "");
 				// If success respond 200
@@ -149,17 +149,17 @@ public class StaffController {
 	}
 
 	@GetMapping("/ticket")
-	public ResponseEntity<String> getTicketByOwnerID(@RequestParam String ownerID, @RequestParam String date,
+	public ResponseEntity<String> getTicketByStaffIdAndDate(@RequestParam String staffID, @RequestParam String date,
 			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark,
 			@RequestParam(defaultValue = "true") boolean isCheckIn) {
 		try {
-			String result = ticketService.getTicketByOnwerIdAndDate(ownerID, date, pageSize, bookmark, isCheckIn);
+			String result = ticketService.getTicketByStaffIdAndDate(staffID, date, pageSize, bookmark, isCheckIn);
 			// If success respond 200
 			if (result != null && !result.isEmpty()) {
 				return ResponseEntity.ok(result);
 			}
 		} catch (Exception e) {
-			System.out.println("getTicketByOwnerID: " + e.getMessage());
+			System.out.println("getTicketByStaffIdAndDate: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
