@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.dto.LoginRequest;
-import com.fptu.paa.dto.RegisterOwnerRequest;
+import com.fptu.paa.dto.RegisterStaffRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Role;
 import com.fptu.paa.entity.User;
@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 	ModelMapper modelMapper = new ModelMapper();
 
 	@Override
-	public User registerOwnerAccount(RegisterOwnerRequest userDTO) {
+	public User registerStaffAccount(RegisterStaffRequest userDTO) {
 		String rawPassword = userDTO.getPassword();
 		User temp = new User();
 		temp.setEmail(userDTO.getEmail());
@@ -63,11 +63,11 @@ public class UserServiceImpl implements UserService {
 		temp.setAddress(userDTO.getAddress());
 		// Set role
 		Set<Role> roles = new HashSet<Role>();
-		roles.add(roleRepository.findByName(RoleName.ROLE_OWNER));
+		roles.add(roleRepository.findByName(RoleName.ROLE_STAFF));
 		temp.setRoles(roles);
-		// Save new owner
-		User newOwner = userRepository.save(temp);
-		return newOwner;
+		// Save new staff
+		User newStaff = userRepository.save(temp);
+		return newStaff;
 	}
 
 	@Override
