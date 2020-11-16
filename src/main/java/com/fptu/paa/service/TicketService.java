@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface TicketService {
-	public String checkInByBikeID(String licensePlate, String bikeID, String ownerCheckInID, String customerId,
+	public String checkInByBikeID(String licensePlate, String bikeID, String staffCheckInID, String customerId,
 			String checkInTime, String checkInBikeImage, String checkInFaceImage) throws Exception;
 
 	public String getCheckOutTicketByBikeID(String bikeID) throws Exception;
@@ -15,7 +15,7 @@ public interface TicketService {
 
 	public String getListTicketByCustomerID(String customerID, String year, String month) throws Exception;
 
-	public String getTicketByOnwerIdAndDate(String ownerID, String date, String pageSize, String bookmark,
+	public String getTicketByOnwerIdAndDate(String staffID, String date, String pageSize, String bookmark,
 			boolean isCheckIn) throws Exception;
 
 	// FOR NFC AND BIKE
@@ -24,18 +24,18 @@ public interface TicketService {
 	public String getListTicketByPlateNumber(String plateNumber, String startDate, String endDate, String pageSize,
 			String bookmark) throws Exception;
 
-	public String checkOutByID(String ticketKey, String ownerCheckOutId, String checkOutTime, String checkOutBikeImage,
+	public String checkOutByID(String ticketKey, String staffCheckOutId, String checkOutTime, String checkOutBikeImage,
 			String checkOutFaceImage, String paymentType, String price, String userID) throws Exception;
 
 	public String getAllTicket(String startDate, String endDate, String pageSize, String bookmark) throws Exception;
 
 	public String getTicketHistory(String checkInTime, String id) throws Exception;
 
-	public String reportTicket(String checkInTime, String id, String ownerCheckoutId, String reportTime,
+	public String reportTicket(String checkInTime, String id, String staffCheckoutId, String reportTime,
 			String bikeImage, String faceImage) throws Exception;
 
 	// FOR NFC
-	public String checkInByNFCID(String licensePlate, String NFCID, String ownerCheckInID, String checkInTime,
+	public String checkInByNFCID(String licensePlate, String NFCID, String staffCheckInID, String checkInTime,
 			String checkInBikeImage, String checkInFaceImage) throws Exception;
 
 	public String getCheckOutTicketByNFC(String NFCSerial) throws Exception;

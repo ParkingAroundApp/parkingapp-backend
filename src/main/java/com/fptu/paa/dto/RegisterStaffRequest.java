@@ -1,6 +1,6 @@
 package com.fptu.paa.dto;
 
-public class RegisterOwnerRequest {
+public class RegisterStaffRequest {
 	private String email;
 	private String phone;
 	private String username;
@@ -10,7 +10,7 @@ public class RegisterOwnerRequest {
 	private String gender;
 	
 	
-	public RegisterOwnerRequest() {
+	public RegisterStaffRequest() {
 		super();
 	}
 	public String getEmail() {

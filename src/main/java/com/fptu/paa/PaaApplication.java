@@ -77,7 +77,7 @@ public class PaaApplication implements CommandLineRunner {
 	}
 
 	private void createRole() {
-		roleRepo.save(new Role(1L, RoleName.ROLE_ADMIN, true));
+		roleRepo.save(new Role(1L, RoleName.ROLE_STAFF, true));
 		roleRepo.save(new Role(2L, RoleName.ROLE_CUSTOMER, true));
 		roleRepo.save(new Role(3L, RoleName.ROLE_OWNER, true));
 	}
@@ -86,7 +86,7 @@ public class PaaApplication implements CommandLineRunner {
 		User result = null;
 		if (!userRepo.existsById(1L)) {
 			Set<Role> roles = new HashSet<Role>();
-			roles.add(roleRepo.findByName(RoleName.ROLE_ADMIN));
+			roles.add(roleRepo.findByName(RoleName.ROLE_OWNER));
 			User admin = new User();
 			admin.setEmail("admin@gmail.com");
 			admin.setUsername("admin");

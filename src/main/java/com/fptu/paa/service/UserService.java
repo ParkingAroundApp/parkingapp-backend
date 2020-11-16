@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.RoleName;
 import com.fptu.paa.dto.LoginRequest;
-import com.fptu.paa.dto.RegisterOwnerRequest;
+import com.fptu.paa.dto.RegisterStaffRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.User;
 
@@ -17,7 +17,7 @@ public interface UserService {
 
 	String loginViaUsername(LoginRequest loginRequest);
 
-	User registerOwnerAccount(RegisterOwnerRequest userDTO);
+	User registerStaffAccount(RegisterStaffRequest userDTO);
 
 	UserViewDTO getUserDetail(Long idUser);
 
