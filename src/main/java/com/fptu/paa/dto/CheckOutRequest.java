@@ -13,4 +13,5 @@ public class CheckOutRequest {
 	private String checkOutBikeImage;
 	private String checkOutFaceImage;
 	private String paymentType;
+	private String fareID;
 }

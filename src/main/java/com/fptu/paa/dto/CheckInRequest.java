@@ -1,5 +1,7 @@
 package com.fptu.paa.dto;
 
+import com.fptu.paa.constant.TransmissionTypeName;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -12,4 +14,5 @@ public class CheckInRequest {
 	private String checkInTime;
 	private String checkInBikeImage;
 	private String checkInFaceImage;
+	private TransmissionTypeName transmissionType;
 }

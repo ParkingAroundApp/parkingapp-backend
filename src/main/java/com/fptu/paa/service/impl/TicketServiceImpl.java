@@ -17,11 +17,11 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public String checkInByBikeID(String licensePlate, String bikeID, String staffCheckInID, String customerId,
-			String checkInTime, String checkInBikeImage, String checkInFaceImage) throws Exception {
+			String checkInTime, String checkInBikeImage, String checkInFaceImage, String modelType) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("createTicket", licensePlate, bikeID, "", customerId, staffCheckInID,
-				checkInTime, checkInBikeImage, checkInFaceImage);
+				checkInTime, checkInBikeImage, checkInFaceImage, modelType);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -135,11 +135,11 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public String checkInByNFCID(String licensePlate, String NFCID, String staffCheckInID, String checkInTime,
-			String checkInBikeImage, String checkInFaceImage) throws Exception {
+			String checkInBikeImage, String checkInFaceImage, String modelType) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("createTicket", licensePlate, "", NFCID, "", staffCheckInID, checkInTime,
-				checkInBikeImage, checkInFaceImage);
+				checkInBikeImage, checkInFaceImage, modelType);
 		if (result.length > 0) {
 			return new String(result);
 		}

@@ -71,6 +71,9 @@ public class Fare {
 	@Column(name = "expirationDate")
 	private Timestamp expirationDate;
 
+	@Column(name = "eTicket")
+	private boolean eTicket;
+	
 	@Column(name = "enabled")
 	private boolean enabled;
 
