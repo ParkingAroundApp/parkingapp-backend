@@ -51,14 +51,15 @@ public class StaffController {
 				if (bike != null) {
 					result = ticketService.checkInByBikeID(ticket.getLicensePlate(), ticket.getId(),
 							ticket.getStaffCheckInID(), bike.getUserViewDTO().getId().toString(),
-							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage());
+							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage(),
+							ticket.getTransmissionType().name());
 				}
 			} else {
 				NFC nfc = nfcService.getNFCBySerial(ticket.getId());
 				if (nfc != null) {
 					result = ticketService.checkInByNFCID(ticket.getLicensePlate(), ticket.getId(),
 							ticket.getStaffCheckInID(), ticket.getCheckInTime(), ticket.getCheckInBikeImage(),
-							ticket.getCheckInFaceImage());
+							ticket.getCheckInFaceImage(), ticket.getTransmissionType().name());
 				}
 			}
 			if (result != null && !result.isEmpty()) {
@@ -89,7 +90,7 @@ public class StaffController {
 			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + ticket.getId();
 			String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(), ticket.getCheckOutTime(),
 					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType(), price,
-					String.valueOf(userID));
+					String.valueOf(userID), ticket.getFareID());
 
 			if (result != null && !result.isEmpty()) {
 				// Make wallet payment
@@ -133,7 +134,7 @@ public class StaffController {
 				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getNfcNumber();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
 						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
-						ticket.getPaymentType(), price, "");
+						ticket.getPaymentType(), price, "", ticket.getFareID());
 				// If success respond 200
 				if (result != null && !result.isEmpty()) {
 					nfcService.changeNFCStatus(ticket.getId(), NFCStatus.FINISH);

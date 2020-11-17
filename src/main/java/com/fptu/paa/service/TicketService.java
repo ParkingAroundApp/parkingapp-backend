@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TicketService {
 	public String checkInByBikeID(String licensePlate, String bikeID, String staffCheckInID, String customerId,
-			String checkInTime, String checkInBikeImage, String checkInFaceImage) throws Exception;
+			String checkInTime, String checkInBikeImage, String checkInFaceImage, String modelType) throws Exception;
 
 	public String getCheckOutTicketByBikeID(String bikeID) throws Exception;
 
@@ -26,7 +26,7 @@ public interface TicketService {
 			String bookmark) throws Exception;
 
 	public String checkOutByID(String ticketKey, String staffCheckOutId, String checkOutTime, String checkOutBikeImage,
-			String checkOutFaceImage, String paymentType, String price, String userID) throws Exception;
+			String checkOutFaceImage, String paymentType, String price, String userID, String fareID) throws Exception;
 
 	public String getAllTicket(String startDate, String endDate, String pageSize, String bookmark) throws Exception;
 
@@ -37,7 +37,7 @@ public interface TicketService {
 
 	// FOR NFC
 	public String checkInByNFCID(String licensePlate, String NFCID, String staffCheckInID, String checkInTime,
-			String checkInBikeImage, String checkInFaceImage) throws Exception;
+			String checkInBikeImage, String checkInFaceImage, String modelType) throws Exception;
 
 	public String getCheckOutTicketByNFC(String NFCSerial) throws Exception;
 
