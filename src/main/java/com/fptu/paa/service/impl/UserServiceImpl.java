@@ -211,4 +211,21 @@ public class UserServiceImpl implements UserService {
 		userRepository.save(user);
 		return false;
 	}
+
+	@Override
+	public User insertDefaultAdmin() {
+		User result = null;
+		if (!userRepository.existsById(1L)) {
+			Set<Role> roles = new HashSet<Role>();
+			roles.add(roleRepository.findByName(RoleName.ROLE_OWNER));
+			User admin = new User();
+			admin.setEmail("admin@gmail.com");
+			admin.setUsername("admin");
+			admin.setPassword(passwordEncoder.encode("1213"));
+			admin.setRoles(roles);
+			result = userRepository.save(admin);
+			System.out.println(admin);
+		}
+		return result;
+	}
 }

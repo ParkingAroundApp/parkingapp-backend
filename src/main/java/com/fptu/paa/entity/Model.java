@@ -1,10 +1,14 @@
 package com.fptu.paa.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -29,12 +33,14 @@ public class Model {
 	@Column(name = "modelCode", length = 30)
 	private String modelCode;
 
-	@Column(name = "transmissionType", length = 16)
-	private String transmissionType;
-
 	@Column(name = "volume", length = 16)
 	private String volume;
 
 	@Column(name = "enabled")
 	private boolean enabled = true;
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "transmissionType_id")
+	private TransmissionType transmissionType;
+
 }
