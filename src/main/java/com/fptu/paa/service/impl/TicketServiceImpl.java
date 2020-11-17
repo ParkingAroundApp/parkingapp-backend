@@ -30,11 +30,11 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public String checkOutByID(String ticketKey, String staffCheckOutId, String checkOutTime, String checkOutBikeImage,
-			String checkOutFaceImage, String paymentType, String price, String userID) throws Exception {
+			String checkOutFaceImage, String paymentType, String price, String userID, String fareID) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("checkOut", ticketKey, staffCheckOutId, checkOutTime, checkOutBikeImage,
-				checkOutFaceImage, paymentType, price, userID);
+				checkOutFaceImage, paymentType, price, userID, fareID);
 		if (result.length > 0) {
 			return new String(result);
 		}
