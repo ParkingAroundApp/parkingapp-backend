@@ -32,4 +32,6 @@ public interface UserService {
 	boolean ticketPaymnet(String price, Long userID);
 
 	List<UserViewDTO> getUsersByRole(RoleName roleName);
+	
+	User insertDefaultAdmin();
 }

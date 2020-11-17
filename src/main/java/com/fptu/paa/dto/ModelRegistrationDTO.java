@@ -1,40 +1,50 @@
 package com.fptu.paa.dto;
 
+import com.fptu.paa.constant.TransmissionTypeName;
+
 public class ModelRegistrationDTO {
-    private String brandName;
-    private String modelCode;
-    private String transmissionType;
-    private String volume;
+	private String brandName;
+	
+	private String modelCode;
+	
+	private TransmissionTypeName typeName;
+	
+	private String volume;
 
-    public String getBrandName() {
-        return brandName;
-    }
+	
+	public ModelRegistrationDTO() {
+		super();
+	}
 
-    public void setBrandName(String brandName) {
-        this.brandName = brandName;
-    }
+	public String getBrandName() {
+		return brandName;
+	}
 
-    public String getModelCode() {
-        return modelCode;
-    }
+	public void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
 
-    public void setModelCode(String modelCode) {
-        this.modelCode = modelCode;
-    }
+	public String getModelCode() {
+		return modelCode;
+	}
 
-    public String getTransmissionType() {
-        return transmissionType;
-    }
+	public void setModelCode(String modelCode) {
+		this.modelCode = modelCode;
+	}
 
-    public void setTransmissionType(String transmissionType) {
-        this.transmissionType = transmissionType;
-    }
+	public TransmissionTypeName getTypeName() {
+		return typeName;
+	}
 
-    public String getVolume() {
-        return volume;
-    }
+	public void setTypeName(TransmissionTypeName typeName) {
+		this.typeName = typeName;
+	}
 
-    public void setVolume(String volume) {
-        this.volume = volume;
-    }
+	public String getVolume() {
+		return volume;
+	}
+
+	public void setVolume(String volume) {
+		this.volume = volume;
+	}
 }
