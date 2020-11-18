@@ -17,6 +17,7 @@ import com.fptu.paa.entity.TransmissionType;
 import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.BikeRepository;
 import com.fptu.paa.repository.NFCRepository;
+import com.fptu.paa.service.FareService;
 import com.fptu.paa.service.RoleService;
 import com.fptu.paa.service.TransmissionTypeService;
 import com.fptu.paa.service.UserService;
@@ -26,12 +27,6 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootApplication
 @Slf4j
 public class PaaApplication implements CommandLineRunner {
-//	@Value("${paa.app.aslocalhost}")
-//	static String asLocalHost;
-
-//	static {
-//		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", "true");
-//	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(PaaApplication.class, args);
@@ -44,6 +39,9 @@ public class PaaApplication implements CommandLineRunner {
 	RoleService roleService;
 	@Autowired
 	TransmissionTypeService transmissionTypeService;
+	@Autowired
+	FareService fareService;
+	
 	@Autowired
 	BikeRepository bikeRepo;
 	@Autowired
@@ -68,6 +66,7 @@ public class PaaApplication implements CommandLineRunner {
 		if (insertSample) {
 			roleService.insertDefaultRole();
 			transmissionTypeService.insertDefaultTransmissionType();
+			fareService.createDefaultFare();
 			User user = userService.insertDefaultAdmin();
 			if (user != null)
 				inputSampleBike(user);

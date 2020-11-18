@@ -1,62 +1,90 @@
 package com.fptu.paa.dto;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+
+import javax.persistence.Column;
 
 import com.fptu.paa.constant.TransmissionTypeName;
 
 public class NewFareSetting {
-	private Timestamp startDay;
 
-	private Timestamp endDay;
-	
+	private String startDay;
+
+	private String endDay;
+
 	private BigDecimal allDayCost;
+
+	private int limitParkingTime;
 
 	private BigDecimal initialDayCost;
 
-	private Timestamp dayTurnDuration;
+	private int dayTurnDuration;
 
-	private Timestamp dayOverTurnTime;
+	private int dayOverTurnTime;
 
 	private BigDecimal dayOverCost;
 
-	private Timestamp startNight;
+	private String startNight;
 
-	private Timestamp endNight;
+	private String endNight;
 
 	private BigDecimal initialNightCost;
 
-	private Timestamp nightTurnDuration;
+	private int nightTurnDuration;
 
-	private Timestamp nightOverTurnTime;
+	private int nightOverTurnTime;
 
 	private BigDecimal nightOverCost;
 
-	private Timestamp createDate;
+	@Column(name = "guest")
+	private boolean guest;
 
-	private Timestamp expirationDate;
-
-	private boolean eTicket;
-	
 	private TransmissionTypeName typeName;
-	
+
 	public NewFareSetting() {
-		
+
+	}
+	
+	
+
+	public NewFareSetting(String startDay, String endDay, BigDecimal allDayCost, int limitParkingTime,
+			BigDecimal initialDayCost, int dayTurnDuration, int dayOverTurnTime, BigDecimal dayOverCost,
+			String startNight, String endNight, BigDecimal initialNightCost, int nightTurnDuration,
+			int nightOverTurnTime, BigDecimal nightOverCost, boolean guest, TransmissionTypeName typeName) {
+		super();
+		this.startDay = startDay;
+		this.endDay = endDay;
+		this.allDayCost = allDayCost;
+		this.limitParkingTime = limitParkingTime;
+		this.initialDayCost = initialDayCost;
+		this.dayTurnDuration = dayTurnDuration;
+		this.dayOverTurnTime = dayOverTurnTime;
+		this.dayOverCost = dayOverCost;
+		this.startNight = startNight;
+		this.endNight = endNight;
+		this.initialNightCost = initialNightCost;
+		this.nightTurnDuration = nightTurnDuration;
+		this.nightOverTurnTime = nightOverTurnTime;
+		this.nightOverCost = nightOverCost;
+		this.guest = guest;
+		this.typeName = typeName;
 	}
 
-	public Timestamp getStartDay() {
+
+
+	public String getStartDay() {
 		return startDay;
 	}
 
-	public void setStartDay(Timestamp startDay) {
+	public void setStartDay(String startDay) {
 		this.startDay = startDay;
 	}
 
-	public Timestamp getEndDay() {
+	public String getEndDay() {
 		return endDay;
 	}
 
-	public void setEndDay(Timestamp endDay) {
+	public void setEndDay(String endDay) {
 		this.endDay = endDay;
 	}
 
@@ -68,6 +96,14 @@ public class NewFareSetting {
 		this.allDayCost = allDayCost;
 	}
 
+	public int getLimitParkingTime() {
+		return limitParkingTime;
+	}
+
+	public void setLimitParkingTime(int limitParkingTime) {
+		this.limitParkingTime = limitParkingTime;
+	}
+
 	public BigDecimal getInitialDayCost() {
 		return initialDayCost;
 	}
@@ -76,19 +112,19 @@ public class NewFareSetting {
 		this.initialDayCost = initialDayCost;
 	}
 
-	public Timestamp getDayTurnDuration() {
+	public int getDayTurnDuration() {
 		return dayTurnDuration;
 	}
 
-	public void setDayTurnDuration(Timestamp dayTurnDuration) {
+	public void setDayTurnDuration(int dayTurnDuration) {
 		this.dayTurnDuration = dayTurnDuration;
 	}
 
-	public Timestamp getDayOverTurnTime() {
+	public int getDayOverTurnTime() {
 		return dayOverTurnTime;
 	}
 
-	public void setDayOverTurnTime(Timestamp dayOverTurnTime) {
+	public void setDayOverTurnTime(int dayOverTurnTime) {
 		this.dayOverTurnTime = dayOverTurnTime;
 	}
 
@@ -100,19 +136,19 @@ public class NewFareSetting {
 		this.dayOverCost = dayOverCost;
 	}
 
-	public Timestamp getStartNight() {
+	public String getStartNight() {
 		return startNight;
 	}
 
-	public void setStartNight(Timestamp startNight) {
+	public void setStartNight(String startNight) {
 		this.startNight = startNight;
 	}
 
-	public Timestamp getEndNight() {
+	public String getEndNight() {
 		return endNight;
 	}
 
-	public void setEndNight(Timestamp endNight) {
+	public void setEndNight(String endNight) {
 		this.endNight = endNight;
 	}
 
@@ -124,19 +160,19 @@ public class NewFareSetting {
 		this.initialNightCost = initialNightCost;
 	}
 
-	public Timestamp getNightTurnDuration() {
+	public int getNightTurnDuration() {
 		return nightTurnDuration;
 	}
 
-	public void setNightTurnDuration(Timestamp nightTurnDuration) {
+	public void setNightTurnDuration(int nightTurnDuration) {
 		this.nightTurnDuration = nightTurnDuration;
 	}
 
-	public Timestamp getNightOverTurnTime() {
+	public int getNightOverTurnTime() {
 		return nightOverTurnTime;
 	}
 
-	public void setNightOverTurnTime(Timestamp nightOverTurnTime) {
+	public void setNightOverTurnTime(int nightOverTurnTime) {
 		this.nightOverTurnTime = nightOverTurnTime;
 	}
 
@@ -148,28 +184,13 @@ public class NewFareSetting {
 		this.nightOverCost = nightOverCost;
 	}
 
-	public Timestamp getCreateDate() {
-		return createDate;
+
+	public boolean isGuest() {
+		return guest;
 	}
 
-	public void setCreateDate(Timestamp createDate) {
-		this.createDate = createDate;
-	}
-
-	public Timestamp getExpirationDate() {
-		return expirationDate;
-	}
-
-	public void setExpirationDate(Timestamp expirationDate) {
-		this.expirationDate = expirationDate;
-	}
-
-	public boolean iseTicket() {
-		return eTicket;
-	}
-
-	public void seteTicket(boolean eTicket) {
-		this.eTicket = eTicket;
+	public void setGuest(boolean guest) {
+		this.guest = guest;
 	}
 
 	public TransmissionTypeName getTypeName() {
@@ -181,4 +202,5 @@ public class NewFareSetting {
 	}
 	
 	
+
 }
