@@ -17,9 +17,11 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 
 	@Override
 	public void insertDefaultTransmissionType() {
-		transRepo.save(new TransmissionType(1L, TransmissionTypeName.XE_DAP, true));
-		transRepo.save(new TransmissionType(2L, TransmissionTypeName.XE_GA, true));
-		transRepo.save(new TransmissionType(3L, TransmissionTypeName.XE_SO, true));
+		if (transRepo.findAll().isEmpty()) {
+			transRepo.save(new TransmissionType(1L, TransmissionTypeName.XE_DAP, true));
+			transRepo.save(new TransmissionType(2L, TransmissionTypeName.XE_GA, true));
+			transRepo.save(new TransmissionType(3L, TransmissionTypeName.XE_SO, true));
+		}
 	}
 
 	@Override
@@ -31,6 +33,5 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 	public List<TransmissionType> getListTransmissionType(boolean enabled) {
 		return transRepo.findByEnabled(enabled);
 	}
-
 
 }
