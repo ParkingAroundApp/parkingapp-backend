@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.dto.NewFareSetting;
 import com.fptu.paa.entity.Fare;
 import com.fptu.paa.service.FareService;
 
@@ -14,10 +15,9 @@ import com.fptu.paa.service.FareService;
 public class FareController {
 	@Autowired
 	FareService fareService;
-	
-	
+
 	@PutMapping(value = "")
-	public Fare saveFareSettings(@RequestBody Fare newFare) {
-		return null;
+	public Fare saveFareSettings(@RequestBody NewFareSetting newFare) {
+		return fareService.saveFareSetting(newFare);
 	}
 }
