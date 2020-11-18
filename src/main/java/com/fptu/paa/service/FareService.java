@@ -14,5 +14,5 @@ public interface FareService {
 
 	Fare saveFareSetting(NewFareSetting newSetting);
 	
-	boolean createDefaultFare();
+	void createDefaultFare();
 }
