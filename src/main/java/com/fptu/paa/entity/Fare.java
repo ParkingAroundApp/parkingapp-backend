@@ -30,40 +30,43 @@ public class Fare {
 	private Long id;
 
 	@Column(name = "startDay")
-	private Timestamp startDay;
+	private String startDay;
 
 	@Column(name = "endDay")
-	private Timestamp endDay;
+	private String endDay;
 	
 	@Column(name = "allDayCost")
 	private BigDecimal allDayCost;
+	
+	@Column(name ="limitParkingTime")
+	private int limitParkingTime;
 
 	@Column(name = "initialDayCost")
 	private BigDecimal initialDayCost;
 
 	@Column(name = "dayTurnDuration")
-	private Timestamp dayTurnDuration;
+	private int dayTurnDuration;
 
 	@Column(name = "dayOverTurnTime")
-	private Timestamp dayOverTurnTime;
+	private int dayOverTurnTime;
 
 	@Column(name = "dayOverCost")
 	private BigDecimal dayOverCost;
 
 	@Column(name = "startNight")
-	private Timestamp startNight;
+	private String startNight;
 
 	@Column(name = "endNight")
-	private Timestamp endNight;
+	private String endNight;
 
 	@Column(name = "initialNightCost")
 	private BigDecimal initialNightCost;
 
 	@Column(name = "nightTurnDuration")
-	private Timestamp nightTurnDuration;
+	private int nightTurnDuration;
 
 	@Column(name = "nightOverTurnTime")
-	private Timestamp nightOverTurnTime;
+	private int nightOverTurnTime;
 
 	@Column(name = "nightOverCost")
 	private BigDecimal nightOverCost;
