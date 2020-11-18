@@ -1,5 +1,7 @@
 package com.fptu.paa.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.TransmissionTypeName;
@@ -10,4 +12,6 @@ public interface TransmissionTypeService {
 	void insertDefaultTransmissionType();
 	
 	TransmissionType getActiveType(TransmissionTypeName name);
+
+	List<TransmissionType> getListTransmissionType(boolean enabled);
 }

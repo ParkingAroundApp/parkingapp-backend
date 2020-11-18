@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.fptu.paa.entity.Fare;
 
 @Repository
-public interface FareRepository extends JpaRepository<Fare, Long>{
-
+public interface FareRepository extends JpaRepository<Fare, Long> {
+	Fare findFareByTransmissionType_idAndEnabledAndETicket(Long transmissionTypeID, boolean enabled, boolean eTicket);
 }
