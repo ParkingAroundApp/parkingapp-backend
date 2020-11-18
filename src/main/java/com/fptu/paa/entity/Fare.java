@@ -31,40 +31,43 @@ public class Fare {
 
 	@Column(name = "startDay")
 	private Timestamp startDay;
-	
+
 	@Column(name = "endDay")
 	private Timestamp endDay;
 	
+	@Column(name = "allDayCost")
+	private BigDecimal allDayCost;
+
 	@Column(name = "initialDayCost")
 	private BigDecimal initialDayCost;
-	
+
 	@Column(name = "dayTurnDuration")
 	private Timestamp dayTurnDuration;
-	
+
 	@Column(name = "dayOverTurnTime")
 	private Timestamp dayOverTurnTime;
-	
+
 	@Column(name = "dayOverCost")
 	private BigDecimal dayOverCost;
-	
+
 	@Column(name = "startNight")
 	private Timestamp startNight;
-	
+
 	@Column(name = "endNight")
 	private Timestamp endNight;
-	
+
 	@Column(name = "initialNightCost")
 	private BigDecimal initialNightCost;
-	
+
 	@Column(name = "nightTurnDuration")
 	private Timestamp nightTurnDuration;
-	
+
 	@Column(name = "nightOverTurnTime")
 	private Timestamp nightOverTurnTime;
-	
+
 	@Column(name = "nightOverCost")
 	private BigDecimal nightOverCost;
-	
+
 	@Column(name = "createDate")
 	private Timestamp createDate;
 
@@ -73,9 +76,9 @@ public class Fare {
 
 	@Column(name = "eTicket")
 	private boolean eTicket;
-	
+
 	@Column(name = "enabled")
-	private boolean enabled;
+	private boolean enabled = true;
 
 	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "transmissionType_id")

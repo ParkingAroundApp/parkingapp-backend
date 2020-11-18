@@ -1,5 +1,7 @@
 package com.fptu.paa.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +24,13 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 
 	@Override
 	public TransmissionType getActiveType(TransmissionTypeName name) {
-		
 		return transRepo.findByNameAndEnabled(name, true);
 	}
+
+	@Override
+	public List<TransmissionType> getListTransmissionType(boolean enabled) {
+		return transRepo.findByEnabled(true);
+	}
+
 
 }
