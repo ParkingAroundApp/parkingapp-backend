@@ -7,5 +7,5 @@ import com.fptu.paa.entity.Fare;
 
 @Repository
 public interface FareRepository extends JpaRepository<Fare, Long> {
-	Fare findFareByTransmissionType_idAndEnabledAndETicket(Long transmissionTypeID, boolean enabled, boolean eTicket);
+	Fare findFareByTransmissionType_idAndEnabledAndGuest(Long transmissionTypeID, boolean enabled, boolean guest);
 }
