@@ -29,7 +29,7 @@ public class FareServiceImpl implements FareService {
 	@Override
 	public BigDecimal fareCalculation(Ticket ticket, TransmissionType type, boolean isETicket) {
 		// Step 1: Find fare setting by transmisstion type
-		Fare fare = fareRepo.findFareByTransmissionType_idAndEnabledAndETicket(type.getId(), true, isETicket);
+		Fare fare = fareRepo.findFareByTransmissionType_idAndEnabledAndGuest(type.getId(), true, isETicket);
 		if (fare != null) {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm:ss:SSS");
 			String tmpCheckInTime = ticket.getCheckinTime();
@@ -155,7 +155,7 @@ public class FareServiceImpl implements FareService {
 	}
 	
 	private void disableOldSetting(Long transmissionTypeID, boolean isGuest) {
-		 Fare oldSetting = fareRepo.findFareByTransmissionType_idAndEnabledAndETicket(transmissionTypeID, true, isGuest);
+		 Fare oldSetting = fareRepo.findFareByTransmissionType_idAndEnabledAndGuest(transmissionTypeID, true, isGuest);
 		 oldSetting.setEnabled(false);
 		 fareRepo.save(oldSetting);
 	}
