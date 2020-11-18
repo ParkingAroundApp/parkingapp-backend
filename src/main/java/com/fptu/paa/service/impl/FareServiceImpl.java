@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -38,6 +39,7 @@ public class FareServiceImpl implements FareService {
 		// Step 1: Find fare setting by transmisstion type
 		Fare fare = fareRepo.findFareByTransmissionType_idAndEnabledAndGuest(type.getId(), true, isGuest);
 		if (fare != null) {
+			String checkInDate = checkin.split("-")[0];
 			LocalDateTime checkInTime = LocalDateTime.parse(checkin, formatter);
 			LocalDateTime checkOutTime = LocalDateTime.parse(checkout, formatter);
 			Duration totalParkingTime = Duration.between(checkInTime, checkOutTime);
@@ -46,7 +48,7 @@ public class FareServiceImpl implements FareService {
 
 			FareType fareType = null;
 			while (totalParkingTime.toHours() >= 0) {
-				fareType = shiftCalucation(totalParkingTime, fare, checkInTime, checkOutTime);
+				fareType = shiftCalucation(totalParkingTime, fare, checkInTime, checkOutTime, checkInDate);
 				totalPrice = ticketPrice(fareType, fare, totalParkingTime);
 				totalParkingTime = totalParkingTime.minusHours(24);
 			}
@@ -56,9 +58,9 @@ public class FareServiceImpl implements FareService {
 	}
 
 	private FareType shiftCalucation(Duration totalParkingTime, Fare fare, LocalDateTime checkInTime,
-			LocalDateTime checkOutTime) {
+			LocalDateTime checkOutTime, String checkInDate) {
 		FareType fareType;
-		String date = "2020/08/11";
+		String date = checkInDate;
 		// Set up day shift and night shift
 		String tStartDay = date + "-" + fare.getStartDay() + ":000";
 		String tEndDay = date + "-" + fare.getEndDay() + ":000";
@@ -197,28 +199,32 @@ public class FareServiceImpl implements FareService {
 	}
 
 	@Override
-	public boolean createDefaultFare() {
-		NewFareSetting newFareSetting = new NewFareSetting();
-		newFareSetting.setTypeName(TransmissionTypeName.XE_GA);
-		newFareSetting.setAllDayCost(new BigDecimal("9000"));
-		newFareSetting.setLimitParkingTime(10);
-		newFareSetting.setGuest(false);
-		// Set up day
-		newFareSetting.setStartDay("05:00:00");
-		newFareSetting.setEndDay("21:00:00");
-		newFareSetting.setDayTurnDuration(4);
-		newFareSetting.setInitialDayCost(new BigDecimal("4000"));
-		newFareSetting.setDayOverTurnTime(1);
-		newFareSetting.setDayOverCost(new BigDecimal("1000"));
-		// Set up night
-		newFareSetting.setStartNight("21:00:00");
-		newFareSetting.setEndNight("05:00:00");
-		newFareSetting.setNightTurnDuration(3);
-		newFareSetting.setInitialNightCost(new BigDecimal("5000"));
-		newFareSetting.setNightOverTurnTime(1);
-		newFareSetting.setNightOverCost(new BigDecimal("2000"));
-		Fare newFare = saveFareSetting(newFareSetting);
-		return newFare != null;
+	public void createDefaultFare() {
+		List<Fare> fares = fareRepo.findAll();
+
+		if (fares.isEmpty()) {
+			NewFareSetting newFareSetting = new NewFareSetting();
+			newFareSetting.setTypeName(TransmissionTypeName.XE_GA);
+			newFareSetting.setAllDayCost(new BigDecimal("9000"));
+			newFareSetting.setLimitParkingTime(10);
+			newFareSetting.setGuest(false);
+			// Set up day
+			newFareSetting.setStartDay("05:00:00");
+			newFareSetting.setEndDay("21:00:00");
+			newFareSetting.setDayTurnDuration(4);
+			newFareSetting.setInitialDayCost(new BigDecimal("4000"));
+			newFareSetting.setDayOverTurnTime(1);
+			newFareSetting.setDayOverCost(new BigDecimal("1000"));
+			// Set up night
+			newFareSetting.setStartNight("21:00:00");
+			newFareSetting.setEndNight("05:00:00");
+			newFareSetting.setNightTurnDuration(3);
+			newFareSetting.setInitialNightCost(new BigDecimal("5000"));
+			newFareSetting.setNightOverTurnTime(1);
+			newFareSetting.setNightOverCost(new BigDecimal("2000"));
+			// Save to db
+			saveFareSetting(newFareSetting);
+		}
 	}
 
 }
