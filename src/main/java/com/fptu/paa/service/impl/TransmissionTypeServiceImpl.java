@@ -29,7 +29,7 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 
 	@Override
 	public List<TransmissionType> getListTransmissionType(boolean enabled) {
-		return transRepo.findByEnabled(true);
+		return transRepo.findByEnabled(enabled);
 	}
 
 
