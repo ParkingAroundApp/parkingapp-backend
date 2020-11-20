@@ -44,15 +44,6 @@ public class Fare {
 	@Column(name = "initialDayCost")
 	private BigDecimal initialDayCost;
 
-	@Column(name = "dayTurnDuration")
-	private int dayTurnDuration;
-
-	@Column(name = "dayOverTurnTime")
-	private int dayOverTurnTime;
-
-	@Column(name = "dayOverCost")
-	private BigDecimal dayOverCost;
-
 	@Column(name = "startNight")
 	private String startNight;
 
@@ -61,15 +52,6 @@ public class Fare {
 
 	@Column(name = "initialNightCost")
 	private BigDecimal initialNightCost;
-
-	@Column(name = "nightTurnDuration")
-	private int nightTurnDuration;
-
-	@Column(name = "nightOverTurnTime")
-	private int nightOverTurnTime;
-
-	@Column(name = "nightOverCost")
-	private BigDecimal nightOverCost;
 
 	@Column(name = "createDate")
 	private Timestamp createDate;
