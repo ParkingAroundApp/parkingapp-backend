@@ -7,7 +7,7 @@ import com.fptu.paa.entity.NFC;
 
 @Repository
 public interface NFCRepository extends JpaRepository<NFC, Long> {
-	NFC findNFCBySerialNumber(String serialNumber);
+	NFC findNFCBySerialNumberIgnoreCase(String serialNumber);
 
 	NFC findNFCById(Long id);
 }

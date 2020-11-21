@@ -80,17 +80,7 @@ public class UserServiceImpl implements UserService {
 		return null;
 	}
 
-	@Override
-	public boolean disableAccount(Long userID) {
-		boolean isSuccess = false;
-		User user = userRepository.getOne(userID);
-		if (user != null) {
-			user.setEnabled(false);
-			userRepository.save(user);
-			isSuccess = true;
-		}
-		return isSuccess;
-	}
+
 
 	public String decodeEmailFromToken() {
 		String[] header = request.getHeader("Authorization").split(" ");
@@ -227,5 +217,17 @@ public class UserServiceImpl implements UserService {
 			System.out.println(admin);
 		}
 		return result;
+	}
+
+	@Override
+	public boolean changeAccountStatus(Long userID, boolean status) {
+		boolean isSuccess = false;
+		User user = userRepository.getOne(userID);
+		if (user != null) {
+			user.setEnabled(status);
+			userRepository.save(user);
+			isSuccess = true;
+		}
+		return isSuccess;
 	}
 }

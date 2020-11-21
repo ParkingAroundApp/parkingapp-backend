@@ -12,4 +12,6 @@ public interface NFCService {
 	public NFC changeNFCStatus(String serialNumber, NFCStatus nfcStatus);
 	
 	public NFC getNFCBySerial(String serialNumber);
+
+	void insertSampleNFC();
 }

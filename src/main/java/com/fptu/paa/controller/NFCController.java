@@ -41,7 +41,7 @@ public class NFCController {
 
 	@GetMapping(value = "")
 	public ResponseEntity<NFC> getNFCBySerialNumber(@RequestParam String serialNumber) {
-		NFC nfc = nfcRepository.findNFCBySerialNumber(serialNumber);
+		NFC nfc = nfcRepository.findNFCBySerialNumberIgnoreCase(serialNumber);
 		if (nfc != null) {
 			return new ResponseEntity<NFC>(nfc, HttpStatus.OK);
 		}

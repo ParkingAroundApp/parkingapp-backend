@@ -18,9 +18,11 @@ import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.BikeRepository;
 import com.fptu.paa.repository.NFCRepository;
 import com.fptu.paa.service.FareService;
+import com.fptu.paa.service.NFCService;
 import com.fptu.paa.service.RoleService;
 import com.fptu.paa.service.TransmissionTypeService;
 import com.fptu.paa.service.UserService;
+import com.fptu.paa.utils.FabricUtils;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +43,8 @@ public class PaaApplication implements CommandLineRunner {
 	TransmissionTypeService transmissionTypeService;
 	@Autowired
 	FareService fareService;
+	@Autowired
+	NFCService nfcService;
 	
 	@Autowired
 	BikeRepository bikeRepo;
@@ -57,7 +61,7 @@ public class PaaApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.setProperty("org.hyperledger.fabric.sdk.service_discovery.as_localhost", asLocalHost);
 		try {
-//			FabricUtils.enrollAdmin();
+			FabricUtils.enrollAdmin();
 		} catch (Exception e) {
 			log.error("Enroll admin error. Message - {}", e.getMessage());
 		}
@@ -70,7 +74,7 @@ public class PaaApplication implements CommandLineRunner {
 			User user = userService.insertDefaultAdmin();
 			if (user != null)
 				inputSampleBike(user);
-			inputSampleNFC();
+			nfcService.insertSampleNFC();
 		}
 	}
 
@@ -80,10 +84,5 @@ public class PaaApplication implements CommandLineRunner {
 		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", "", "", BikeStatus.PENDING,
 				true, user, model);
 		bikeRepo.save(bike);
-	}
-
-	private void inputSampleNFC() {
-		NFC nfc = new NFC(1L, "123456789", NFCStatus.FINISH, true);
-		nfcRepo.save(nfc);
 	}
 }

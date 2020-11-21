@@ -162,7 +162,7 @@ public class TransactionServiceImpl implements TransactionService {
 		query.put("selector", selectorOptions.put("type", "transaction"));
 
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
-
+System.out.println(query.toString());
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
 		if (result.length > 0) {

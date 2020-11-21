@@ -20,7 +20,7 @@ public class NFCServiceImpl implements NFCService {
 
 	@Override
 	public NFC changeNFCStatus(String serialNumber, NFCStatus nfcStatus) {
-		NFC nfc = nfcRepository.findNFCBySerialNumber(serialNumber);
+		NFC nfc = nfcRepository.findNFCBySerialNumberIgnoreCase(serialNumber);
 		if (nfc != null) {
 			nfc.setStatus(nfcStatus);
 			nfc = nfcRepository.save(nfc);
@@ -44,12 +44,21 @@ public class NFCServiceImpl implements NFCService {
 	@Override
 	public NFC getNFCBySerial(String serialNumber) {
 		if (serialNumber != null && !serialNumber.isEmpty()) {
-			NFC nfc = nfcRepository.findNFCBySerialNumber(serialNumber);
+			NFC nfc = nfcRepository.findNFCBySerialNumberIgnoreCase(serialNumber);
 			if (nfc != null) {
 				return nfc;
 			}
 		}
 		return null;
 	}
-
+	
+	@Override
+	public void insertSampleNFC() {
+		if(nfcRepository.findAll().isEmpty()) {
+		insertNFCCard("8C:91:A6:02");
+		insertNFCCard("7D:7F:28:4B");
+		insertNFCCard("8B:4A:19:00");
+		insertNFCCard("A5:3F:56:BE");
+		}
+	}
 }

@@ -25,7 +25,7 @@ public interface UserService {
 
 	boolean rechargeBalance(Long userId, BigDecimal balance);
 
-	boolean disableAccount(Long userID);
+	boolean changeAccountStatus(Long userID, boolean status);
 
 	UserViewDTO getCurrentUser();
 	

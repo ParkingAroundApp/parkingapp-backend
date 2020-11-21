@@ -83,4 +83,12 @@ public class OwnerController {
 		}
 		return ResponseEntity.ok(result);
 	}
+	@PutMapping(value = "/user/changeStatus")
+	public ResponseEntity<String> diableAccount(@RequestParam Long userId,@RequestParam boolean status) {
+		boolean changeStatusAcc = userService.changeAccountStatus(userId, status);
+		if (changeStatusAcc == true) {
+			return ResponseEntity.status(HttpStatus.OK).body("Change status success!");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Change status failed!");
+	}
 }
