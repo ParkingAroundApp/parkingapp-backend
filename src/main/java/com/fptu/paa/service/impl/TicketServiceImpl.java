@@ -232,11 +232,11 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public String reportTicket(String checkInTime, String id, String staffCheckoutId, String reportTime,
-			String bikeImage, String faceImage) throws Exception {
+			String bikeImage, String faceImage, String note) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("reportTicket", checkInTime, id, staffCheckoutId, reportTime, bikeImage,
-				faceImage);
+				faceImage, note);
 		if (result.length > 0) {
 			return new String(result);
 		}

@@ -10,6 +10,8 @@ import com.fptu.paa.entity.TransmissionType;
 @Service
 public interface TransmissionTypeService {
 	void insertDefaultTransmissionType();
+		
+	void disabledTranmissionType(TransmissionTypeName name);
 	
 	TransmissionType getActiveType(TransmissionTypeName name);
 

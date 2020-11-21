@@ -25,13 +25,22 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 	}
 
 	@Override
-	public TransmissionType getActiveType(TransmissionTypeName name) {
-		return transRepo.findByNameAndEnabled(name, true);
+	public List<TransmissionType> getListTransmissionType(boolean enabled) {
+		return transRepo.findByEnabled(enabled);
 	}
 
 	@Override
-	public List<TransmissionType> getListTransmissionType(boolean enabled) {
-		return transRepo.findByEnabled(enabled);
+	public void disabledTranmissionType(TransmissionTypeName name) {
+		TransmissionType type = transRepo.findByNameAndEnabled(name, true);
+		if (type != null) {
+			type.setEnabled(false);
+			transRepo.save(type);
+		}
+	}
+
+	@Override
+	public TransmissionType getActiveType(TransmissionTypeName name) {
+		return transRepo.findByNameAndEnabled(name, true);
 	}
 
 }

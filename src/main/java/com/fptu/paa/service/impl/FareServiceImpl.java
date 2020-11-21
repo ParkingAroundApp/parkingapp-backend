@@ -7,6 +7,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,11 +19,13 @@ import org.springframework.stereotype.Service;
 import com.fptu.paa.constant.FareType;
 import com.fptu.paa.constant.TransmissionTypeName;
 import com.fptu.paa.dto.NewFareSetting;
+import com.fptu.paa.dto.TicketPriceResponse;
 import com.fptu.paa.entity.Fare;
 import com.fptu.paa.entity.TransmissionType;
 import com.fptu.paa.repository.FareRepository;
 import com.fptu.paa.repository.TransmissionTypeRepository;
 import com.fptu.paa.service.FareService;
+import com.fptu.paa.utils.DefaultUtils;
 
 @Service
 @Transactional
@@ -35,71 +38,81 @@ public class FareServiceImpl implements FareService {
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm:ss:SSS");
 
 	@Override
-	public BigDecimal fareCalculation(String checkin, String checkout, TransmissionType type, boolean isGuest) {
-		// Step 1: Find fare setting by transmisstion type
+	public TicketPriceResponse fareCalculation(String checkin, String checkout, TransmissionType type,
+			boolean isGuest) {
+		// Step 1: Find fare setting by transmission type
 		Fare fare = fareRepo.findFareByTransmissionType_idAndEnabledAndGuest(type.getId(), true, isGuest);
 		if (fare != null) {
 			String checkInDate = checkin.split("-")[0];
 			LocalDateTime checkInTime = LocalDateTime.parse(checkin, formatter);
 			LocalDateTime checkOutTime = LocalDateTime.parse(checkout, formatter);
 			Duration totalParkingTime = Duration.between(checkInTime, checkOutTime);
+			String date = checkInDate;
+			// Set up day shift and night shift
+			String tStartDay = date + "-" + fare.getStartDay() + ":000";
+			String tEndDay = date + "-" + fare.getEndDay() + ":000";
+			String tStartNight = date + "-" + fare.getStartNight() + ":000";
+			String tEndNight = date + "-" + fare.getEndNight() + ":000";
+
+			LocalDateTime startDay = LocalDateTime.parse(tStartDay, formatter);
+			LocalDateTime endDay = LocalDateTime.parse(tEndDay, formatter);
+			LocalDateTime startNight = LocalDateTime.parse(tStartNight, formatter);
+			LocalDateTime endNight = LocalDateTime.parse(tEndNight, formatter);
+			if (endNight.isBefore(startNight)) {
+				endNight = endNight.plusHours(24);
+			}
 			// Begin ticket price calculation
 			BigDecimal totalPrice = new BigDecimal(BigInteger.ZERO, 2);
-
 			FareType fareType = null;
-			while (totalParkingTime.toHours() >= 0) {
-				fareType = shiftCalucation(totalParkingTime, fare, checkInTime, checkOutTime, checkInDate);
+			int count = 0;
+			Long maxParkingTime = Long.valueOf(fare.getLimitParkingTime());
+			while (totalParkingTime.toMinutes() > 0) {
+				if (count > 0) {
+					checkInTime = checkInTime.plusHours(24);
+					startDay = startDay.plusHours(24);
+					endDay = endDay.plusHours(24);
+					startNight = startNight.plusHours(24);
+					endNight = endNight.plusHours(24);
+				}
+				Long parkingTime = totalParkingTime.toMinutes();
+				FareType preferType = fare.getInitialDayCost().compareTo(fare.getInitialNightCost()) == 1
+						? FareType.DAY_SHIFT
+						: FareType.NIGHT_SHIFT;
+				if (parkingTime > maxParkingTime) { // CASE 1: Tinh gia gui xe theo ngay
+					fareType = FareType.ALL_DAY;
+				} else { // CASE 2: Tinh gia gui xe theo ca sang hoac toi
+					if (DefaultUtils.isBetween(checkInTime, startDay, endDay, "==")
+							&& DefaultUtils.isBetween(checkOutTime, startDay, endDay, "==")) {
+						fareType = FareType.DAY_SHIFT;
+					} else if (DefaultUtils.isBetween(checkInTime, startNight, endNight, "==")
+							&& DefaultUtils.isBetween(checkOutTime, startNight, endNight, "==")) {
+						fareType = FareType.NIGHT_SHIFT;
+					} else { // SANG + TOI
+						Duration parkingDayTime, parkingNightTime;
+						// Compare duration between to shift (DAY and NIGHT)
+						// Choose the shift which have greater duration
+						if (DefaultUtils.isBetween(checkInTime, startDay, endDay, "==")) {
+							parkingDayTime = Duration.between(checkInTime, startNight);
+							parkingNightTime = Duration.between(startNight, checkOutTime);
+						} else {
+							parkingNightTime = Duration.between(checkInTime, startDay);
+							parkingDayTime = Duration.between(startDay, checkOutTime);
+						}
+						int result = parkingNightTime.compareTo(parkingDayTime);
+						fareType = result == 0 ? preferType : result == 1 ? FareType.NIGHT_SHIFT : FareType.DAY_SHIFT;
+					}
+				}
 				totalPrice = ticketPrice(fareType, fare, totalParkingTime);
+				count++;
+
 				totalParkingTime = totalParkingTime.minusHours(24);
 			}
-			return totalPrice;
+			TicketPriceResponse response = new TicketPriceResponse();
+			response.setFare(fare);
+			response.setTotalPrice(totalPrice.toString());
+			return response;
 		}
 		return null;
-	}
-
-	private FareType shiftCalucation(Duration totalParkingTime, Fare fare, LocalDateTime checkInTime,
-			LocalDateTime checkOutTime, String checkInDate) {
-		FareType fareType;
-		String date = checkInDate;
-		// Set up day shift and night shift
-		String tStartDay = date + "-" + fare.getStartDay() + ":000";
-		String tEndDay = date + "-" + fare.getEndDay() + ":000";
-		String tStartNight = date + "-" + fare.getStartNight() + ":000";
-		String tEndNight = date + "-" + fare.getEndNight() + ":000";
-
-		LocalDateTime startDay = LocalDateTime.parse(tStartDay, formatter);
-		LocalDateTime endDay = LocalDateTime.parse(tEndDay, formatter);
-		LocalDateTime startNight = LocalDateTime.parse(tStartNight, formatter);
-		LocalDateTime endNight = LocalDateTime.parse(tEndNight, formatter);
-		if (endNight.isBefore(startNight)) {
-			endNight = endNight.plusHours(24);
-		}
-		// Begin
-		Long parkingTime = totalParkingTime.toHours();
-		Long maxParkingTime = Long.valueOf(fare.getLimitParkingTime());
-		if (parkingTime > maxParkingTime) { // CASE 1: ALL DAY CASE
-			fareType = FareType.ALL_DAY;
-		} else { // CASE 2: DAY OR NIGHT SHIFT
-			if (checkInTime.isAfter(startDay) && checkOutTime.isBefore(endDay)) { // CA SANG
-				fareType = FareType.DAY_SHIFT;
-			} else if (checkInTime.isAfter(startNight) && checkOutTime.isBefore(endNight)) { // CA TOI
-				fareType = FareType.NIGHT_SHIFT;
-			} else {
-				// Compare duration between to shift (DAY and NIGHT)
-				// Choose the shift which have greater duration
-				Duration parkingDayTime, parkingNightTime;
-				if (checkInTime.isAfter(startDay) && checkInTime.isBefore(endDay)) {
-					parkingDayTime = Duration.between(checkInTime, endDay);
-					parkingNightTime = Duration.between(startNight, checkOutTime);
-				} else {
-					parkingNightTime = Duration.between(checkInTime, endNight);
-					parkingDayTime = Duration.between(endNight, checkOutTime);
-				}
-				fareType = parkingNightTime.toHours() > parkingDayTime.toHours() ? FareType.NIGHT_SHIFT
-						: FareType.DAY_SHIFT;
-			}
-		}
-		return fareType;
 	}
 
 	private BigDecimal ticketPrice(FareType fareType, Fare fare, Duration totalParkingTime) {
@@ -108,34 +121,14 @@ public class FareServiceImpl implements FareService {
 		BigDecimal dayPrice = fare.getInitialDayCost();
 		BigDecimal nightPrice = fare.getInitialNightCost();
 		BigDecimal allDayPrice = fare.getAllDayCost();
-		// Set up fine price
-		Long dayTurnTime = Long.valueOf(fare.getDayTurnDuration());
-		Long overDayTurnTime = Long.valueOf(fare.getDayOverTurnTime());
-		BigDecimal overDayPrice = fare.getDayOverCost();
 
-		Long nightTurnTime = Long.valueOf(fare.getNightTurnDuration());
-		Long overNightTurnTime = Long.valueOf(fare.getNightOverTurnTime());
-		BigDecimal overNightPrice = fare.getNightOverCost();
 		if (fareType != null) {
 			switch (fareType) {
 			case DAY_SHIFT:
 				result = result.add(dayPrice);
-				// Check if parking over turn time
-				if (totalParkingTime.toHours() > dayTurnTime) {
-					Duration remainderTime = totalParkingTime.minusHours(dayTurnTime);
-					Long time = remainderTime.dividedBy(overDayTurnTime).toHours();
-					BigDecimal finePrice = overDayPrice.multiply(new BigDecimal(time));
-					result = result.add(finePrice);
-				}
 				break;
 			case NIGHT_SHIFT:
 				result = result.add(nightPrice);
-				if (totalParkingTime.toHours() > nightTurnTime) {
-					Duration remainderTime = totalParkingTime.minusHours(nightTurnTime);
-					Long time = remainderTime.dividedBy(overNightTurnTime).toHours();
-					BigDecimal finePrice = overNightPrice.multiply(new BigDecimal(time));
-					result = result.add(finePrice);
-				}
 				break;
 			case ALL_DAY:
 				result = result.add(allDayPrice);
@@ -148,7 +141,7 @@ public class FareServiceImpl implements FareService {
 	}
 
 	@Override
-	public Fare saveFareSetting(NewFareSetting newSetting) {
+	public Fare saveNewFare(NewFareSetting newSetting) {
 		String tmpCheckInTime = "2020/08/16-00:00:00:000";
 		String tmpCheckOutTime = "2020/08/16-00:00:00:000";
 
@@ -206,25 +199,36 @@ public class FareServiceImpl implements FareService {
 			NewFareSetting newFareSetting = new NewFareSetting();
 			newFareSetting.setTypeName(TransmissionTypeName.XE_GA);
 			newFareSetting.setAllDayCost(new BigDecimal("9000"));
-			newFareSetting.setLimitParkingTime(10);
+			newFareSetting.setLimitParkingTime(10 * 60);
 			newFareSetting.setGuest(false);
 			// Set up day
 			newFareSetting.setStartDay("05:00:00");
 			newFareSetting.setEndDay("21:00:00");
-			newFareSetting.setDayTurnDuration(4);
 			newFareSetting.setInitialDayCost(new BigDecimal("4000"));
-			newFareSetting.setDayOverTurnTime(1);
-			newFareSetting.setDayOverCost(new BigDecimal("1000"));
 			// Set up night
 			newFareSetting.setStartNight("21:00:00");
 			newFareSetting.setEndNight("05:00:00");
-			newFareSetting.setNightTurnDuration(3);
 			newFareSetting.setInitialNightCost(new BigDecimal("5000"));
-			newFareSetting.setNightOverTurnTime(1);
-			newFareSetting.setNightOverCost(new BigDecimal("2000"));
 			// Save to db
-			saveFareSetting(newFareSetting);
+			saveNewFare(newFareSetting);
 		}
+	}
+
+	@Override
+	public List<Fare> updateSetting(List<NewFareSetting> fares) {
+		List<Fare> result = new ArrayList<>();
+		for (NewFareSetting newFareSetting : fares) {
+			Fare fare = saveNewFare(newFareSetting);
+			if (fare != null) {
+				result.add(fare);
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public List<Fare> getFaresByGuest(boolean isGuest) {
+		return fareRepo.findFareByEnabledAndGuest(true,isGuest);
 	}
 
 }

@@ -104,7 +104,7 @@ public class TicketController {
 		try {
 			String tmpResult = ticketService.reportTicket(reportRequest.getCheckInTime(), reportRequest.getId(),
 					reportRequest.getStaffCheckOutID(), reportRequest.getReportTime(),
-					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage());
+					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage(), reportRequest.getNote());
 			if (tmpResult != null) {
 				result = tmpResult;
 			}

@@ -33,7 +33,7 @@ public interface TicketService {
 	public String getTicketHistory(String checkInTime, String id) throws Exception;
 
 	public String reportTicket(String checkInTime, String id, String staffCheckoutId, String reportTime,
-			String bikeImage, String faceImage) throws Exception;
+			String bikeImage, String faceImage, String note) throws Exception;
 
 	// FOR NFC
 	public String checkInByNFCID(String licensePlate, String NFCID, String staffCheckInID, String checkInTime,
