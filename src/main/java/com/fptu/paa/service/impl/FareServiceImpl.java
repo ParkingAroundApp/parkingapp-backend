@@ -211,6 +211,12 @@ public class FareServiceImpl implements FareService {
 			newFareSetting.setInitialNightCost(new BigDecimal("5000"));
 			// Save to db
 			saveNewFare(newFareSetting);
+			//For NFC
+			newFareSetting.setGuest(true);
+			newFareSetting.setAllDayCost(new BigDecimal("11000"));
+			newFareSetting.setInitialDayCost(new BigDecimal("5000"));
+			newFareSetting.setInitialNightCost(new BigDecimal("6000"));
+			saveNewFare(newFareSetting);
 		}
 	}
 
