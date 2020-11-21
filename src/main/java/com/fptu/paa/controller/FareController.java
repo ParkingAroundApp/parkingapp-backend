@@ -44,16 +44,13 @@ public class FareController {
 	}
 
 	@GetMapping(value = "/price")
-	public ResponseEntity<String> ticketPriceCalculation(@RequestParam String checkInTime,
+	public ResponseEntity<TicketPriceResponse> ticketPriceCalculation(@RequestParam String checkInTime,
 			@RequestParam String checkOutTime, @RequestParam TransmissionTypeName typeName,
 			@RequestParam(defaultValue = "false") boolean isGuest) {
 		TransmissionType type = transTypeService.getActiveType(typeName);
-		String result = null;
+		TicketPriceResponse result = null;
 		if (type != null) {
-			TicketPriceResponse price = fareService.fareCalculation(checkInTime, checkOutTime, type, isGuest);
-			if (price != null) {
-				result = price.getTotalPrice() + "_" + price.getFare().getId();
-			}
+			result = fareService.fareCalculation(checkInTime, checkOutTime, type, isGuest);
 		}
 		return ResponseEntity.ok(result);
 	}
