@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.dto.BikeRegisterDTO;
+import com.fptu.paa.dto.BikeUpdateDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Bike;
@@ -195,6 +196,22 @@ public class BikeServiceImpl implements BikeService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Bike updateBike(BikeUpdateDTO bikeUpdate) throws Exception {
+		Bike bike = bikeRepository.findBikeById(bikeUpdate.getId());
+		User user = userRepository.findById(bikeUpdate.getUserID()).get();
+		Model model = modelRepository.findModelById((bikeUpdate.getModel_id()));
+		if (bike != null) {			
+			bike = modelMapper.map(bikeUpdate, Bike.class);
+			bike.setUser(user);
+			bike.setModel(model);
+			bike.setStatus(BikeStatus.PENDING);
+			bikeRepository.save(bike);
+			return bike;
+		}
+		return null;
 	}
 
 }

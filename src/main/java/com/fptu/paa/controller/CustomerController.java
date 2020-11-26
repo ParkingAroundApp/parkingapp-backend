@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.dto.BikeRegisterDTO;
+import com.fptu.paa.dto.BikeUpdateDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.LoginRequest;
 import com.fptu.paa.dto.RechargeRequest;
@@ -103,6 +104,15 @@ public class CustomerController {
 	public ResponseEntity<String> deleteBike(@RequestParam Long bikeId) {
 		bikeService.deleteBike(bikeId);
 		return ResponseEntity.ok("Success");
+	}
+	
+	@PutMapping(value = "/bike/update")
+	public ResponseEntity<String> updateBike(@RequestBody BikeUpdateDTO bikeUpdate) throws Exception {
+		Bike updateBike = bikeService.updateBike(bikeUpdate);
+		if (updateBike != null) {
+			return ResponseEntity.ok("Update success!");
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Update failed!");
 	}
 
 	@GetMapping("")
