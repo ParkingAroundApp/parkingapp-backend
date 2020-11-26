@@ -1,7 +1,7 @@
 package com.fptu.paa.constant;
 
 public enum TransmissionTypeName {
-	XE_DAP,
-	XE_GA,
-	XE_SO
+	BICYCLE,
+	BIKE_GT175,
+	BIKE_LTE175
 }

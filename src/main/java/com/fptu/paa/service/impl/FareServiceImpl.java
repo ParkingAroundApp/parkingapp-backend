@@ -185,7 +185,6 @@ public class FareServiceImpl implements FareService {
 	private void disableOldSetting(Long transmissionTypeID, boolean isGuest) {
 		Fare oldSetting = fareRepo.findFareByTransmissionType_idAndEnabledAndGuest(transmissionTypeID, true, isGuest);
 		if (oldSetting != null) {
-			oldSetting.setExpirationDate(Timestamp.from(Instant.now()));
 			oldSetting.setEnabled(false);
 			fareRepo.save(oldSetting);
 		}
@@ -197,7 +196,7 @@ public class FareServiceImpl implements FareService {
 
 		if (fares.isEmpty()) {
 			NewFareSetting newFareSetting = new NewFareSetting();
-			newFareSetting.setTypeName(TransmissionTypeName.XE_GA);
+			newFareSetting.setTypeName(TransmissionTypeName.BIKE_GT175);
 			newFareSetting.setAllDayCost(new BigDecimal("9000"));
 			newFareSetting.setLimitParkingTime(10 * 60);
 			newFareSetting.setGuest(false);

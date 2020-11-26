@@ -8,11 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fptu.paa.constant.BikeStatus;
-import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.constant.TransmissionTypeName;
 import com.fptu.paa.entity.Bike;
 import com.fptu.paa.entity.Model;
-import com.fptu.paa.entity.NFC;
 import com.fptu.paa.entity.TransmissionType;
 import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.BikeRepository;
@@ -79,7 +77,7 @@ public class PaaApplication implements CommandLineRunner {
 	}
 
 	private void inputSampleBike(User user) {
-		TransmissionType transType = transmissionTypeService.getActiveType(TransmissionTypeName.XE_GA);
+		TransmissionType transType = transmissionTypeService.getActiveType(TransmissionTypeName.BIKE_GT175);
 		Model model = new Model(1L, "Honda", "Airblade", "125cc", true, transType);
 		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", "", "", BikeStatus.PENDING,
 				true, user, model);

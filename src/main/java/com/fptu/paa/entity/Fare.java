@@ -34,11 +34,11 @@ public class Fare {
 
 	@Column(name = "endDay")
 	private String endDay;
-	
+
 	@Column(name = "allDayCost")
 	private BigDecimal allDayCost;
-	
-	@Column(name ="limitParkingTime")
+
+	@Column(name = "limitParkingTime")
 	private int limitParkingTime;
 
 	@Column(name = "initialDayCost")
@@ -55,9 +55,6 @@ public class Fare {
 
 	@Column(name = "createDate")
 	private Timestamp createDate;
-
-	@Column(name = "expirationDate")
-	private Timestamp expirationDate;
 
 	@Column(name = "guest")
 	private boolean guest;
