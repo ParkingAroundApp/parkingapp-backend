@@ -29,6 +29,9 @@ public class TransmissionType {
 	@Column(name = "name", length = 16)
 	@Enumerated(EnumType.STRING)
 	private TransmissionTypeName name;
+	
+	@Column(name = "note", length = 16)
+	private String note;
 
 	@Column(name = "enabled")
 	private boolean enabled = true;

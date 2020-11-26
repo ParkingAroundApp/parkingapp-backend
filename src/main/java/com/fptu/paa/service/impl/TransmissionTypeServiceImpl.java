@@ -18,9 +18,9 @@ public class TransmissionTypeServiceImpl implements TransmissionTypeService {
 	@Override
 	public void insertDefaultTransmissionType() {
 		if (transRepo.findAll().isEmpty()) {
-			transRepo.save(new TransmissionType(1L, TransmissionTypeName.XE_DAP, true));
-			transRepo.save(new TransmissionType(2L, TransmissionTypeName.XE_GA, true));
-			transRepo.save(new TransmissionType(3L, TransmissionTypeName.XE_SO, true));
+			transRepo.save(new TransmissionType(1L, TransmissionTypeName.BICYCLE,"Xe đạp", true));
+			transRepo.save(new TransmissionType(2L, TransmissionTypeName.BIKE_LTE175,"Xe số dưới 175cc", true));
+			transRepo.save(new TransmissionType(3L, TransmissionTypeName.BIKE_GT175,"Xe ga, Xe số từ 175cc trở lên", true));
 		}
 	}
 

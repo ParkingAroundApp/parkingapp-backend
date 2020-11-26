@@ -62,6 +62,7 @@ public class TransactionServiceImpl implements TransactionService {
 		query.put("selector", selectorOptions.put("type", "transaction"));
 
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
+		query.put("use_index", "indexTransaction2Doc");
 		System.out.println(query.toString());
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
@@ -148,21 +149,22 @@ public class TransactionServiceImpl implements TransactionService {
 		JSONObject selectorOptions = new JSONObject();
 		JSONObject sortValue = new JSONObject();
 		JSONObject checkinTime = new JSONObject();
-		JSONObject transacationType = new JSONObject();
+		JSONObject transactionType = new JSONObject();
 		JSONArray sortOptions = new JSONArray();
 
-		checkinTime.put("$gt", startDate);
-		checkinTime.put("$lt", endDate);
+		checkinTime.put("$gte", startDate);
+		checkinTime.put("$lte", endDate);
 		query.put("selector", selectorOptions.put("createTime", checkinTime));
-
-		query.put("selector",
-				selectorOptions.put("transactionType",
-						!isPaymentTransaction ? transacationType.put("$regex", "^RECHARGE")
-								: transacationType.put("$regex", "^PAYMENT")));
+		if (isPaymentTransaction) {
+			query.put("selector", selectorOptions.put("$not", transactionType.put("transactionType", TransactionType.RECHARGE)));
+		} else {
+			query.put("selector", selectorOptions.put("transactionType", TransactionType.RECHARGE));
+		}
 		query.put("selector", selectorOptions.put("type", "transaction"));
-
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
-System.out.println(query.toString());
+		query.put("use_index", "indexTransaction1Doc");
+		System.out.println(query.toString());
+
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
 		if (result.length > 0) {
