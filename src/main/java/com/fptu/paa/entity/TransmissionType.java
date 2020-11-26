@@ -26,11 +26,11 @@ public class TransmissionType {
 	@Column(name = "id")
 	private Long id;
 
-	@Column(name = "name", length = 16)
+	@Column(name = "name")
 	@Enumerated(EnumType.STRING)
 	private TransmissionTypeName name;
 	
-	@Column(name = "note", length = 16)
+	@Column(name = "note", length = 255)
 	private String note;
 
 	@Column(name = "enabled")
