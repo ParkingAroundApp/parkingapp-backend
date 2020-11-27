@@ -131,17 +131,34 @@ public class TicketController {
 	@GetMapping("/inday")
 	public ResponseEntity<String> getTicketInDate(@RequestParam String date, @RequestParam String pageSize,
 			@RequestParam(defaultValue = "") String bookmark) {
+		String result = "";
 		try {
-			String result = ticketService.getTicketInDate(date, pageSize, bookmark);
+			String tmpResult = ticketService.getTicketInDate(date, pageSize, bookmark);
 			// If success respond 200
-			if (result != null && !result.isEmpty()) {
-				return ResponseEntity.ok(result);
+			if (tmpResult != null) {
+				result = tmpResult;
 			}
 		} catch (Exception e) {
 			System.out.println("getTicketInDate: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
+		return ResponseEntity.ok(result);
 	}
 
+	@GetMapping("/report")
+	public ResponseEntity<String> getReportTickets(@RequestParam String startDate, @RequestParam String endDate,
+			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark) {
+		String result = "";
+		try {
+			String tmpResult = ticketService.getListClamingTicket(startDate, endDate, pageSize, bookmark);
+			// If success respond 200
+			if (tmpResult != null) {
+				result = tmpResult;
+			}
+		} catch (Exception e) {
+			System.out.println("getTicketInDate: " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
+		}
+		return ResponseEntity.ok(result);
+	}
 }

@@ -49,6 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
 		JSONObject sortValue = new JSONObject();
 		JSONObject checkinTime = new JSONObject();
 		JSONArray sortOptions = new JSONArray();
+		JSONArray fieldOptions = new JSONArray();
 
 		checkinTime.put("$gt", startDate);
 		if (endDate != null && !endDate.isEmpty()) {
@@ -62,6 +63,10 @@ public class TransactionServiceImpl implements TransactionService {
 		query.put("selector", selectorOptions.put("type", "transaction"));
 
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
+		query.put("fields", fieldOptions.put("userID"));
+		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("amount"));
+		query.put("fields", fieldOptions.put("transactionType"));
 		query.put("use_index", "indexTransaction2Doc");
 		System.out.println(query.toString());
 		// Submit query
@@ -91,12 +96,15 @@ public class TransactionServiceImpl implements TransactionService {
 		// Create query
 		JSONObject query = new JSONObject();
 		JSONObject options = new JSONObject();
+		JSONArray fieldOptions= new JSONArray();
 
 		query.put("selector", options.put("type", "transaction"));
 		query.put("selector", options.put("transactionType",
 				isNFC ? TransactionType.PAYMENT_NFC.name() : TransactionType.PAYMENT_BIKE.name()));
-
-		System.out.println("QUERY getTransactionByUserId: " + query.toString());
+		query.put("fields", fieldOptions.put("userID"));
+		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("amount"));
+		query.put("fields", fieldOptions.put("transactionType"));
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
@@ -113,11 +121,14 @@ public class TransactionServiceImpl implements TransactionService {
 		// Create query
 		JSONObject query = new JSONObject();
 		JSONObject options = new JSONObject();
+		JSONArray fieldOptions = new JSONArray();
 
 		query.put("selector", options.put("type", "transaction"));
 		query.put("selector", options.put("transactionType", TransactionType.RECHARGE));
-
-		System.out.println("QUERY getAllTransaction: " + query.toString());
+		query.put("fields", fieldOptions.put("userID"));
+		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("amount"));
+		query.put("fields", fieldOptions.put("transactionType"));		
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
@@ -149,8 +160,10 @@ public class TransactionServiceImpl implements TransactionService {
 		JSONObject selectorOptions = new JSONObject();
 		JSONObject sortValue = new JSONObject();
 		JSONObject checkinTime = new JSONObject();
+		JSONArray fieldOptions = new JSONArray();
 		JSONObject transactionType = new JSONObject();
 		JSONArray sortOptions = new JSONArray();
+		
 
 		checkinTime.put("$gte", startDate);
 		checkinTime.put("$lte", endDate);
@@ -162,9 +175,12 @@ public class TransactionServiceImpl implements TransactionService {
 		}
 		query.put("selector", selectorOptions.put("type", "transaction"));
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
+		query.put("fields", fieldOptions.put("userID"));
+		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("amount"));
+		query.put("fields", fieldOptions.put("transactionType"));
 		query.put("use_index", "indexTransaction1Doc");
-		System.out.println(query.toString());
-
+		//Submit query
 		result = contract.evaluateTransaction("queryAllTransactionWithPagination", query.toString(), pageSize,
 				bookmark);
 		if (result.length > 0) {

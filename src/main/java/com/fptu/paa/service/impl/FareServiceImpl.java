@@ -66,7 +66,7 @@ public class FareServiceImpl implements FareService {
 			FareType fareType = null;
 			int count = 0;
 			Long maxParkingTime = Long.valueOf(fare.getLimitParkingTime());
-			while (totalParkingTime.toMinutes() > 0) {
+			while (totalParkingTime.toMillis() > 0) {
 				if (count > 0) {
 					checkInTime = checkInTime.plusHours(24);
 					startDay = startDay.plusHours(24);

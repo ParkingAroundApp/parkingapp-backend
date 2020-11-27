@@ -56,7 +56,7 @@ public class TicketServiceImpl implements TicketService {
 	public String getCheckOutTicketByNFC(String NFCSerial) throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
-		result = contract.evaluateTransaction("getCheckoutTicket", "null", NFCSerial);
+		result = contract.evaluateTransaction("getCheckoutTicket", "", NFCSerial);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -188,8 +188,8 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject query = new JSONObject();
 		JSONObject options = new JSONObject();
 		JSONObject checkInTime = new JSONObject();
-		checkInTime.put("$gt", date + "-" + "01:00:00:000");
-		checkInTime.put("$lt", date + "-" + "24:00:00:000");
+		checkInTime.put("$gte", date + "-" + "01:00:00:000");
+		checkInTime.put("$lte", date + "-" + "24:00:00:000");
 		if (isCheckIn) {
 			query.put("selector", options.put("staffCheckInID", staffID));
 		} else {
@@ -215,12 +215,18 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject query = new JSONObject();
 		JSONObject options = new JSONObject();
 		JSONObject checkInTime = new JSONObject();
-		checkInTime.put("$gt", date + "-" + "01:00:00:000");
-		checkInTime.put("$lt", date + "-" + "24:00:00:000");
-
+		JSONArray fieldOptions = new JSONArray();
+		checkInTime.put("$gte", date + "-" + "01:00:00:000");
+		checkInTime.put("$lte", date + "-" + "24:00:00:000");
 		query.put("selector", options.put("checkinTime", checkInTime));
 		query.put("selector", options.put("type", "ticket"));
-		System.out.println("QUERY getTicketByOnwerIdAndDate: " + query.toString());
+		query.put("fields", fieldOptions.put("bikeID"));
+		query.put("fields", fieldOptions.put("nfcNumber"));
+		query.put("fields", fieldOptions.put("licensePlate"));
+		query.put("fields", fieldOptions.put("checkinTime"));
+		query.put("fields", fieldOptions.put("staffCheckInID"));
+		query.put("fields", fieldOptions.put("staffCheckOutID"));
+		query.put("fields", fieldOptions.put("status"));
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
 
@@ -254,15 +260,53 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject sortValue = new JSONObject();
 		JSONObject checkinTime = new JSONObject();
 
+		JSONArray fieldOptions = new JSONArray();
 		JSONArray sortOptions = new JSONArray();
-		checkinTime.put("$gt", startDate);
+		checkinTime.put("$gte", startDate);
 		if (!endDate.isEmpty()) {
-			checkinTime.put("$lt", endDate);
+			checkinTime.put("$lte", endDate);
 		}
 		query.put("selector", selectorOptions.put("licensePlate", plateNumber));
 		query.put("selector", selectorOptions.put("checkinTime", checkinTime));
 		query.put("selector", selectorOptions.put("type", "ticket"));
 		query.put("sort", sortOptions.put(sortValue.put("checkinTime", "desc")));
+		query.put("fields", fieldOptions.put("bikeID"));
+		query.put("fields", fieldOptions.put("nfcNumber"));
+		query.put("fields", fieldOptions.put("licensePlate"));
+		query.put("fields", fieldOptions.put("checkinTime"));
+		query.put("fields", fieldOptions.put("checkoutTime"));
+		query.put("fields", fieldOptions.put("status"));
+		// Submit query
+		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
+
+		if (result.length > 0) {
+			return new String(result);
+		}
+		return null;
+	}
+
+	@Override
+	public String getListClamingTicket(String startDate, String endDate, String pageSize, String bookmark) throws Exception {
+		Contract contract = FabricGatewaySingleton.getInstance().contract;
+		byte[] result;
+		// Create query
+		JSONObject query = new JSONObject();
+		JSONObject options = new JSONObject();
+		JSONObject reportTime = new JSONObject();
+		JSONArray fieldOptions = new JSONArray();
+		
+		reportTime.put("$gte", startDate);
+		reportTime.put("$lte", endDate);
+		query.put("selector", options.put("reportTime", reportTime));
+		query.put("fields", fieldOptions.put("bikeID"));
+		query.put("fields", fieldOptions.put("nfcNumber"));
+		query.put("fields", fieldOptions.put("licensePlate"));
+		query.put("fields", fieldOptions.put("checkinTime"));
+		query.put("fields", fieldOptions.put("checkoutTime"));
+		query.put("fields", fieldOptions.put("reportTime"));
+		query.put("fields", fieldOptions.put("staffCheckInID"));
+		query.put("fields", fieldOptions.put("staffCheckOutID"));
+		query.put("fields", fieldOptions.put("status"));
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
 
