@@ -17,11 +17,12 @@ public class TicketServiceImpl implements TicketService {
 
 	@Override
 	public String checkInByBikeID(String licensePlate, String bikeID, String staffCheckInID, String customerId,
-			String checkInTime, String checkInBikeImage, String checkInFaceImage, String modelType) throws Exception {
+			String checkInTime, String checkInBikeImage, String checkInFaceImage, String modelType, String bikeDetail)
+			throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("createTicket", licensePlate, bikeID, "", customerId, staffCheckInID,
-				checkInTime, checkInBikeImage, checkInFaceImage, modelType);
+				checkInTime, checkInBikeImage, checkInFaceImage, modelType,bikeDetail);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -286,7 +287,8 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	@Override
-	public String getListClamingTicket(String startDate, String endDate, String pageSize, String bookmark) throws Exception {
+	public String getListClamingTicket(String startDate, String endDate, String pageSize, String bookmark)
+			throws Exception {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		// Create query
@@ -294,10 +296,13 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject options = new JSONObject();
 		JSONObject reportTime = new JSONObject();
 		JSONArray fieldOptions = new JSONArray();
-		
+		JSONArray sortOptions = new JSONArray();
+		JSONObject sortValue = new JSONObject();
+
 		reportTime.put("$gte", startDate);
 		reportTime.put("$lte", endDate);
 		query.put("selector", options.put("reportTime", reportTime));
+		query.put("sort", sortOptions.put(sortValue.put("reportTime", "desc")));
 		query.put("fields", fieldOptions.put("bikeID"));
 		query.put("fields", fieldOptions.put("nfcNumber"));
 		query.put("fields", fieldOptions.put("licensePlate"));
@@ -307,6 +312,8 @@ public class TicketServiceImpl implements TicketService {
 		query.put("fields", fieldOptions.put("staffCheckInID"));
 		query.put("fields", fieldOptions.put("staffCheckOutID"));
 		query.put("fields", fieldOptions.put("status"));
+		query.put("use_index", "indexTicket5Doc");
+		System.out.println(query.toString());
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
 
