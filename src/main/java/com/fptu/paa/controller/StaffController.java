@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.constant.PaymentType;
+import com.fptu.paa.dto.BikeDetailDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.dto.CheckInRequest;
 import com.fptu.paa.dto.CheckOutRequest;
@@ -49,10 +50,12 @@ public class StaffController {
 			if (!isNFC) {
 				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 				if (bike != null) {
+					BikeDetailDTO bikeDetail = new BikeDetailDTO(bike);
+					Genson genson = new Genson();
 					result = ticketService.checkInByBikeID(ticket.getLicensePlate(), ticket.getId(),
 							ticket.getStaffCheckInID(), bike.getUserViewDTO().getId().toString(),
 							ticket.getCheckInTime(), ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage(),
-							ticket.getTransmissionType().name());
+							ticket.getTransmissionType().name(), genson.serialize(bikeDetail));
 				}
 			} else {
 				NFC nfc = nfcService.getNFCBySerial(ticket.getId());

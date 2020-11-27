@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface TicketService {
 	public String checkInByBikeID(String licensePlate, String bikeID, String staffCheckInID, String customerId,
-			String checkInTime, String checkInBikeImage, String checkInFaceImage, String modelType) throws Exception;
+			String checkInTime, String checkInBikeImage, String checkInFaceImage, String modelType, String bikeDetail)
+			throws Exception;
 
 	public String getCheckOutTicketByBikeID(String bikeID) throws Exception;
 
@@ -43,5 +44,6 @@ public interface TicketService {
 	public String getListNFCTicket(String NFCSerial, String startDate, String endDate, String pageSize, String bookmark)
 			throws Exception;
 
-	public String getListClamingTicket(String startDate, String endDate, String pageSize, String bookmark) throws Exception;
+	public String getListClamingTicket(String startDate, String endDate, String pageSize, String bookmark)
+			throws Exception;
 }
