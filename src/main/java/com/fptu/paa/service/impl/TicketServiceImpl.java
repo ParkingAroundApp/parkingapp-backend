@@ -22,7 +22,7 @@ public class TicketServiceImpl implements TicketService {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("createTicket", licensePlate, bikeID, "", customerId, staffCheckInID,
-				checkInTime, checkInBikeImage, checkInFaceImage, modelType,bikeDetail);
+				checkInTime, checkInBikeImage, checkInFaceImage, modelType, bikeDetail);
 		if (result.length > 0) {
 			return new String(result);
 		}
@@ -140,7 +140,7 @@ public class TicketServiceImpl implements TicketService {
 		Contract contract = FabricGatewaySingleton.getInstance().contract;
 		byte[] result;
 		result = contract.submitTransaction("createTicket", licensePlate, "", NFCID, "", staffCheckInID, checkInTime,
-				checkInBikeImage, checkInFaceImage, modelType);
+				checkInBikeImage, checkInFaceImage, modelType, "");
 		if (result.length > 0) {
 			return new String(result);
 		}
