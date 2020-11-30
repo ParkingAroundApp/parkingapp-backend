@@ -43,7 +43,7 @@ public class StaffController {
 	NFCService nfcService;
 
 	@PostMapping("/createTicket")
-	public ResponseEntity<String> checkinTicket(@RequestBody CheckInRequest ticket,
+	public ResponseEntity<String> createCheckinTicket(@RequestBody CheckInRequest ticket,
 			@RequestParam(required = true, defaultValue = "false") boolean isNFC) {
 		try {
 			String result = "";
@@ -70,6 +70,11 @@ public class StaffController {
 			}
 		} catch (Exception e) {
 			System.out.println("checkinTicket: " + e.getMessage());
+			if (isNFC) {
+				nfcService.changeNFCStatus(ticket.getId(), NFCStatus.FINISH);
+			} else {
+				bikeService.changeBikeStatus(Long.valueOf(ticket.getId()), BikeStatus.FINISH);
+			}
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Create ticket failed!");
@@ -118,7 +123,6 @@ public class StaffController {
 			if (nfc != null) {
 				return new ResponseEntity<NFC>(nfc, HttpStatus.OK);
 			}
-
 		}
 		return new ResponseEntity<NFC>(HttpStatus.BAD_REQUEST);
 	}
