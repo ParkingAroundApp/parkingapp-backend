@@ -154,7 +154,7 @@ public class StaffController {
 	}
 
 	@GetMapping("/ticket")
-	public ResponseEntity<String> getTicketByStaffIdAndDate(@RequestParam String staffID, @RequestParam String date,
+	public ResponseEntity<String> getTicketByStaffIdAndDate(@RequestBody String staffID, @RequestParam String date,
 			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark,
 			@RequestParam(defaultValue = "true") boolean isCheckIn) {
 		try {
