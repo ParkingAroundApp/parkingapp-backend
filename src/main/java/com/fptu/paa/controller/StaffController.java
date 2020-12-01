@@ -153,7 +153,7 @@ public class StaffController {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
 	}
 
-	@GetMapping("/ticket")
+	@PostMapping("/ticket")
 	public ResponseEntity<String> getTicketByStaffIdAndDate(@RequestBody String staffID, @RequestParam String date,
 			@RequestParam String pageSize, @RequestParam(defaultValue = "") String bookmark,
 			@RequestParam(defaultValue = "true") boolean isCheckIn) {
