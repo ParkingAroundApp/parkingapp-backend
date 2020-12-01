@@ -3,7 +3,6 @@ package com.fptu.paa.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -70,11 +69,6 @@ public class StaffController {
 			}
 		} catch (Exception e) {
 			System.out.println("checkinTicket: " + e.getMessage());
-			if (isNFC) {
-				nfcService.changeNFCStatus(ticket.getId(), NFCStatus.FINISH);
-			} else {
-				bikeService.changeBikeStatus(Long.valueOf(ticket.getId()), BikeStatus.FINISH);
-			}
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Create ticket failed!");

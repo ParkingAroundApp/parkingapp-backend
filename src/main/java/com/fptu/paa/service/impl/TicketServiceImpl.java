@@ -216,18 +216,10 @@ public class TicketServiceImpl implements TicketService {
 		JSONObject query = new JSONObject();
 		JSONObject options = new JSONObject();
 		JSONObject checkInTime = new JSONObject();
-		JSONArray fieldOptions = new JSONArray();
 		checkInTime.put("$gte", date + "-" + "01:00:00:000");
 		checkInTime.put("$lte", date + "-" + "24:00:00:000");
 		query.put("selector", options.put("checkinTime", checkInTime));
 		query.put("selector", options.put("type", "ticket"));
-		query.put("fields", fieldOptions.put("bikeID"));
-		query.put("fields", fieldOptions.put("nfcNumber"));
-		query.put("fields", fieldOptions.put("licensePlate"));
-		query.put("fields", fieldOptions.put("checkinTime"));
-		query.put("fields", fieldOptions.put("staffCheckInID"));
-		query.put("fields", fieldOptions.put("staffCheckOutID"));
-		query.put("fields", fieldOptions.put("status"));
 		// Submit query
 		result = contract.evaluateTransaction("queryAllTicketWithPagination", query.toString(), pageSize, bookmark);
 
