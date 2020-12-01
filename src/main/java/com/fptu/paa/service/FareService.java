@@ -1,5 +1,6 @@
 package com.fptu.paa.service;
 
+import java.io.FileNotFoundException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public interface FareService {
 
 	Fare saveNewFare(NewFareSetting newSetting);
 
-	void createDefaultFare();
+	void createDefaultFare() throws FileNotFoundException;
 	
 	List<Fare> getFaresByGuest(boolean isGuest);
 }

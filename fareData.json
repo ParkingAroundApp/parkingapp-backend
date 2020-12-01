@@ -1,0 +1,62 @@
+[
+	{
+		"startDay": "05:00:00",
+		"endDay": "21:00:00",
+		"allDayCost": 11000,
+		"limitParkingTime": 10,
+		"initialDayCost": 5000,
+		"startNight": "21:00:00",
+		"endNight": "05:00:00",
+		"initialNightCost": 6000,
+		"guest": true,
+		"typeName": "BIKE_GT175"
+	},
+	{
+		"startDay": "05:00:00",
+		"endDay": "21:00:00",
+		"allDayCost": 10000,
+		"limitParkingTime": 10,
+		"initialDayCost": 4000,
+		"startNight": "21:00:00",
+		"endNight": "05:00:00",
+		"initialNightCost": 6000,
+		"guest": false,
+		"typeName": "BIKE_GT175"
+	},
+	{
+		"startDay": "05:00:00",
+		"endDay": "21:00:00",
+		"allDayCost": 9000,
+		"limitParkingTime": 10,
+		"initialDayCost": 4000,
+		"startNight": "21:00:00",
+		"endNight": "05:00:00",
+		"initialNightCost": 5000,
+		"guest": true,
+		"typeName": "BIKE_LTE175"
+	},
+	{
+		"startDay": "05:00:00",
+		"endDay": "21:00:00",
+		"allDayCost": 8000,
+		"limitParkingTime": 10,
+		"initialDayCost": 3000,
+		"startNight": "21:00:00",
+		"endNight": "05:00:00",
+		"initialNightCost": 5000,
+		"guest": false,
+		"typeName": "BIKE_LTE175"
+	},
+	{
+		"startDay": "05:00:00",
+		"endDay": "21:00:00",
+		"allDayCost": 6000,
+		"limitParkingTime": 10,
+		"initialDayCost": 2000,
+		"startNight": "21:00:00",
+		"endNight": "05:00:00",
+		"initialNightCost": 4000,
+		"guest": true,
+		"typeName": "BICYCLE"
+	}
+]

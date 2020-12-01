@@ -1,7 +1,11 @@
 package com.fptu.paa.service.impl;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
@@ -17,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.FareType;
-import com.fptu.paa.constant.TransmissionTypeName;
 import com.fptu.paa.dto.NewFareSetting;
 import com.fptu.paa.dto.TicketPriceResponse;
 import com.fptu.paa.entity.Fare;
@@ -26,6 +29,8 @@ import com.fptu.paa.repository.FareRepository;
 import com.fptu.paa.repository.TransmissionTypeRepository;
 import com.fptu.paa.service.FareService;
 import com.fptu.paa.utils.DefaultUtils;
+import com.owlike.genson.GenericType;
+import com.owlike.genson.Genson;
 
 @Service
 @Transactional
@@ -191,31 +196,16 @@ public class FareServiceImpl implements FareService {
 	}
 
 	@Override
-	public void createDefaultFare() {
+	public void createDefaultFare() throws FileNotFoundException {
 		List<Fare> fares = fareRepo.findAll();
 
 		if (fares.isEmpty()) {
-			NewFareSetting newFareSetting = new NewFareSetting();
-			newFareSetting.setTypeName(TransmissionTypeName.BIKE_GT175);
-			newFareSetting.setAllDayCost(new BigDecimal("9000"));
-			newFareSetting.setLimitParkingTime(10 * 60);
-			newFareSetting.setGuest(false);
-			// Set up day
-			newFareSetting.setStartDay("05:00:00");
-			newFareSetting.setEndDay("21:00:00");
-			newFareSetting.setInitialDayCost(new BigDecimal("4000"));
-			// Set up night
-			newFareSetting.setStartNight("21:00:00");
-			newFareSetting.setEndNight("05:00:00");
-			newFareSetting.setInitialNightCost(new BigDecimal("5000"));
-			// Save to db
-			saveNewFare(newFareSetting);
-			//For NFC
-			newFareSetting.setGuest(true);
-			newFareSetting.setAllDayCost(new BigDecimal("11000"));
-			newFareSetting.setInitialDayCost(new BigDecimal("5000"));
-			newFareSetting.setInitialNightCost(new BigDecimal("6000"));
-			saveNewFare(newFareSetting);
+			Path fareData = Paths.get("fareData.json");
+			Genson genson = new Genson();
+			List<NewFareSetting> list = genson.deserialize(new FileInputStream(fareData.toFile()), new GenericType<List<NewFareSetting>>(){});
+			for (NewFareSetting newFareSetting : list) {
+				saveNewFare(newFareSetting);
+			}
 		}
 	}
 
