@@ -64,6 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
 
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
 		query.put("fields", fieldOptions.put("userID"));
+		query.put("fields", fieldOptions.put("ticketTxID"));
 		query.put("fields", fieldOptions.put("createTime"));
 		query.put("fields", fieldOptions.put("amount"));
 		query.put("fields", fieldOptions.put("transactionType"));
@@ -103,6 +104,7 @@ public class TransactionServiceImpl implements TransactionService {
 				isNFC ? TransactionType.PAYMENT_NFC.name() : TransactionType.PAYMENT_BIKE.name()));
 		query.put("fields", fieldOptions.put("userID"));
 		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("ticketTxID"));
 		query.put("fields", fieldOptions.put("amount"));
 		query.put("fields", fieldOptions.put("transactionType"));
 		// Submit query
@@ -127,6 +129,7 @@ public class TransactionServiceImpl implements TransactionService {
 		query.put("selector", options.put("transactionType", TransactionType.RECHARGE));
 		query.put("fields", fieldOptions.put("userID"));
 		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("ticketTxID"));
 		query.put("fields", fieldOptions.put("amount"));
 		query.put("fields", fieldOptions.put("transactionType"));		
 		// Submit query
@@ -177,6 +180,7 @@ public class TransactionServiceImpl implements TransactionService {
 		query.put("sort", sortOptions.put(sortValue.put("createTime", "desc")));
 		query.put("fields", fieldOptions.put("userID"));
 		query.put("fields", fieldOptions.put("createTime"));
+		query.put("fields", fieldOptions.put("ticketTxID"));
 		query.put("fields", fieldOptions.put("amount"));
 		query.put("fields", fieldOptions.put("transactionType"));
 		query.put("use_index", "indexTransaction1Doc");
