@@ -86,8 +86,9 @@ public class StaffController {
 	@PostMapping("/bike/checkout")
 	public ResponseEntity<String> checkoutBikeTicket(@RequestBody CheckOutRequest ticket) {
 		try {
-			Long userID = bikeService.getBike(Long.valueOf(ticket.getId())).getUserViewDTO().getId();
-			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + ticket.getId();
+			BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
+			Long userID = bike.getUserViewDTO().getId();
+			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + bike.getLicensePlate();
 			String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(), ticket.getCheckOutTime(),
 					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType(),
 					ticket.getPrice(), String.valueOf(userID), ticket.getFareID());
