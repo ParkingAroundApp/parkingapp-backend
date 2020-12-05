@@ -129,7 +129,7 @@ public class StaffController {
 				Genson genson = new Genson();
 				Ticket nfcTicket = genson.deserialize(state, Ticket.class);
 				// Call service
-				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getNfcNumber();
+				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getLicensePlate();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
 						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
 						ticket.getPaymentType(), ticket.getPrice(), "", ticket.getFareID());
