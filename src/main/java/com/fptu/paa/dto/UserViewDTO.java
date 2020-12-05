@@ -3,78 +3,86 @@ package com.fptu.paa.dto;
 import java.math.BigDecimal;
 
 public class UserViewDTO {
-    private Long id;
-    private String username;
-    private String email;
-    private String phone;
-    private String birthday;
-    private String address;
-    private String gender;
-    private BigDecimal balance;
+	private Long id;
+	private String username;
+	private String email;
+	private String phone;
+	private String birthday;
+	private String address;
+	private String gender;
+	private BigDecimal balance;
+	private boolean enabled;
 
-    public String getUsername() {
-        return username;
-    }
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    public Long getId() {
-        return id;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public Long getId() {
+		return id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getBirthday() {
-        return birthday;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public String getPhone() {
-        return phone;
-    }
+	public String getBirthday() {
+		return birthday;
+	}
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
 
-    public String getAddress() {
-        return address;
-    }
+	public String getPhone() {
+		return phone;
+	}
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 
-    public String getGender() {
-        return gender;
-    }
+	public String getAddress() {
+		return address;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    public BigDecimal getBalance() {
-        return balance;
-    }
+	public String getGender() {
+		return gender;
+	}
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
-    }
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
 
+	public BigDecimal getBalance() {
+		return balance;
+	}
+
+	public void setBalance(BigDecimal balance) {
+		this.balance = balance;
+	}
 
 }
