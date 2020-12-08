@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService {
 		temp.setPhone(userDTO.getPhone());
 		temp.setAddress(userDTO.getAddress());
 		// Set role
-		Set<Role> roles = new HashSet<Role>();
-		roles.add(roleRepository.findByName(RoleName.ROLE_STAFF));
-		temp.setRoles(roles);
+		Role role;
+		role = roleRepository.findByName(RoleName.ROLE_STAFF);
+		temp.setRole(role);
 		// Save new staff
 		User newStaff = userRepository.save(temp);
 		return newStaff;
@@ -79,8 +79,6 @@ public class UserServiceImpl implements UserService {
 		}
 		return null;
 	}
-
-
 
 	public String decodeEmailFromToken() {
 		String[] header = request.getHeader("Authorization").split(" ");
@@ -117,11 +115,11 @@ public class UserServiceImpl implements UserService {
 			User tempUser = new User();
 			tempUser.setEmail(email);
 			tempUser.setPassword(passwordEncoder.encode(tokenGmail));
-			tempUser.setBalance(new BigDecimal("300000"));
+			tempUser.setBalance(new BigDecimal("0"));
 			// Set role
-			Set<Role> roles = new HashSet<Role>();
-			roles.add(roleRepository.findByName(RoleName.ROLE_CUSTOMER));
-			tempUser.setRoles(roles);
+			Role role;
+			role = roleRepository.findByName(RoleName.ROLE_CUSTOMER);
+			tempUser.setRole(role);
 			// Save user
 			User registeredUser = userRepository.save(tempUser);
 			if (registeredUser != null) {
@@ -150,7 +148,7 @@ public class UserServiceImpl implements UserService {
 		Set<Role> roles = new HashSet<Role>();
 		List<UserViewDTO> userList = null;
 		roles.add(roleRepository.findByName(roleName));
-		List<User> users = userRepository.findByRoles(roleRepository.findByName(roleName));
+		List<User> users = userRepository.findByRole(roleRepository.findByName(roleName));
 		if (users != null) {
 			java.lang.reflect.Type targetListType = new TypeToken<List<UserViewDTO>>() {
 			}.getType();
@@ -206,13 +204,13 @@ public class UserServiceImpl implements UserService {
 	public User insertDefaultAdmin() {
 		User result = null;
 		if (!userRepository.existsById(1L)) {
-			Set<Role> roles = new HashSet<Role>();
-			roles.add(roleRepository.findByName(RoleName.ROLE_OWNER));
+			Role role;
+			role = roleRepository.findByName(RoleName.ROLE_OWNER);
 			User admin = new User();
 			admin.setEmail("admin@gmail.com");
 			admin.setUsername("admin");
 			admin.setPassword(passwordEncoder.encode("1213"));
-			admin.setRoles(roles);
+			admin.setRole(role);
 			result = userRepository.save(admin);
 			System.out.println(admin);
 		}

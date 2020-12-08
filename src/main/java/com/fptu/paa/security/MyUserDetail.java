@@ -1,8 +1,8 @@
 package com.fptu.paa.security;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,18 +32,12 @@ public class MyUserDetail implements UserDetails {
 		this.password = password;
 		this.username = username;
 	}
-	   public static MyUserDetail build(User user) {
-	        List<GrantedAuthority> authorities = user.getRoles().stream().map(role ->
-	                new SimpleGrantedAuthority(role.getName().name())
-	        ).collect(Collectors.toList());
 
-	        return new MyUserDetail(
-	                user.getEmail(),
-	                authorities,
-	                user.getPassword(),
-	                user.getUsername()
-	        );
-	    }
+	public static MyUserDetail build(User user) {
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority(user.getRole().getName().name()));
+		return new MyUserDetail(user.getEmail(), authorities, user.getPassword(), user.getUsername());
+	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
