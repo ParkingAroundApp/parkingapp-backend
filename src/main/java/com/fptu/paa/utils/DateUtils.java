@@ -1,11 +1,14 @@
 package com.fptu.paa.utils;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class DateUtils {
+	private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS");
+
 	public static String parseTimestampToFormattedString(Timestamp timestamp) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm:ss:SSS");
 		return formatter.format(timestamp.toLocalDateTime()).toString();
@@ -29,8 +32,16 @@ public class DateUtils {
 		}
 		return result;
 	}
-	
+
 	public static Date today() {
-        return new Date();
-    }
+		return new Date();
+	}
+
+	public static String todayStr() {
+		return sdf.format(today());
+	}
+
+	public static String formattedDate(Date date) {
+		return date != null ? sdf.format(date) : todayStr();
+	}
 }

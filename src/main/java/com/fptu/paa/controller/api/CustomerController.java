@@ -28,6 +28,7 @@ import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.TicketService;
 import com.fptu.paa.service.TransactionService;
 import com.fptu.paa.service.UserService;
+import com.fptu.paa.utils.DateUtils;
 
 import io.swagger.annotations.Api;
 
@@ -73,7 +74,7 @@ public class CustomerController {
 	public ResponseEntity<String> rechargeBalance(@RequestBody RechargeRequest rechargeRequest) {
 		try {
 			transactionService.saveTopUpTransaction(rechargeRequest.getUserID(), rechargeRequest.getAmount(),
-					rechargeRequest.getDescription(), rechargeRequest.getCreateTime());
+					rechargeRequest.getDescription(), DateUtils.formattedDate(rechargeRequest.getCreateTime()));
 			boolean recharge = userService.rechargeBalance(Long.valueOf(rechargeRequest.getUserID()),
 					new BigDecimal(rechargeRequest.getAmount()));
 			if (recharge) {
@@ -105,7 +106,7 @@ public class CustomerController {
 		bikeService.deleteBike(bikeId);
 		return ResponseEntity.ok("Success");
 	}
-	
+
 	@PutMapping(value = "/bike/update")
 	public ResponseEntity<String> updateBike(@RequestBody BikeUpdateDTO bikeUpdate) throws Exception {
 		Bike updateBike = bikeService.updateBike(bikeUpdate);
@@ -116,7 +117,7 @@ public class CustomerController {
 	}
 
 	@GetMapping("")
-	public ResponseEntity<UserViewDTO> getUserDetail(@RequestParam(defaultValue = "")  Long userID) {
+	public ResponseEntity<UserViewDTO> getUserDetail(@RequestParam(defaultValue = "") Long userID) {
 		UserViewDTO userViewDTO = null;
 		if (userID != null) {
 			userViewDTO = userService.getUserDetail(userID);
@@ -137,14 +138,16 @@ public class CustomerController {
 		}
 		return new ResponseEntity<List<BikeViewDTO>>(HttpStatus.BAD_REQUEST);
 	}
+
 	@GetMapping(value = "/bike/{id}")
 	public ResponseEntity<BikeViewDTO> getBikeByID(@PathVariable Long id) {
 		BikeViewDTO bike = bikeService.getBike(id);
-		if (bike != null ) {
+		if (bike != null) {
 			return new ResponseEntity<BikeViewDTO>(bike, HttpStatus.OK);
 		}
 		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
 	}
+
 	@GetMapping(value = "/ticket/detail")
 	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
 		String result = "No available ticket!";

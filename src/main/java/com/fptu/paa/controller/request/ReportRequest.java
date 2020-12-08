@@ -1,11 +1,30 @@
 package com.fptu.paa.controller.request;
 
+import java.util.Date;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class ReportRequest {
 	private String id;
 	private String note;
-	private String checkInTime;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd-HH:mm:ss:SSS", timezone = "GMT+07:00")
+	private Date checkInTime;
 	private String staffCheckOutID;
-	private String reportTime;
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd-HH:mm:ss:SSS", timezone = "GMT+07:00")
+	@Temporal(TemporalType.DATE)
+	private Date reportTime;
+
+	public Date getReportTime() {
+		return reportTime;
+	}
+
+	public void setReportTime(Date reportTime) {
+		this.reportTime = reportTime;
+	}
+
 	private String reportBikeImage;
 	private String reportFaceImage;
 
@@ -28,11 +47,11 @@ public class ReportRequest {
 		this.note = note;
 	}
 
-	public String getCheckInTime() {
+	public Date getCheckInTime() {
 		return checkInTime;
 	}
 
-	public void setCheckInTime(String checkInTime) {
+	public void setCheckInTime(Date checkInTime) {
 		this.checkInTime = checkInTime;
 	}
 
@@ -42,14 +61,6 @@ public class ReportRequest {
 
 	public void setStaffCheckOutID(String staffCheckOutID) {
 		this.staffCheckOutID = staffCheckOutID;
-	}
-
-	public String getReportTime() {
-		return reportTime;
-	}
-
-	public void setReportTime(String reportTime) {
-		this.reportTime = reportTime;
 	}
 
 	public String getReportBikeImage() {

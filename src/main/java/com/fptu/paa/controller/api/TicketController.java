@@ -1,6 +1,7 @@
 package com.fptu.paa.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +19,7 @@ import com.fptu.paa.entity.Ticket;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.NFCService;
 import com.fptu.paa.service.TicketService;
+import com.fptu.paa.utils.DateUtils;
 import com.owlike.genson.Genson;
 
 @RestController
@@ -112,9 +114,10 @@ public class TicketController {
 	public ResponseEntity<String> reportTicket(@RequestBody ReportRequest reportRequest) {
 		String result = "Report Fail!";
 		try {
-			String tmpResult = ticketService.reportTicket(reportRequest.getCheckInTime(), reportRequest.getId(),
-					reportRequest.getStaffCheckOutID(), reportRequest.getReportTime(),
-					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage(), reportRequest.getNote());
+			String tmpResult = ticketService.reportTicket(DateUtils.formattedDate(reportRequest.getCheckInTime()),
+					reportRequest.getId(), reportRequest.getStaffCheckOutID(),
+					DateUtils.formattedDate(reportRequest.getReportTime()), reportRequest.getReportBikeImage(),
+					reportRequest.getReportFaceImage(), reportRequest.getNote());
 			if (tmpResult != null) {
 				Genson genson = new Genson();
 				Ticket ticket = genson.deserialize(tmpResult, Ticket.class);
@@ -133,7 +136,8 @@ public class TicketController {
 	}
 
 	@GetMapping("/history")
-	public ResponseEntity<String> getTicketHistory(@RequestParam String checkInTime, String key) {
+	public ResponseEntity<String> getTicketHistory(
+			@RequestParam @DateTimeFormat(pattern = "yyyy/MM/dd-hh:mm:ss:SSS") String checkInTime, String key) {
 		String result = "No history found!";
 		try {
 			String tmpResult = ticketService.getTicketHistory(checkInTime, key);
