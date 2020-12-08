@@ -85,28 +85,31 @@ public class StaffController {
 
 	@PostMapping("/bike/checkout")
 	public ResponseEntity<String> checkoutBikeTicket(@RequestBody CheckOutRequest ticket) {
+		String result = "Check out failed!";
 		try {
 			BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
-			Long userID = bike.getUserViewDTO().getId();
-			String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + bike.getLicensePlate();
-			String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(), ticket.getCheckOutTime(),
-					ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(), ticket.getPaymentType(),
-					ticket.getPrice(), String.valueOf(userID), ticket.getFareID());
+			if (bike.getStatus().equals(BikeStatus.KEEPING)) {
+				Long userID = bike.getUserViewDTO().getId();
+				String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + bike.getLicensePlate();
+				String tmpResult = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
+						ticket.getCheckOutTime(), ticket.getCheckOutBikeImage(), ticket.getCheckOutFaceImage(),
+						ticket.getPaymentType(), ticket.getPrice(), String.valueOf(userID), ticket.getFareID());
 
-			if (result != null && !result.isEmpty()) {
-				// Make wallet payment
-				if (ticket.getPaymentType().equals(PaymentType.WALLET.name())) {
-					userService.ticketPaymnet(ticket.getPrice(), userID);
+				if (tmpResult != null && !tmpResult.isEmpty()) {
+					// Make wallet payment
+					if (ticket.getPaymentType().equals(PaymentType.WALLET.name())) {
+						userService.ticketPaymnet(ticket.getPrice(), userID);
+					}
+					// Change bike status
+					bikeService.changeBikeStatus(Long.parseLong(ticket.getId()), BikeStatus.FINISH);
+					return ResponseEntity.ok(tmpResult);
 				}
-				// Change bike status
-				bikeService.changeBikeStatus(Long.parseLong(ticket.getId()), BikeStatus.FINISH);
-				return ResponseEntity.ok(result);
 			}
 		} catch (Exception e) {
 			System.out.println("checkoutTicketByBikeID: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
 	}
 
 	@PutMapping(value = "/nfc/checkin")

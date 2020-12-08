@@ -11,14 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.constant.BikeStatus;
+import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.dto.ReportRequest;
+import com.fptu.paa.entity.Ticket;
+import com.fptu.paa.service.BikeService;
+import com.fptu.paa.service.NFCService;
 import com.fptu.paa.service.TicketService;
+import com.owlike.genson.Genson;
 
 @RestController
 @RequestMapping("/api/ticket")
 public class TicketController {
 	@Autowired
 	TicketService ticketService;
+	@Autowired
+	BikeService bikeService;
+	@Autowired
+	NFCService nfcService;
 
 	@GetMapping("/nfc/{serial}")
 	public ResponseEntity<String> getListByNFCSerial(@PathVariable String serial,
@@ -106,6 +116,14 @@ public class TicketController {
 					reportRequest.getStaffCheckOutID(), reportRequest.getReportTime(),
 					reportRequest.getReportBikeImage(), reportRequest.getReportFaceImage(), reportRequest.getNote());
 			if (tmpResult != null) {
+				Genson genson = new Genson();
+				Ticket ticket = genson.deserialize(tmpResult, Ticket.class);
+				if (ticket.getBikeID() != null && !ticket.getBikeID().isEmpty()) {
+
+					bikeService.changeBikeStatus(Long.valueOf(reportRequest.getId()), BikeStatus.CLAMING);
+				} else {
+					nfcService.changeNFCStatus(ticket.getNfcNumber(), NFCStatus.CLAMING);
+				}
 				result = tmpResult;
 			}
 		} catch (Exception e) {

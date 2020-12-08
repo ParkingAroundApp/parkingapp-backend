@@ -117,8 +117,7 @@ public class UserServiceImpl implements UserService {
 			tempUser.setPassword(passwordEncoder.encode(tokenGmail));
 			tempUser.setBalance(new BigDecimal("0"));
 			// Set role
-			Role role;
-			role = roleRepository.findByName(RoleName.ROLE_CUSTOMER);
+			Role role = roleRepository.findByName(RoleName.ROLE_CUSTOMER);
 			tempUser.setRole(role);
 			// Save user
 			User registeredUser = userRepository.save(tempUser);
