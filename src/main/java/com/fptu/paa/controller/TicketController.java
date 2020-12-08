@@ -120,7 +120,7 @@ public class TicketController {
 				Ticket ticket = genson.deserialize(tmpResult, Ticket.class);
 				if (ticket.getBikeID() != null && !ticket.getBikeID().isEmpty()) {
 
-					bikeService.changeBikeStatus(Long.valueOf(reportRequest.getId()), BikeStatus.CLAMING);
+					bikeService.changeBikeStatus(Long.valueOf(reportRequest.getId()), BikeStatus.CLAIMING);
 				} else {
 					nfcService.changeNFCStatus(ticket.getNfcNumber(), NFCStatus.CLAMING);
 				}

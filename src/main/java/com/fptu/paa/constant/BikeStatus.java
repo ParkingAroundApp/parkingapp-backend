@@ -5,6 +5,6 @@ public enum BikeStatus {
 	PENDING,
 	VERIFIED,
 	KEEPING,
-	CLAMING,
+	CLAIMING,
 	FINISH;
 }
