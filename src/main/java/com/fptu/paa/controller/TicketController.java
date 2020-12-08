@@ -122,7 +122,7 @@ public class TicketController {
 
 					bikeService.changeBikeStatus(Long.valueOf(reportRequest.getId()), BikeStatus.CLAIMING);
 				} else {
-					nfcService.changeNFCStatus(ticket.getNfcNumber(), NFCStatus.CLAMING);
+					nfcService.changeNFCStatus(ticket.getNfcNumber(), NFCStatus.CLAIMING);
 				}
 				result = tmpResult;
 			}
