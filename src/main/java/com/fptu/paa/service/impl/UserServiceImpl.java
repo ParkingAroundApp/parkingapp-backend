@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fptu.paa.constant.RoleName;
-import com.fptu.paa.dto.LoginRequest;
-import com.fptu.paa.dto.RegisterStaffRequest;
+import com.fptu.paa.controller.request.LoginRequest;
+import com.fptu.paa.controller.request.RegisterStaffRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Role;
 import com.fptu.paa.entity.User;

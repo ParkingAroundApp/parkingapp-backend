@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import java.util.List;
 

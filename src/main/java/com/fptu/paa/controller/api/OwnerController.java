@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import java.util.List;
 
@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.RoleName;
+import com.fptu.paa.controller.request.RegisterStaffRequest;
 import com.fptu.paa.dto.BikeViewDTO;
-import com.fptu.paa.dto.RegisterStaffRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.UserRepository;

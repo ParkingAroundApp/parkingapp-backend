@@ -6,8 +6,8 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.RoleName;
-import com.fptu.paa.dto.LoginRequest;
-import com.fptu.paa.dto.RegisterStaffRequest;
+import com.fptu.paa.controller.request.LoginRequest;
+import com.fptu.paa.controller.request.RegisterStaffRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.User;
 

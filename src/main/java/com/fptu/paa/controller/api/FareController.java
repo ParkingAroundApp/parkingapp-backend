@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.TransmissionTypeName;
-import com.fptu.paa.dto.NewFareSetting;
+import com.fptu.paa.controller.request.NewFareRequest;
 import com.fptu.paa.dto.TicketPriceResponse;
 import com.fptu.paa.entity.Fare;
 import com.fptu.paa.entity.TransmissionType;
@@ -29,7 +29,7 @@ public class FareController {
 	TransmissionTypeService transTypeService;
 
 	@PutMapping(value = "")
-	public ResponseEntity<List<Fare>> updateFareSetting(@RequestBody List<NewFareSetting> fares) {
+	public ResponseEntity<List<Fare>> updateFareSetting(@RequestBody List<NewFareRequest> fares) {
 		if (fares == null || fares.isEmpty()) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 		}

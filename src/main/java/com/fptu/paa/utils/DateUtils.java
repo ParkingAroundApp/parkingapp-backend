@@ -3,8 +3,9 @@ package com.fptu.paa.utils;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
-public class DefaultUtils {
+public class DateUtils {
 	public static String parseTimestampToFormattedString(Timestamp timestamp) {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd-HH:mm:ss:SSS");
 		return formatter.format(timestamp.toLocalDateTime()).toString();
@@ -28,4 +29,8 @@ public class DefaultUtils {
 		}
 		return result;
 	}
+	
+	public static Date today() {
+        return new Date();
+    }
 }

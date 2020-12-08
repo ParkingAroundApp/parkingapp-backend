@@ -1,10 +1,10 @@
-package com.fptu.paa.dto;
+package com.fptu.paa.controller.request;
 
 import java.math.BigDecimal;
 
 import com.fptu.paa.constant.TransmissionTypeName;
 
-public class NewFareSetting {
+public class NewFareRequest {
 
 	private String startDay;
 
@@ -26,7 +26,7 @@ public class NewFareSetting {
 
 	private TransmissionTypeName typeName;
 
-	public NewFareSetting() {
+	public NewFareRequest() {
 
 	}
 

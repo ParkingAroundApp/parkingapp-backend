@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fptu.paa.dto.LoginRequest;
+import com.fptu.paa.controller.request.LoginRequest;
 import com.fptu.paa.service.UserService;
 
 import io.swagger.annotations.Api;

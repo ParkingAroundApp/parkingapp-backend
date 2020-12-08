@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.NFCStatus;
 import com.fptu.paa.constant.PaymentType;
+import com.fptu.paa.controller.request.CheckInRequest;
+import com.fptu.paa.controller.request.CheckOutRequest;
 import com.fptu.paa.dto.BikeDetailDTO;
 import com.fptu.paa.dto.BikeViewDTO;
-import com.fptu.paa.dto.CheckInRequest;
-import com.fptu.paa.dto.CheckOutRequest;
 import com.fptu.paa.entity.NFC;
 import com.fptu.paa.entity.Ticket;
 import com.fptu.paa.service.BikeService;

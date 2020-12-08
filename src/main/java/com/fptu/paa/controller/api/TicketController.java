@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.constant.NFCStatus;
-import com.fptu.paa.dto.ReportRequest;
+import com.fptu.paa.controller.request.ReportRequest;
 import com.fptu.paa.entity.Ticket;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.NFCService;

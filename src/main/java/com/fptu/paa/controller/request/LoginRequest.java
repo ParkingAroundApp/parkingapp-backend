@@ -1,4 +1,4 @@
-package com.fptu.paa.dto;
+package com.fptu.paa.controller.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

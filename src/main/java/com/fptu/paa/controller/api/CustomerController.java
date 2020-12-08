@@ -1,4 +1,4 @@
-package com.fptu.paa.controller;
+package com.fptu.paa.controller.api;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -17,11 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.controller.request.LoginRequest;
+import com.fptu.paa.controller.request.RechargeRequest;
 import com.fptu.paa.dto.BikeRegisterDTO;
 import com.fptu.paa.dto.BikeUpdateDTO;
 import com.fptu.paa.dto.BikeViewDTO;
-import com.fptu.paa.dto.LoginRequest;
-import com.fptu.paa.dto.RechargeRequest;
 import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.Bike;
 import com.fptu.paa.service.BikeService;

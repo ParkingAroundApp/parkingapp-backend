@@ -21,14 +21,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fptu.paa.constant.FareType;
-import com.fptu.paa.dto.NewFareSetting;
+import com.fptu.paa.controller.request.NewFareRequest;
 import com.fptu.paa.dto.TicketPriceResponse;
 import com.fptu.paa.entity.Fare;
 import com.fptu.paa.entity.TransmissionType;
 import com.fptu.paa.repository.FareRepository;
 import com.fptu.paa.repository.TransmissionTypeRepository;
 import com.fptu.paa.service.FareService;
-import com.fptu.paa.utils.DefaultUtils;
+import com.fptu.paa.utils.DateUtils;
 import com.owlike.genson.GenericType;
 import com.owlike.genson.Genson;
 
@@ -86,17 +86,17 @@ public class FareServiceImpl implements FareService {
 				if (parkingTime > maxParkingTime) { // CASE 1: Tinh gia gui xe theo ngay
 					fareType = FareType.ALL_DAY;
 				} else { // CASE 2: Tinh gia gui xe theo ca sang hoac toi
-					if (DefaultUtils.isBetween(checkInTime, startDay, endDay, "==")
-							&& DefaultUtils.isBetween(checkOutTime, startDay, endDay, "==")) {
+					if (DateUtils.isBetween(checkInTime, startDay, endDay, "==")
+							&& DateUtils.isBetween(checkOutTime, startDay, endDay, "==")) {
 						fareType = FareType.DAY_SHIFT;
-					} else if (DefaultUtils.isBetween(checkInTime, startNight, endNight, "==")
-							&& DefaultUtils.isBetween(checkOutTime, startNight, endNight, "==")) {
+					} else if (DateUtils.isBetween(checkInTime, startNight, endNight, "==")
+							&& DateUtils.isBetween(checkOutTime, startNight, endNight, "==")) {
 						fareType = FareType.NIGHT_SHIFT;
 					} else { // SANG + TOI
 						Duration parkingDayTime, parkingNightTime;
 						// Compare duration between to shift (DAY and NIGHT)
 						// Choose the shift which have greater duration
-						if (DefaultUtils.isBetween(checkInTime, startDay, endDay, "==")) {
+						if (DateUtils.isBetween(checkInTime, startDay, endDay, "==")) {
 							parkingDayTime = Duration.between(checkInTime, startNight);
 							parkingNightTime = Duration.between(startNight, checkOutTime);
 						} else {
@@ -146,7 +146,7 @@ public class FareServiceImpl implements FareService {
 	}
 
 	@Override
-	public Fare saveNewFare(NewFareSetting newSetting) {
+	public Fare saveNewFare(NewFareRequest newSetting) {
 		String tmpCheckInTime = "2020/08/16-00:00:00:000";
 		String tmpCheckOutTime = "2020/08/16-00:00:00:000";
 
@@ -202,17 +202,17 @@ public class FareServiceImpl implements FareService {
 		if (fares.isEmpty()) {
 			Path fareData = Paths.get("fareData.json");
 			Genson genson = new Genson();
-			List<NewFareSetting> list = genson.deserialize(new FileInputStream(fareData.toFile()), new GenericType<List<NewFareSetting>>(){});
-			for (NewFareSetting newFareSetting : list) {
+			List<NewFareRequest> list = genson.deserialize(new FileInputStream(fareData.toFile()), new GenericType<List<NewFareRequest>>(){});
+			for (NewFareRequest newFareSetting : list) {
 				saveNewFare(newFareSetting);
 			}
 		}
 	}
 
 	@Override
-	public List<Fare> updateSetting(List<NewFareSetting> fares) {
+	public List<Fare> updateSetting(List<NewFareRequest> fares) {
 		List<Fare> result = new ArrayList<>();
-		for (NewFareSetting newFareSetting : fares) {
+		for (NewFareRequest newFareSetting : fares) {
 			Fare fare = saveNewFare(newFareSetting);
 			if (fare != null) {
 				result.add(fare);
