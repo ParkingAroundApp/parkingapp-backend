@@ -8,11 +8,13 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
 public class CheckOutRequest {
 	@NotEmpty
 	private String id;
@@ -29,4 +31,6 @@ public class CheckOutRequest {
 	private String paymentType;
 	private String price;
 	private String fareID;
+	
+	
 }

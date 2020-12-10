@@ -18,7 +18,6 @@ import com.fptu.paa.controller.request.CheckOutRequest;
 import com.fptu.paa.dto.BikeDetailDTO;
 import com.fptu.paa.dto.BikeViewDTO;
 import com.fptu.paa.entity.NFC;
-import com.fptu.paa.entity.Ticket;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.NFCService;
 import com.fptu.paa.service.TicketService;
@@ -91,9 +90,10 @@ public class StaffController {
 		String result = "Check out failed!";
 		try {
 			BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
-			if (bike.getStatus().equals(BikeStatus.KEEPING)) {
+			if (bike != null && bike.getStatus().equals(BikeStatus.KEEPING)) {
 				Long userID = bike.getUserViewDTO().getId();
-				String ticketKey = "TICKET" + "_" + ticket.getCheckInTime() + "_" + bike.getLicensePlate();
+				String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
+						+ bike.getLicensePlate();
 				String tmpResult = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
 						DateUtils.formattedDate(ticket.getCheckOutTime()), ticket.getCheckOutBikeImage(),
 						ticket.getCheckOutFaceImage(), ticket.getPaymentType(), ticket.getPrice(),
@@ -132,12 +132,10 @@ public class StaffController {
 	@PostMapping("/nfc/checkout")
 	public ResponseEntity<String> checkoutNfcTicket(@RequestBody CheckOutRequest ticket) {
 		try {
-			String state = ticketService.getCheckOutTicketByNFC(ticket.getId());
-			if (state != null && !state.isEmpty()) {
-				Genson genson = new Genson();
-				Ticket nfcTicket = genson.deserialize(state, Ticket.class);
-				// Call service
-				String ticketKey = "TICKET" + "_" + nfcTicket.getCheckinTime() + "_" + nfcTicket.getLicensePlate();
+			// Call service
+			if (nfcService.getNFCBySerial(ticket.getId()) != null) {
+				String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
+						+ ticket.getId();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
 						DateUtils.formattedDate(ticket.getCheckOutTime()), ticket.getCheckOutBikeImage(),
 						ticket.getCheckOutFaceImage(), ticket.getPaymentType(), ticket.getPrice(), "",
@@ -148,7 +146,6 @@ public class StaffController {
 					return ResponseEntity.ok(result);
 				}
 			}
-
 		} catch (Exception e) {
 			System.out.println("checkoutNfcTicket: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");

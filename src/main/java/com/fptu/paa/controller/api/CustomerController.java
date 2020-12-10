@@ -149,10 +149,10 @@ public class CustomerController {
 	}
 
 	@GetMapping(value = "/ticket/detail")
-	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String bikeID) {
+	public ResponseEntity<String> getTicketDetail(@RequestParam String checkInTime, @RequestParam String licensePlate) {
 		String result = "No available ticket!";
 		try {
-			String ticketKey = "TICKET" + "_" + checkInTime + "_" + bikeID;
+			String ticketKey = "TICKET" + "_" + checkInTime + "_" + licensePlate;
 			String tmp = ticketService.getTicketDetail(ticketKey);
 			if (tmp != null) {
 				result = tmp;

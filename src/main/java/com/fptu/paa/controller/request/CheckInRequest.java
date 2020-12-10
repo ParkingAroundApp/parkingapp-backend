@@ -9,11 +9,13 @@ import javax.validation.constraints.NotEmpty;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fptu.paa.constant.TransmissionTypeName;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
 public class CheckInRequest {
 	@NotEmpty
 	private String id;
