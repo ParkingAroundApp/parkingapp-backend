@@ -192,8 +192,11 @@ public class UserServiceImpl implements UserService {
 		User user = userRepository.getOne(userID);
 		// Begin payment
 		BigDecimal oldBalance = user.getBalance();
-		BigDecimal newBalance = oldBalance.subtract(new BigDecimal(price));
-		user.setBalance(newBalance);
+		BigDecimal cost = new BigDecimal(price);
+		if (oldBalance.compareTo(cost) != -1) {
+			BigDecimal newBalance = oldBalance.subtract(cost);
+			user.setBalance(newBalance);
+		}
 		// Save
 		userRepository.save(user);
 		return false;
