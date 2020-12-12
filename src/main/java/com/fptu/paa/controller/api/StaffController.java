@@ -51,7 +51,7 @@ public class StaffController {
 			String result = "";
 			if (!isNFC) {
 				BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
-				if (bike != null) {
+				if (bike != null && bike.getStatus() == BikeStatus.KEEPING) {
 					BikeDetailDTO bikeDetail = new BikeDetailDTO(bike);
 					Genson genson = new Genson();
 					result = ticketService.checkInByBikeID(ticket.getLicensePlate(), ticket.getId(),
@@ -62,7 +62,7 @@ public class StaffController {
 				}
 			} else {
 				NFC nfc = nfcService.getNFCBySerial(ticket.getId());
-				if (nfc != null) {
+				if (nfc != null && nfc.getStatus() == NFCStatus.KEEPING) {
 					result = ticketService.checkInByNFCID(ticket.getLicensePlate(), ticket.getId(),
 							ticket.getStaffCheckInID(), DateUtils.formattedDate(ticket.getCheckInTime()),
 							ticket.getCheckInBikeImage(), ticket.getCheckInFaceImage(),
