@@ -84,3 +84,7 @@ nb-configuration.xml
 .DS_Store
 connection.json
 wallet/**
+src/main/resources/application.properties
+target/classes/application.properties
+Dockerfile
+docker-compose.yml

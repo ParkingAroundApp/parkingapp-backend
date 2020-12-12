@@ -1,5 +1,7 @@
 package com.fptu.paa.controller.api;
 
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import com.fptu.paa.controller.request.CheckInRequest;
 import com.fptu.paa.controller.request.CheckOutRequest;
 import com.fptu.paa.dto.BikeDetailDTO;
 import com.fptu.paa.dto.BikeViewDTO;
+import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.NFC;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.NFCService;
@@ -92,21 +95,23 @@ public class StaffController {
 			BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 			if (bike != null && bike.getStatus().equals(BikeStatus.KEEPING)) {
 				Long userID = bike.getUserViewDTO().getId();
-				String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
-						+ bike.getLicensePlate();
-				String tmpResult = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
-						DateUtils.formattedDate(ticket.getCheckOutTime()), ticket.getCheckOutBikeImage(),
-						ticket.getCheckOutFaceImage(), ticket.getPaymentType(), ticket.getPrice(),
-						String.valueOf(userID), ticket.getFareID());
-
-				if (tmpResult != null && !tmpResult.isEmpty()) {
-					// Make wallet payment
-					if (ticket.getPaymentType().equals(PaymentType.WALLET.name())) {
-						userService.ticketPaymnet(ticket.getPrice(), userID);
+				UserViewDTO user = userService.getUserDetail(userID);
+				if (user.getBalance().compareTo(new BigDecimal(ticket.getPrice())) != -1) {
+					String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
+							+ bike.getLicensePlate();
+					String tmpResult = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
+							DateUtils.formattedDate(ticket.getCheckOutTime()), ticket.getCheckOutBikeImage(),
+							ticket.getCheckOutFaceImage(), ticket.getPaymentType(), ticket.getPrice(),
+							String.valueOf(userID), ticket.getFareID());
+					if (tmpResult != null && !tmpResult.isEmpty()) {
+						// Make wallet payment
+						if (ticket.getPaymentType().equals(PaymentType.WALLET.name())) {
+							userService.ticketPaymnet(ticket.getPrice(), userID);
+						}
+						// Change bike status
+						bikeService.changeBikeStatus(Long.parseLong(ticket.getId()), BikeStatus.FINISH);
+						return ResponseEntity.ok(tmpResult);
 					}
-					// Change bike status
-					bikeService.changeBikeStatus(Long.parseLong(ticket.getId()), BikeStatus.FINISH);
-					return ResponseEntity.ok(tmpResult);
 				}
 			}
 		} catch (Exception e) {

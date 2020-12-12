@@ -196,9 +196,10 @@ public class UserServiceImpl implements UserService {
 		if (oldBalance.compareTo(cost) != -1) {
 			BigDecimal newBalance = oldBalance.subtract(cost);
 			user.setBalance(newBalance);
+			// Save
+			userRepository.save(user);
+			return true;
 		}
-		// Save
-		userRepository.save(user);
 		return false;
 	}
 
