@@ -1,0 +1,236 @@
+[
+	{
+		"brandName": "Honda",
+		"modelCode": "Air Blade",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Air Blade",
+		"typeName": "BIKE_LTE175",
+		"volume": "155"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Lead",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "PCX Hybrid",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Wave Alpha",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Future",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Blade",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Super Cub",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Wave RSX FI",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Winner X",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB150R Exmotion",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB150R Exmotion",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "MSX125",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Monkey",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Rebel 500",
+		"typeName": "BIKE_GT175",
+		"volume": "500"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CBR1000RR-R Fireblade SP",
+		"typeName": "BIKE_GT175",
+		"volume": "1000"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Goldwing",
+		"typeName": "BIKE_GT175",
+		"volume": "1000"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Rebel 300",
+		"typeName": "BIKE_GT175",
+		"volume": "300"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB500X",
+		"typeName": "BIKE_GT175",
+		"volume": "500"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CBR500R",
+		"typeName": "BIKE_GT175",
+		"volume": "500"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB300R",
+		"typeName": "BIKE_GT175",
+		"volume": "300"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CBR650R",
+		"typeName": "BIKE_GT175",
+		"volume": "650"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB650R",
+		"typeName": "BIKE_GT175",
+		"volume": "650"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB1000R",
+		"typeName": "BIKE_GT175",
+		"volume": "1000"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "CB500F",
+		"typeName": "BIKE_GT175",
+		"volume": "500"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "LATTE ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "FREEGO ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "GRANDE ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "JANUS ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "NVX ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "NVX",
+		"typeName": "BIKE_LTE175",
+		"volume": "155"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "JANUS ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "NOUVO SX GP FI ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "NOUVO SX RC FI",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "NOUVO SX FI ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "ACRUZO ",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "NM-X",
+		"typeName": "BIKE_LTE175",
+		"volume": "155"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Other",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Other",
+		"typeName": "BIKE_GT175",
+		"volume": "180"
+	}
+]

@@ -53,7 +53,7 @@ public class NFCServiceImpl implements NFCService {
 	}
 	
 	@Override
-	public void insertSampleNFC() {
+	public void initSampleNFC() {
 		if(nfcRepository.findAll().isEmpty()) {
 		insertNFCCard("8C:91:A6:02");
 		insertNFCCard("7D:7F:28:4B");

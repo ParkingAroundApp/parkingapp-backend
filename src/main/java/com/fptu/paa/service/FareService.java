@@ -19,7 +19,7 @@ public interface FareService {
 
 	Fare saveNewFare(NewFareRequest newSetting);
 
-	void createDefaultFare() throws FileNotFoundException;
+	void initDefaultFare() throws FileNotFoundException;
 	
 	List<Fare> getFaresByGuest(boolean isGuest);
 }

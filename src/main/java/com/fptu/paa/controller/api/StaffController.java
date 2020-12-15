@@ -165,13 +165,13 @@ public class StaffController {
 		try {
 			String result = ticketService.getTicketByStaffIdAndDate(staffID, date, pageSize, bookmark, isCheckIn);
 			// If success respond 200
-			if (result != null && !result.isEmpty()) {
+			if (result != null) {
 				return ResponseEntity.ok(result);
 			}
 		} catch (Exception e) {
 			System.out.println("getTicketByStaffIdAndDate: " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error occurred!");
 		}
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Check out failed!");
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Request failed!");
 	}
 }

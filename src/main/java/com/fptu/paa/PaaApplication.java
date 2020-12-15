@@ -8,14 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.fptu.paa.constant.BikeStatus;
-import com.fptu.paa.constant.TransmissionTypeName;
 import com.fptu.paa.entity.Bike;
 import com.fptu.paa.entity.Model;
-import com.fptu.paa.entity.TransmissionType;
 import com.fptu.paa.entity.User;
 import com.fptu.paa.repository.BikeRepository;
+import com.fptu.paa.repository.ModelRepository;
 import com.fptu.paa.repository.NFCRepository;
 import com.fptu.paa.service.FareService;
+import com.fptu.paa.service.ModelService;
 import com.fptu.paa.service.NFCService;
 import com.fptu.paa.service.RoleService;
 import com.fptu.paa.service.TransmissionTypeService;
@@ -36,6 +36,8 @@ public class PaaApplication implements CommandLineRunner {
 	@Autowired
 	UserService userService;
 	@Autowired
+	ModelService modelService;
+	@Autowired
 	RoleService roleService;
 	@Autowired
 	TransmissionTypeService transmissionTypeService;
@@ -43,11 +45,13 @@ public class PaaApplication implements CommandLineRunner {
 	FareService fareService;
 	@Autowired
 	NFCService nfcService;
-	
+
 	@Autowired
 	BikeRepository bikeRepo;
 	@Autowired
 	NFCRepository nfcRepo;
+	@Autowired
+	ModelRepository modelRepo;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Value("${paa.app.InsertSample}")
@@ -67,20 +71,22 @@ public class PaaApplication implements CommandLineRunner {
 		// Add sample admin and bike to DB
 		if (insertSample) {
 			roleService.insertDefaultRole();
-			transmissionTypeService.insertDefaultTransmissionType();
-			fareService.createDefaultFare();
+			transmissionTypeService.initDefaultTransmissionType();
+			modelService.initDefaultModels();
+			fareService.initDefaultFare();
 			User user = userService.insertDefaultAdmin();
 			if (user != null)
 				inputSampleBike(user);
-			nfcService.insertSampleNFC();
+			nfcService.initSampleNFC();
 		}
 	}
 
 	private void inputSampleBike(User user) {
-		TransmissionType transType = transmissionTypeService.getActiveType(TransmissionTypeName.BIKE_GT175);
-		Model model = new Model(1L, "Honda", "Airblade", "125cc", true, transType);
-		Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", "", "", BikeStatus.PENDING,
-				true, user, model);
-		bikeRepo.save(bike);
+		Model model = modelRepo.findModelByBrandNameIgnoreCaseAndModelCodeIgnoreCaseAndVolume("honda", "lead", "125");
+		if (model != null) {			
+			Bike bike = new Bike(1L, "QuachTinh", "59P2-69096", "6328HZ256789", "Black-Grey", "", "",
+					BikeStatus.PENDING, true, user, model);
+			bikeRepo.save(bike);
+		}
 	}
 }

@@ -196,7 +196,7 @@ public class FareServiceImpl implements FareService {
 	}
 
 	@Override
-	public void createDefaultFare() throws FileNotFoundException {
+	public void initDefaultFare() throws FileNotFoundException {
 		List<Fare> fares = fareRepo.findAll();
 
 		if (fares.isEmpty()) {

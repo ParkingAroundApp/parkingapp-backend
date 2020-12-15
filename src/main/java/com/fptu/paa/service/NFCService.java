@@ -13,5 +13,5 @@ public interface NFCService {
 	
 	public NFC getNFCBySerial(String serialNumber);
 
-	void insertSampleNFC();
+	void initSampleNFC();
 }

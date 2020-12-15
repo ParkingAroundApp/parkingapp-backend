@@ -20,7 +20,7 @@ FROM openjdk:8-jre-alpine
 WORKDIR /my-project
 
 # copy over the built artifact from the maven image
-COPY --from=maven target/paa-backend-1.0.jar ./
+COPY --from=maven target/paa-0.0.1-SNAPSHOT.jar ./
 
 # set the startup command to run your binary
-CMD ["java", "-jar", "./paa-backend-1.0.jar"]
+CMD ["java", "-jar", "./paa-0.0.1-SNAPSHOT.jar"]

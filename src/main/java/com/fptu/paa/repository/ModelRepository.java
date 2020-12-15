@@ -13,5 +13,5 @@ public interface ModelRepository extends JpaRepository<Model, Long> {
 
 	List<Model> findModelByEnabled(boolean enable);
 
-	Model findModelByBrandNameAndModelCodeAndVolume(String brandName, String modelCode, String volume);
+	Model findModelByBrandNameIgnoreCaseAndModelCodeIgnoreCaseAndVolume(String brandName, String modelCode, String volume);
 }
