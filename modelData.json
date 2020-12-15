@@ -232,5 +232,239 @@
 		"modelCode": "Other",
 		"typeName": "BIKE_GT175",
 		"volume": "180"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Click",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Honda",
+		"modelCode": "Vario",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Vespa",
+		"modelCode": "Primavera",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Vespa",
+		"modelCode": "Sprint",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Vespa",
+		"modelCode": "946",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Vespa",
+		"modelCode": "Sei Giorni",
+		"typeName": "BIKE_GT175",
+		"volume": "300"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Atila",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Atila",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Passing",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Elite",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Elizabeth",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Atila-V",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Venus",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Galaxy",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "New Galaxy",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Elegant",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "New Angel",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Angela",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Elegant",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Angel",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Star SR",
+		"typeName": "BIKE_LTE175",
+		"volume": "170"
+	},
+	{
+		"brandName": "SYM",
+		"modelCode": "Star SR",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "GSX150",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "GSX-S150",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Satria",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Impulse",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Address",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Hayate",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Axelo",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Viva",
+		"typeName": "BIKE_LTE175",
+		"volume": "115"
+	},
+	{
+		"brandName": "Suzuki",
+		"modelCode": "Revo",
+		"typeName": "BIKE_LTE175",
+		"volume": "110"
+	},
+	{
+		"brandName": "Kymco",
+		"modelCode": "Like",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Kymco",
+		"modelCode": "Hermosa",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "Kymco",
+		"modelCode": "Visar",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "Kymco",
+		"modelCode": "Kpipe",
+		"typeName": "BIKE_LTE175",
+		"volume": "50"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "Exciter",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "Sirius",
+		"typeName": "BIKE_LTE175",
+		"volume": "150"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "Other",
+		"typeName": "BIKE_LTE175",
+		"volume": "125"
+	},
+	{
+		"brandName": "Yamaha",
+		"modelCode": "Other",
+		"typeName": "BIKE_GT175",
+		"volume": "180"
 	}
 ]

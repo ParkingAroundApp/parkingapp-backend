@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fptu.paa.constant.BikeStatus;
 import com.fptu.paa.controller.request.LoginRequest;
 import com.fptu.paa.controller.request.RechargeRequest;
 import com.fptu.paa.dto.BikeRegisterDTO;
@@ -103,7 +104,11 @@ public class CustomerController {
 
 	@DeleteMapping(value = "/bike")
 	public ResponseEntity<String> deleteBike(@RequestParam Long bikeId) {
-		bikeService.deleteBike(bikeId);
+		BikeViewDTO bike = bikeService.getBike(bikeId);
+		if (bike.getStatus() != BikeStatus.CLAIMING && bike.getStatus() != BikeStatus.KEEPING) {
+			bikeService.deleteBike(bikeId);
+			bikeService.changeBikeStatus(bikeId, BikeStatus.UNVERIFIED);
+		}
 		return ResponseEntity.ok("Success");
 	}
 
@@ -142,6 +147,15 @@ public class CustomerController {
 	@GetMapping(value = "/bike/{id}")
 	public ResponseEntity<BikeViewDTO> getBikeByID(@PathVariable Long id) {
 		BikeViewDTO bike = bikeService.getBike(id);
+		if (bike != null) {
+			return new ResponseEntity<BikeViewDTO>(bike, HttpStatus.OK);
+		}
+		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
+	}
+
+	@GetMapping(value = "/bike/{plateNumber}")
+	public ResponseEntity<BikeViewDTO> getBikeByLicenseplate(@PathVariable String plateNumber) {
+		BikeViewDTO bike = bikeService.getBikeByPlateNumber(plateNumber);
 		if (bike != null) {
 			return new ResponseEntity<BikeViewDTO>(bike, HttpStatus.OK);
 		}
