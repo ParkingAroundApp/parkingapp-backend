@@ -96,7 +96,8 @@ public class StaffController {
 			if (bike != null && bike.getStatus().equals(BikeStatus.KEEPING)) {
 				Long userID = bike.getUserViewDTO().getId();
 				UserViewDTO user = userService.getUserDetail(userID);
-				if (user.getBalance().compareTo(new BigDecimal(ticket.getPrice())) != -1) {
+				BigDecimal cost = new BigDecimal(ticket.getPrice());
+				if (cost.compareTo(new BigDecimal(0)) == 1 && user.getBalance().compareTo(cost) != -1) {
 					String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
 							+ bike.getLicensePlate();
 					String tmpResult = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
@@ -138,7 +139,8 @@ public class StaffController {
 	public ResponseEntity<String> checkoutNfcTicket(@RequestBody CheckOutRequest ticket) {
 		try {
 			// Call service
-			if (nfcService.getNFCBySerial(ticket.getId()) != null) {
+			BigDecimal cost = new BigDecimal(ticket.getPrice());
+			if (nfcService.getNFCBySerial(ticket.getId()) != null && cost.compareTo(new BigDecimal(0)) == 1) {
 				String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
 						+ ticket.getId();
 				String result = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
