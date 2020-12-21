@@ -153,7 +153,7 @@ public class CustomerController {
 		return new ResponseEntity<BikeViewDTO>(HttpStatus.BAD_REQUEST);
 	}
 
-	@GetMapping(value = "/bike/{plateNumber}")
+	@GetMapping(value = "/bike/plate/{plateNumber}")
 	public ResponseEntity<BikeViewDTO> getBikeByLicenseplate(@PathVariable String plateNumber) {
 		BikeViewDTO bike = bikeService.getBikeByPlateNumber(plateNumber);
 		if (bike != null) {
