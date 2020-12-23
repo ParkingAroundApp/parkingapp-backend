@@ -19,7 +19,6 @@ import com.fptu.paa.controller.request.CheckInRequest;
 import com.fptu.paa.controller.request.CheckOutRequest;
 import com.fptu.paa.dto.BikeDetailDTO;
 import com.fptu.paa.dto.BikeViewDTO;
-import com.fptu.paa.dto.UserViewDTO;
 import com.fptu.paa.entity.NFC;
 import com.fptu.paa.service.BikeService;
 import com.fptu.paa.service.NFCService;
@@ -95,9 +94,8 @@ public class StaffController {
 			BikeViewDTO bike = bikeService.getBike(Long.valueOf(ticket.getId()));
 			if (bike != null && bike.getStatus().equals(BikeStatus.KEEPING)) {
 				Long userID = bike.getUserViewDTO().getId();
-				UserViewDTO user = userService.getUserDetail(userID);
 				BigDecimal cost = new BigDecimal(ticket.getPrice());
-				if (cost.compareTo(new BigDecimal(0)) == 1 && user.getBalance().compareTo(cost) != -1) {
+				if (cost.compareTo(new BigDecimal(0)) == 1) {
 					String ticketKey = "TICKET" + "_" + DateUtils.formattedDate(ticket.getCheckInTime()) + "_"
 							+ bike.getLicensePlate();
 					String tmpResult = ticketService.checkOutByID(ticketKey, ticket.getStaffCheckOutID(),
